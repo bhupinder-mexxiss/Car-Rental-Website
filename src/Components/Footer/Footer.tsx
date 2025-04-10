@@ -1,5 +1,4 @@
 import { Email, Phone } from '@mui/icons-material'
-import React from 'react'
 import { face, insta, linkdin, twitter, youtube } from '../../assets/Icons'
 
 const Footer = () => {
