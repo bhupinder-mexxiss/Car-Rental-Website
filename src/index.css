@@ -1,0 +1,82 @@
+@import "tailwindcss";
+@import "flowbite/src/themes/default";
+@plugin "flowbite/plugin";
+@plugin "flowbite-react/plugin/tailwindcss";
+@source "../.flowbite-react/class-list.json";
+@font-face {
+  font-family: "Inter";
+  src: url("./assets/fonts/Inter18pt-SemiBold.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("./assets/fonts/Inter18pt-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("./assets/fonts/Inter18pt-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("./assets/fonts/Inter18pt-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme {
+  --color-primary: #f07e2c;
+  --color-primary-focus: #d15f0e;
+  --color-color1: #121212;
+  --color-color2: #525252;
+  --color-border: #D4D3D9;
+  --text-shadow-xl: -0.03ex 0 currentColor, 0.03ex 0 currentColor;
+  --font-family: "Inter", sans-serif;
+}
+@layer base {
+  * {
+    @apply duration-300 font-family;
+  }
+}
+@layer utilities {
+  .container {
+    @apply max-w-[1400px] mx-auto px-4 md:px-6;
+  }
+}
+@layer components {
+  .card {
+    @apply bg-white rounded-lg shadow-md p-4;
+  }
+  .btn1 {
+    @apply border border-primary hover:border-color1 bg-primary text-white py-2.5 px-6 font-medium rounded-full hover:bg-color1 cursor-pointer flex items-center justify-between;
+  }
+  .btn2 {
+    @apply border border-color1 text-color1 py-2.5 px-6 font-medium rounded-full hover:border-primary hover:text-primary cursor-pointer flex items-center justify-between;
+  }
+  .btn3 {
+    @apply border border-primary hover:border-primary-focus bg-primary text-white py-2.5 px-6 font-medium rounded-full hover:bg-primary-focus cursor-pointer flex items-center justify-between;
+  }
+  .card1 {
+    @apply bg-primary/10 border border-primary hover:border-[#167cd8] hover:bg-[#167cd8] hover:invert rounded-lg px-4 py-6 flex flex-col items-center justify-center gap-3;
+  }
+}
+body{
+  overflow-x: hidden;
+}
+.clipPath {
+  clip-path: polygon(76% 0, 100% 0, 100% 100%, 0% 100%);
+}
+.gradient1 {
+  background-image: linear-gradient(180deg, #e88844 -13.53%, #d8691a 110.17%);
+}
