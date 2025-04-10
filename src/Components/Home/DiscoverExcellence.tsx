@@ -2,6 +2,7 @@ import Slider from "react-slick"
 import ProductCard from "../Card/ProductCard"
 import { useRef, useState } from "react";
 import { ArrowBack, ArrowForward } from "@mui/icons-material";
+import { Car10, Car8, Car9 } from "../../assets/images";
 
 const tabs = [
     { id: 1, name: "All" },
@@ -10,6 +11,40 @@ const tabs = [
     { id: 4, name: "Family Car" },
     { id: 5, name: "Off-Road Car" },
 ]
+
+const data = [
+    {
+        name: "Genesis G70",
+        dailyRate: 1999,
+        capacity: 5,
+        mode: "auto",
+        bodyType: "Sedan",
+        doors: 4,
+        rating: 4.5,
+        img_url: Car8
+    },
+    {
+        name: "Volvo S90",
+        dailyRate: 4999,
+        capacity: 5,
+        mode: "auto",
+        bodyType: "Sedan",
+        doors: 4,
+        rating: 4.5,
+        img_url: Car9
+    },
+    {
+        name: "2025 Land Cruiser",
+        dailyRate: 7999,
+        capacity: 5,
+        mode: "auto",
+        bodyType: "Sedan",
+        doors: 4,
+        rating: 4.5,
+        img_url: Car10
+    }
+]
+
 const DiscoverExcellence = () => {
     const [isActive, setIsActive] = useState(1);
     const sliderRef = useRef<Slider>(null);
@@ -56,15 +91,11 @@ const DiscoverExcellence = () => {
                         </div>
                         <div className="px-12">
                             <Slider {...settings} ref={sliderRef}>
-                                <div className="px-2">
-                                    <ProductCard />
-                                </div>
-                                <div className="px-2">
-                                    <ProductCard />
-                                </div>
-                                <div className="px-2">
-                                    <ProductCard />
-                                </div>
+                                {data?.map((vehicle, index) => (
+                                    <div key={index} className="px-2">
+                                        <ProductCard vehicle={vehicle} />
+                                    </div>
+                                ))}
                             </Slider>
                         </div>
                     </div>

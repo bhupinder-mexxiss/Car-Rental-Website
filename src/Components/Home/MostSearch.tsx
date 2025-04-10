@@ -2,6 +2,40 @@ import Slider from "react-slick"
 import ProductCard from "../Card/ProductCard"
 import { useRef } from "react";
 import { ArrowBack, ArrowForward } from "@mui/icons-material";
+import { Car5, Car6, Car7 } from "../../assets/images";
+
+const data = [
+    {
+        name: "Genesis G70",
+        dailyRate: 1999,
+        capacity: 5,
+        mode: "auto",
+        bodyType: "Sedan",
+        doors: 4,
+        rating: 4.5,
+        img_url: Car5
+    },
+    {
+        name: "Volvo S90",
+        dailyRate: 4999,
+        capacity: 5,
+        mode: "auto",
+        bodyType: "Sedan",
+        doors: 4,
+        rating: 4.5,
+        img_url: Car6
+    },
+    {
+        name: "2025 Land Cruiser",
+        dailyRate: 7999,
+        capacity: 5,
+        mode: "auto",
+        bodyType: "Sedan",
+        doors: 4,
+        rating: 4.5,
+        img_url: Car7
+    }
+]
 
 const MostSearch = () => {
     const sliderRef = useRef<Slider>(null);
@@ -41,15 +75,11 @@ const MostSearch = () => {
                         </div>
                         <div className="px-12">
                             <Slider {...settings} ref={sliderRef}>
-                                <div className="px-2">
-                                    <ProductCard />
-                                </div>
-                                <div className="px-2">
-                                    <ProductCard />
-                                </div>
-                                <div className="px-2">
-                                    <ProductCard />
-                                </div>
+                                {data?.map((vehicle, index) => (
+                                    <div key={index} className="px-2">
+                                        <ProductCard vehicle={vehicle} />
+                                    </div>
+                                ))}
                             </Slider>
                         </div>
                     </div>

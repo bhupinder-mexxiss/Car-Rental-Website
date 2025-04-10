@@ -4,12 +4,22 @@ import brand3 from './brand3.png';
 import brand4 from './brand4.png';
 import brand5 from './brand5.png';
 import brand6 from './brand6.png';
+import brand7 from './brand7.png';
+import brand8 from './brand8.png';
+import brand9 from './brand9.png';
+import brand10 from './brand10.png';
+import brand11 from './brand11.png';
+import brand12 from './brand12.png';
 import bodyType1 from './bodyType1.png';
 import bodyType2 from './bodyType2.png';
 import bodyType3 from './bodyType3.png';
 import bodyType4 from './bodyType4.png';
 import bodyType5 from './bodyType5.png';
 import bodyType6 from './bodyType6.png';
+import bodyType7 from './bodyType7.png';
+import bodyType8 from './bodyType8.png';
+import bodyType9 from './bodyType9.png';
+import bodyType10 from './bodyType10.png';
 import icon1 from './icon1.png';
 import icon2 from './icon2.png';
 import icon3 from './icon3.png';
@@ -21,4 +31,4 @@ import linkdin from './linkdin.png'
 import youtube from './youtube.png'
 import twitter from './twitter.png'
 
-export { brand1, brand2, brand3, brand4, brand5, brand6, bodyType1, bodyType2, bodyType3, bodyType4, bodyType5, bodyType6, icon1, icon2, icon3, icon4, icon5, insta, face, youtube, linkdin, twitter };
+export { brand1, brand2, brand3, brand4, brand5, brand6, brand7, brand8, brand9, brand10, brand11, brand12, bodyType1, bodyType2, bodyType3, bodyType4, bodyType5, bodyType6, icon1, icon2, icon3, icon4, icon5, insta, face, youtube, linkdin, twitter, bodyType7, bodyType8, bodyType9, bodyType10 };

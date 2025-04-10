@@ -2,11 +2,24 @@ import React from 'react'
 import { icon1, icon2, icon3, icon4 } from '../../assets/Icons'
 import { StarRounded } from '@mui/icons-material'
 
-const ProductCard = () => {
+interface IProps {
+    vehicle: {
+        name: string,
+        dailyRate: number,
+        capacity: number,
+        mode: string,
+        bodyType: string,
+        doors: number,
+        rating: number,
+        img_url: string
+    }
+}
+
+const ProductCard: React.FC<IProps> = ({vehicle}) => {
     return (
         <div className='border border-[#FAFAFA26] rounded-2xl p-4'>
             <div className='h-[230px] rounded-lg overflow-hidden relative'>
-                <img src="https://i.ibb.co/6v0Xj7K/Rectangle-1.png" alt="" className='w-full h-full object-cover' />
+                <img src={vehicle.img_url} alt="" className='w-full h-full object-cover' />
                 <div className='w-fit absolute top-3 left-3 bg-white/20 border border-white/50 py-1 px-2 text-sm rounded-full flex items-center justify-center gap-1'>
                     <StarRounded className='text-primary !text-xl' />
                     <span className='text-color1 font-medium'>4.5</span>
