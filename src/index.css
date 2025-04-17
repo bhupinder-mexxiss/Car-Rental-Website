@@ -82,7 +82,7 @@ body {
 }
 
 .carAnimation {
-  animation: carAnimation 5s ease-in-out infinite;
+  animation: carAnimation 8s ease-in-out infinite;
 }
 
 @keyframes carAnimation {
