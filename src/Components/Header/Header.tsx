@@ -1,5 +1,6 @@
 import { KeyboardArrowDown } from '@mui/icons-material';
 import { NavLink } from 'react-router'
+import { Logo } from '../../assets/images';
 
 const menuitems = [
     { url: "/", label: "Home" },
@@ -20,16 +21,17 @@ const menuitems = [
 
 const Header = () => {
     return (
-        <div className='pt-4 z-[999] absolute top-0 w-full'>
+        <div className='z-[999] sticky top-0 w-full bg-white/80 border-b border-[#12121226] backdrop-blur-xs shadow'>
             <div className="container">
-                <div className='flex items-center justify-between px-3 py-3 border border-[#12121226] rounded-full bg-white/80  backdrop-blur-xs'>
+                <div className='flex items-center justify-between px-3 py-3 '>
                     <div>
-                        <span className='text-color1 text-xl font-semibold'>CarRide</span>
+                        <img src={Logo} alt="" className='h-14' />
+                        {/* <span className='text-color1 text-xl font-semibold'>CarRide</span> */}
                     </div>
                     <div>
                         <ul className="flex items-center justify-between gap-10" >
                             {menuitems.map((item, index) => (
-                                <li key={index} className='hover:text-primary text-[17px] group relative'>
+                                <li key={index} className='hover:text-primary text-xl group relative'>
                                     <NavLink to={item.url} className={({ isActive }) => `flex items-center gap-2 ${isActive ? "text-shadow-xl text-primary" : "text-color1"}`} >
                                         {item.label}
                                         {item.subMenu && item.subMenu.length > 0 &&

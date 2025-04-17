@@ -10,10 +10,12 @@ import Car7 from './car7.png';
 import Car8 from './car8.png';
 import Car9 from './car9.png';
 import Car10 from './car10.png';
+import Car11 from './car11.png';
 import user1 from './user1.png';
 import showroom from "./showroom.png"
 import light from "./light.png"
 import car from "./car.png"
 import carLight from "./carLight.png"
+import Logo from "./carRentalLogo.png"
 
-export { img1, img2, Car1, Car2, Car3, Car4, Car5, Car6, Car7, Car8, Car9, Car10, user1, showroom, light, car, carLight }
+export { img1, img2, Car1, Car2, Car3, Car4, Car5, Car6, Car7, Car8, Car9, Car10, Car11, user1, showroom, light, car, carLight, Logo }

@@ -17,7 +17,7 @@ const Banner = () => {
         waitForAnimate: false
     };
     return (
-        <div className='pt-48 pb-20 relative overflow-hidden'>
+        <div className='pt-28 pb-20 relative overflow-hidden'>
             <div className='absolute h-full right-0 top-0 w-1/2'>
                 <div className='clipPath absolute top-0 right-0 w-full h-full bg-primary'></div>
                 <div className='relative top-1/2 -translate-y-1/2'>
@@ -42,7 +42,7 @@ const Banner = () => {
                     <div className='w-1/2'>
                         <h1 className='text-7xl font-semibold' data-aos="fade-right">Unlock Your<br /> <span className='text-primary'>Adventure,</span> Drive<br /> Your Dreams</h1>
                     </div>
-                    <div className='mt-16' data-aos="fade-up">
+                    <div className='mt-20' data-aos="fade-up">
                         <Filter/>
                     </div>
                 </div>

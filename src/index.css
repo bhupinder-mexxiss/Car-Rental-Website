@@ -40,7 +40,7 @@
   --color-primary-focus: #d15f0e;
   --color-color1: #121212;
   --color-color2: #525252;
-  --color-border: #D4D3D9;
+  --color-border: #d4d3d9;
   --text-shadow-xl: -0.03ex 0 currentColor, 0.03ex 0 currentColor;
   --font-family: "Inter", sans-serif;
 }
@@ -71,7 +71,7 @@
     @apply bg-primary/10 border border-primary hover:border-[#167cd8] hover:bg-[#167cd8] hover:invert rounded-lg px-4 py-6 flex flex-col items-center justify-center gap-3;
   }
 }
-body{
+body {
   overflow-x: hidden;
 }
 .clipPath {
@@ -79,4 +79,18 @@ body{
 }
 .gradient1 {
   background-image: linear-gradient(180deg, #e88844 -13.53%, #d8691a 110.17%);
+}
+
+.carAnimation {
+  animation: carAnimation 5s ease-in-out infinite;
+}
+
+@keyframes carAnimation {
+  0% {
+    right: 0;
+    transform: translateX(100%);
+  }
+  100% {
+    right: 100%;
+  }
 }
