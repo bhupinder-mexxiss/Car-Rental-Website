@@ -30,5 +30,8 @@ import face from './face.png'
 import linkdin from './linkdin.png'
 import youtube from './youtube.png'
 import twitter from './twitter.png'
+import door from './door.png'
+import gear from './gear.png'
+import pass from './pass.png'
 
-export { brand1, brand2, brand3, brand4, brand5, brand6, brand7, brand8, brand9, brand10, brand11, brand12, bodyType1, bodyType2, bodyType3, bodyType4, bodyType5, bodyType6, icon1, icon2, icon3, icon4, icon5, insta, face, youtube, linkdin, twitter, bodyType7, bodyType8, bodyType9, bodyType10 };
+export { brand1, brand2, brand3, brand4, brand5, brand6, brand7, brand8, brand9, brand10, brand11, brand12, bodyType1, bodyType2, bodyType3, bodyType4, bodyType5, bodyType6, icon1, icon2, icon3, icon4, icon5, insta, face, youtube, linkdin, twitter, bodyType7, bodyType8, bodyType9, bodyType10, door, gear, pass };

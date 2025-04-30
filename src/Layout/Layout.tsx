@@ -16,10 +16,10 @@ const Layout = () => {
   return (
     <div className='relative max-w-[1800px] mx-auto'>
       <Header />
-      <div className=''>
+      <div className='pb-14'>
         <Outlet />
       </div>
-      <Footer/>
+      <Footer />
     </div>
   )
 }

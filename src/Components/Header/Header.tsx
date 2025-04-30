@@ -1,20 +1,20 @@
 import { KeyboardArrowDown } from '@mui/icons-material';
-import { NavLink } from 'react-router'
+import { Link, NavLink } from 'react-router'
 import { Logo } from '../../assets/images';
 
 const menuitems = [
     { url: "/", label: "Home" },
     {
-        url: "", label: "Services", subMenu: [
-            { url: "/buy-car", label: "Buy car" },
-            { url: "/sell-car", label: "Sell car" },
-            { url: "/car-insurance", label: "Car insurance" },
-            { url: "/car-loan", label: "Car loan" },
-            { url: "/car-service", label: "Car service" },
-            { url: "/car-accessories", label: "Car accessories" },
+        url: "/car-list", label: "Buy Car", subMenu: [
+            // { url: "/buy-car", label: "Buy car" },
+            // { url: "/sell-car", label: "Sell car" },
+            // { url: "/car-insurance", label: "Car insurance" },
+            // { url: "/car-loan", label: "Car loan" },
+            // { url: "/car-service", label: "Car service" },
+            // { url: "/car-accessories", label: "Car accessories" },
         ]
     },
-    { url: "/used-car", label: "Buy used car" },
+    { url: "/sell-car", label: "Sell car" },
     { url: "/about-us", label: "About us" },
     { url: "/contact-us", label: "Contact us" },
 ]
@@ -31,7 +31,7 @@ const Header = () => {
                     <div>
                         <ul className="flex items-center justify-between gap-10" >
                             {menuitems.map((item, index) => (
-                                <li key={index} className='hover:text-primary text-xl group relative'>
+                                <li key={index} className='hover:text-primary text-lg group relative'>
                                     <NavLink to={item.url} className={({ isActive }) => `flex items-center gap-2 ${isActive ? "text-shadow-xl text-primary" : "text-color1"}`} >
                                         {item.label}
                                         {item.subMenu && item.subMenu.length > 0 &&
@@ -54,8 +54,8 @@ const Header = () => {
                         </ul>
                     </div>
                     <div className='flex gap-2'>
-                        <button className='btn2'>Login</button>
-                        <button className='btn1'>Register</button>
+                        <Link to="/login" className='btn2'>Login</Link>
+                        <Link to="/register" className='btn1'>Register</Link>
                     </div>
                 </div>
             </div>
