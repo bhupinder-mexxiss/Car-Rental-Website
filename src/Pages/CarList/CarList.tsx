@@ -1,7 +1,12 @@
+import { Car10, Car12, Car5, Car6, Car7, Car8, Car9 } from "../../assets/images"
 import CarCard from "../../Components/Card/CarCard"
 import Filters from "./Filters"
 
 const CarList = () => {
+
+    const cars = [
+        Car5, Car6, Car7, Car8, Car9, Car10, Car12
+    ]
     return (
         <div>
             <div className="container mx-auto">
@@ -24,8 +29,8 @@ const CarList = () => {
                                 <h4 className="text-xl font-semibold">45 Matches</h4>
                                 <div>
                                     <div className="grid grid-cols-3 gap-5 mt-5">
-                                        {Array(9).fill(0).map((_, index) => (
-                                            <CarCard key={index} />
+                                        {cars.map((car, index) => (
+                                            <CarCard key={index} car={car} />
                                         ))}
                                     </div>
                                 </div>

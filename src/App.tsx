@@ -8,6 +8,10 @@ import CarList from "./Pages/CarList/CarList.tsx";
 import CarDetails from "./Pages/CarDetails/CarDetails.tsx";
 import GoToTop from "./Components/GoToTop/GoToTop";
 import Register from "./Pages/Auth/Register.tsx";
+import { Toaster } from "./Components/ui/sonner.tsx";
+import ForgotPassword from "./Pages/Auth/ForgotPassword.tsx";
+import VerifyOtp from "./Pages/Auth/verifyOtp.tsx";
+import ResetPassword from "./Pages/Auth/ResetPassword.tsx";
 
 const App = () => {
   const router = createBrowserRouter([
@@ -45,9 +49,22 @@ const App = () => {
       path: "/register",
       element: <Register />,
     },
+    {
+      path: "/forgot-password",
+      element: <ForgotPassword />,
+    },
+    {
+      path: "/otp-verify",
+      element: <VerifyOtp />,
+    },
+    {
+      path: "/reset-password",
+      element: <ResetPassword />,
+    },
   ]);
   return (
     <>
+      <Toaster position="top-right" richColors theme="light" />
       <RouterProvider router={router} />
       <GoToTop />
     </>

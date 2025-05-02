@@ -1,6 +1,7 @@
-import { Lock, Mail, Person, VisibilityOffOutlined, VisibilityOutlined } from '@mui/icons-material';
+import { EmailOutlined, Lock, LockOutlined, Mail, Person, VisibilityOffOutlined, VisibilityOutlined } from '@mui/icons-material';
 import React, { useState } from 'react'
 import { Link } from 'react-router';
+import { toast } from 'sonner';
 
 const Register = () => {
     const [showPassword, setShowPassword] = useState(false);
@@ -17,6 +18,26 @@ const Register = () => {
     };
 
     const handleRegister = (e: React.FormEvent) => {
+        e.preventDefault();
+
+        // Simple validation
+        if (!name || !email || !password || !confirmPassword) {
+            toast("Registration Error", {
+                description: "Please fill in all fields"
+            });
+            return;
+        }
+
+        if (password !== confirmPassword) {
+            toast("Password Error", {
+                description: "Passwords do not match"
+            });
+            return;
+        }
+
+        toast("Registration Successful", {
+            description: "Your account has been created"
+        });
     };
     return (
         <div className="min-h-screen bg-[#FAFAFA] flex">
@@ -50,22 +71,22 @@ const Register = () => {
             </div>
 
             {/* Right Side - Form */}
-            <div className="w-full lg:w-1/2 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-                <div className="max-w-md w-full space-y-8">
-                    <div>
-                        <h2 className="mt-6 text-4xl font-semibold text-color1">Create Account</h2>
+            <div className="w-full lg:w-1/2 flex items-center justify-center py-8 px-4 sm:px-6 lg:px-8">
+                <div className="max-w-md w-full">
+                    <div className="text-center">
+                        <h2 className="text-4xl font-semibold text-color1">Create Account</h2>
                         <p className="mt-2 text-lg text-color2">Register to start your journey with CarRide</p>
                     </div>
 
                     <div className="mt-8 bg-white shadow-lg rounded-2xl p-8">
                         <form className="space-y-5" onSubmit={handleRegister}>
                             <div>
-                                <label htmlFor="name" className="text-color1 font-medium">
+                                <label htmlFor="name" className="text-color1 text-sm">
                                     Full Name
                                 </label>
                                 <div className="mt-1 relative rounded-full border border-border">
                                     <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                                        <Person />
+                                        <Person className="!text-lg" />
                                     </div>
                                     <input
                                         id="name"
@@ -74,19 +95,19 @@ const Register = () => {
                                         value={name}
                                         onChange={(e) => setName(e.target.value)}
                                         required
-                                        className="block w-full pl-12 pr-4 py-3 border-none rounded-full focus:outline-none focus:ring-2 focus:ring-primary"
+                                        className="block w-full pl-12 pr-4 py-2 border-none rounded-full focus:outline-none focus:ring-2 focus:ring-primary"
                                         placeholder="Enter your full name"
                                     />
                                 </div>
                             </div>
 
                             <div>
-                                <label htmlFor="email" className="text-color1 font-medium">
+                                <label htmlFor="email" className="text-color1 text-sm">
                                     Email Address
                                 </label>
                                 <div className="mt-1 relative rounded-full border border-border">
                                     <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                                        <Mail />
+                                        <EmailOutlined className="!text-lg" />
                                     </div>
                                     <input
                                         id="email"
@@ -96,19 +117,19 @@ const Register = () => {
                                         value={email}
                                         onChange={(e) => setEmail(e.target.value)}
                                         required
-                                        className="block w-full pl-12 pr-4 py-3 border-none rounded-full focus:outline-none focus:ring-2 focus:ring-primary"
+                                        className="block w-full pl-12 pr-4 py-2 border-none rounded-full focus:outline-none focus:ring-2 focus:ring-primary"
                                         placeholder="Enter your email"
                                     />
                                 </div>
                             </div>
 
                             <div>
-                                <label htmlFor="password" className="text-color1 font-medium">
+                                <label htmlFor="password" className="text-color1 text-sm">
                                     Password
                                 </label>
                                 <div className="mt-1 relative rounded-full border border-border">
                                     <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                                        <Lock />
+                                        <LockOutlined className="!text-lg" />
                                     </div>
                                     <input
                                         id="password"
@@ -117,18 +138,16 @@ const Register = () => {
                                         value={password}
                                         onChange={(e) => setPassword(e.target.value)}
                                         required
-                                        className="block w-full pl-12 pr-12 py-3 border-none rounded-full focus:outline-none focus:ring-2 focus:ring-primary"
+                                        className="block w-full pl-12 pr-12 py-2 border-none rounded-full focus:outline-none focus:ring-2 focus:ring-primary"
                                         placeholder="Create password"
                                     />
                                     <div className="absolute inset-y-0 right-0 pr-4 flex items-center">
                                         {showPassword ? (
-                                            <VisibilityOffOutlined
-                                                className="h-5 w-5 text-color2 cursor-pointer"
+                                            <VisibilityOffOutlined className="!text-lg cursor-pointer"
                                                 onClick={() => setShowPassword(false)}
                                             />
                                         ) : (
-                                            <VisibilityOutlined
-                                                className="h-5 w-5 text-color2 cursor-pointer"
+                                            <VisibilityOutlined className="!text-lg cursor-pointer"
                                                 onClick={() => setShowPassword(true)}
                                             />
                                         )}
@@ -137,12 +156,12 @@ const Register = () => {
                             </div>
 
                             <div>
-                                <label htmlFor="confirmPassword" className="text-color1 font-medium">
+                                <label htmlFor="confirmPassword" className="text-color1 text-sm">
                                     Confirm Password
                                 </label>
                                 <div className="mt-1 relative rounded-full border border-border">
                                     <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                                        <Lock className="h-5 w-5 text-color2" aria-hidden="true" />
+                                        <LockOutlined className="!text-lg" />
                                     </div>
                                     <input
                                         id="confirmPassword"
@@ -151,18 +170,16 @@ const Register = () => {
                                         value={confirmPassword}
                                         onChange={(e) => setConfirmPassword(e.target.value)}
                                         required
-                                        className="block w-full pl-12 pr-12 py-3 border-none rounded-full focus:outline-none focus:ring-2 focus:ring-primary"
+                                        className="block w-full pl-12 pr-12 py-2 border-none rounded-full focus:outline-none focus:ring-2 focus:ring-primary"
                                         placeholder="Confirm password"
                                     />
                                     <div className="absolute inset-y-0 right-0 pr-4 flex items-center">
                                         {showConfirmPassword ? (
-                                            <VisibilityOffOutlined
-                                                className="h-5 w-5 text-color2 cursor-pointer"
+                                            <VisibilityOffOutlined className="!text-lg cursor-pointer"
                                                 onClick={() => setShowConfirmPassword(false)}
                                             />
                                         ) : (
-                                            <VisibilityOutlined
-                                                className="h-5 w-5 text-color2 cursor-pointer"
+                                            <VisibilityOutlined className="!text-lg cursor-pointer"
                                                 onClick={() => setShowConfirmPassword(true)}
                                             />
                                         )}

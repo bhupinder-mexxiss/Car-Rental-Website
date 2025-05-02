@@ -1,11 +1,12 @@
-import { Car12 } from '../../assets/images'
 import { door, gear, pass } from '../../assets/Icons'
+import { Link } from 'react-router'
 
-const CarCard = () => {
+const CarCard = ({ car }) => {
     return (
-        <div className='bg-[#fefefe] shadow-xs hover:shadow-[0px_0px_15px_-10px_rgba(66,68,90,1)] duration-300 border border-black/5 rounded-2xl p-3'>
+        <div className='bg-[#fefefe] shadow-xs hover:shadow-[0px_0px_15px_-10px_rgba(66,68,90,1)] duration-300 border border-black/5 rounded-2xl p-3 relative'>
+            <Link to="/car/1" className='absolute top-0 left-0 w-full h-full' ></Link>
             <div className='h-[200px]'>
-                <img src={Car12} alt="" className='w-full h-full object-cover rounded-2xl' />
+                <img src={car} alt="" className='w-full h-full object-cover rounded-2xl' />
             </div>
             <div className='mt-3'>
                 <div className='flex items-center justify-between'>

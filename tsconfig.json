@@ -7,6 +7,9 @@
   "compilerOptions": {
     "skipLibCheck": true,
     "noEmitOnError": false,   // <-- allow emit even if there are errors
-    "strict": false           // optional: loosen TS checks
+    "strict": false,"baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
   }
 }
