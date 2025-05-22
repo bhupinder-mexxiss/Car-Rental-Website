@@ -4,7 +4,8 @@ import { door, gear, pass } from '../../assets/Icons'
 import DateRangePicker from '../../components/DateRangePicker/DateRangePicker'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
-import { PanoViewer, SpinViewer, PROJECTION_TYPE } from "@egjs/react-view360";
+import { ReactPhotoSphereViewer } from 'react-photo-sphere-viewer';
+import '@photo-sphere-viewer/markers-plugin/index.css';
 
 const CarDetails = () => {
     const navigate = useNavigate();
@@ -34,8 +35,7 @@ const CarDetails = () => {
         //     }
         // });
     };
-
-    const basePath = "https://images.pexels.com/photos/2217658/pexels-photo-2217658.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2";
+    const baseUrl = "https://l13.alamy.com/360/RJ1TM2/360-angle-panorama-view-in-interior-of-prestige-modern-car-blue-background-full-360-by-180-degrees-seamless-equirectangular-equidistant-spherical-pan-RJ1TM2.jpg";
     return (
         <div className='pt-14'>
             <div className="container">
@@ -43,38 +43,44 @@ const CarDetails = () => {
                     <div className='flex gap-10'>
                         <div className='w-[70%]'>
                             <div>
-                                <div className='h-[580px] w-full rounded-2xl overflow-hidden relative'>
+                                <div className='h-[480px] 2xl:h-[580px] w-full rounded-xl overflow-hidden relative'>
                                     {showViewer360
                                         ?
                                         <>
-                                            <PanoViewer
-                                                tag="div"
-                                                image={basePath}
-                                                useZoom={false}
-                                                projectionType={PROJECTION_TYPE.CUBEMAP}
-                                                cubemapConfig={{ tileConfig: { flipHorizontal: true, rotation: 0 } }}
-                                                onViewChange={e => {
-                                                    // DO_SOMETHING
-                                                }}
+                                            <ReactPhotoSphereViewer
+                                                src={baseUrl}
+                                                width="100%"
+                                                height="100%"
+                                                defaultZoomLvl={0}
+                                                keyboard={
+                                                    true
+                                                }
+                                                navbar={[
+                                                    'zoom',
+                                                    'move',
+                                                    {
+                                                        id: 'change',
+                                                        title: 'Change image',
+                                                        content: (document.querySelector('#icon') as HTMLElement | null)?.innerText ?? '',
+                                                        onClick(viewer) {
+                                                            viewer.setPanorama(baseUrl + 'sphere-test.jpg', {
+                                                                caption: '',
+                                                                description: undefined,
+                                                            });
+                                                            viewer.navbar.getButton('change').hide();
+                                                        },
+                                                    },
+                                                    'caption',
+                                                    'fullscreen',
+                                                ]}
+                                            // plugins={plugins}
                                             />
 
-                                            <SpinViewer
-                                                tag="div"
-                                                imageUrl="PATH_TO_YOUR_SPRITE_IMAGE"
-                                                rowCount={42}
-                                                scale={1}
-                                            />
                                         </>
-                                        // <ThreeSixty
-                                        //     amount={75}
-                                        //     imagePath={basePath}
-                                        //     fileName="output_{index}.jpeg"
-                                        //     spinReverse
-                                        // />
                                         :
                                         <img src={Car8} className='w-full h-full object-cover' />
                                     }
-                                    <button className='px-3 py-2 rounded bg-white text-color1 text-sm absolute bottom-3 right-3'>View 360°</button>
+                                    <button className={`px-3 py-2 rounded bg-white text-color1 text-sm absolute right-3 cursor-pointer ${showViewer360 ? "bottom-12" : "bottom-3"}`} onClick={() => setShowViewer360(!showViewer360)}>{ showViewer360 ? "Show Gallery" :"View 360°"}</button>
                                 </div>
                                 <div className='mt-6'>
                                     <div className='flex items-center gap-10'>
