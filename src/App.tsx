@@ -8,7 +8,7 @@ import CarList from "./Pages/CarList/CarList.tsx";
 import AddCar from "./Pages/AddCar/AddCar.tsx";
 import CarDetails from "./Pages/CarDetails/CarDetails.tsx";
 import Register from "./Pages/Auth/Register.tsx";
-import { Toaster } from "./components/ui/sonner.tsx";
+import { Toaster } from "./components/ui/sonner-toast.tsx";
 import ForgotPassword from "./Pages/Auth/ForgotPassword.tsx";
 import VerifyOtp from "./Pages/Auth/verifyOtp.tsx";
 import ResetPassword from "./Pages/Auth/ResetPassword.tsx";
