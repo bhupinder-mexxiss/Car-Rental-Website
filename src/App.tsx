@@ -11,8 +11,7 @@ import Register from "./Pages/Auth/Register.tsx";
 import ForgotPassword from "./Pages/Auth/ForgotPassword.tsx";
 import VerifyOtp from "./Pages/Auth/verifyOtp.tsx";
 import ResetPassword from "./Pages/Auth/ResetPassword.tsx";
-import { Toaster } from "./components/ui/sonner-toast.tsx";
-import GoToTop from "./components/GoToTop/GoToTop.tsx";
+import { Toaster } from "sonner";
 
 const App = () => {
   const router = createBrowserRouter([
@@ -71,7 +70,6 @@ const App = () => {
     <>
       <Toaster position="bottom-right" richColors theme="light" />
       <RouterProvider router={router} />
-      <GoToTop />
     </>
   )
 }
