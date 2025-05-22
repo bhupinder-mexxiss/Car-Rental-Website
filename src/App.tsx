@@ -7,12 +7,12 @@ import AboutUs from "./Pages/AboutUs/AboutUs.tsx";
 import CarList from "./Pages/CarList/CarList.tsx";
 import AddCar from "./Pages/AddCar/AddCar.tsx";
 import CarDetails from "./Pages/CarDetails/CarDetails.tsx";
-import GoToTop from "./components/GoToTop/GoToTop";
 import Register from "./Pages/Auth/Register.tsx";
 import { Toaster } from "./components/ui/sonner.tsx";
 import ForgotPassword from "./Pages/Auth/ForgotPassword.tsx";
 import VerifyOtp from "./Pages/Auth/verifyOtp.tsx";
 import ResetPassword from "./Pages/Auth/ResetPassword.tsx";
+import GoToTop from "./components/GoToTop/GoToTop.tsx";
 
 const App = () => {
   const router = createBrowserRouter([
