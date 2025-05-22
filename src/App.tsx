@@ -1,16 +1,16 @@
 import { createBrowserRouter, RouterProvider } from "react-router";
 import Layout from "./Layout/Layout";
 import Home from "./Pages/Home";
-import Login from "./Pages/Auth/Login.tsx";
-import ContactUS from "./Pages/ContactUS/ContactUS.tsx";
-import AboutUs from "./Pages/AboutUs/AboutUs.tsx";
-import CarList from "./Pages/CarList/CarList.tsx";
-import AddCar from "./Pages/AddCar/AddCar.tsx";
-import CarDetails from "./Pages/CarDetails/CarDetails.tsx";
-import Register from "./Pages/Auth/Register.tsx";
-import ForgotPassword from "./Pages/Auth/ForgotPassword.tsx";
-import VerifyOtp from "./Pages/Auth/verifyOtp.tsx";
-import ResetPassword from "./Pages/Auth/ResetPassword.tsx";
+import Login from "./Pages/Auth/Login";
+import ContactUS from "./Pages/ContactUS/ContactUS";
+import AboutUs from "./Pages/AboutUs/AboutUs";
+import CarList from "./Pages/CarList/CarList";
+import AddCar from "./Pages/AddCar/AddCar";
+import CarDetails from "./Pages/CarDetails/CarDetails";
+import Register from "./Pages/Auth/Register";
+import ForgotPassword from "./Pages/Auth/ForgotPassword";
+import VerifyOtp from "./Pages/Auth/verifyOtp";
+import ResetPassword from "./Pages/Auth/ResetPassword";
 import { Toaster } from "sonner";
 
 const App = () => {
