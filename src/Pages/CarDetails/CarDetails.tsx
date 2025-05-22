@@ -75,7 +75,6 @@ const CarDetails = () => {
                                                 ]}
                                             // plugins={plugins}
                                             />
-
                                         </>
                                         :
                                         <img src={Car8} className='w-full h-full object-cover' />
