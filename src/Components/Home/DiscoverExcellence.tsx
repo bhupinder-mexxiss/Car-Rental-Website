@@ -3,6 +3,7 @@ import ProductCard from "../Card/ProductCard"
 import { useRef, useState } from "react";
 import { ArrowBack, ArrowForward } from "@mui/icons-material";
 import { Car10, Car8, Car9 } from "../../assets/images";
+import { Link } from "react-router";
 
 const tabs = [
     { id: 1, name: "All" },
@@ -100,7 +101,7 @@ const DiscoverExcellence = () => {
                         </div>
                     </div>
                     <div className="mt-10">
-                        <button className="btn2 border-primary text-primary hover:bg-primary hover:text-white mx-auto">View All Cars</button>
+                        <Link to="/car-list" className="btn2 border-primary text-primary hover:bg-primary hover:text-white mx-auto w-fit">View All Cars</Link>
                     </div>
                 </div>
             </div>

@@ -10,12 +10,6 @@ const Register = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const [currentDot, setCurrentDot] = useState(0); // Add state for the current dot
-
-    // Function to handle dot clicks
-    const handleDotClick = (index: number) => {
-        setCurrentDot(index);
-    };
 
     const handleRegister = (e: React.FormEvent) => {
         e.preventDefault();
@@ -57,15 +51,6 @@ const Register = () => {
                             alt="Car dashboard"
                             className="w-full max-w-[350px] mx-auto rounded-xl shadow-2xl object-cover transform -rotate-6 hover:rotate-0 transition-transform duration-500"
                         />
-                    </div>
-                    <div className="absolute bottom-10 left-10 flex space-x-2">
-                        {[0, 1, 2].map((index) => (
-                            <div
-                                key={index}
-                                className={`h-3 w-3 rounded-full cursor-pointer transition-all ${currentDot === index ? "bg-white" : "bg-white/50 hover:bg-white/70"}`}
-                                onClick={() => handleDotClick(index)}
-                            ></div>
-                        ))}
                     </div>
                 </div>
             </div>

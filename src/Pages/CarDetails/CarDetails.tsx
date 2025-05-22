@@ -1,9 +1,41 @@
 import { CheckCircle, Facebook, Instagram, WhatsApp } from '@mui/icons-material'
-import React from 'react'
 import { Car8 } from '../../assets/images'
 import { door, gear, pass } from '../../assets/Icons'
+import DateRangePicker from '../../components/DateRangePicker/DateRangePicker'
+import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router'
+import { PanoViewer, SpinViewer, PROJECTION_TYPE } from "@egjs/react-view360";
 
 const CarDetails = () => {
+    const navigate = useNavigate();
+    const [showViewer360, setShowViewer360] = useState(false);
+    const [startDate, setStartDate] = useState<Date | null>(null);
+    const [endDate, setEndDate] = useState<Date | null>(null);
+    const [pickupLocation, setPickupLocation] = useState('');
+    const [dropoffLocation, setDropoffLocation] = useState('');
+    const [formComplete, setFormComplete] = useState(false);
+
+
+    useEffect(() => {
+        setFormComplete(!!(startDate && endDate && pickupLocation && dropoffLocation));
+    }, [startDate, endDate, pickupLocation, dropoffLocation]);
+
+    const handleBooking = () => {
+        // if (!car) return;
+
+        // // In a real app, you would pass booking details through route state or context
+        // navigate(`/booking/${car.id}`, {
+        //     state: {
+        //         car,
+        //         startDate,
+        //         endDate,
+        //         pickupLocation,
+        //         dropoffLocation
+        //     }
+        // });
+    };
+
+    const basePath = "https://images.pexels.com/photos/2217658/pexels-photo-2217658.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2";
     return (
         <div className='pt-14'>
             <div className="container">
@@ -11,8 +43,38 @@ const CarDetails = () => {
                     <div className='flex gap-10'>
                         <div className='w-[70%]'>
                             <div>
-                                <div className='h-[580px] w-full rounded-2xl overflow-hidden'>
-                                    <img src={Car8} className='w-full h-full object-cover' />
+                                <div className='h-[580px] w-full rounded-2xl overflow-hidden relative'>
+                                    {showViewer360
+                                        ?
+                                        <>
+                                            <PanoViewer
+                                                tag="div"
+                                                image={basePath}
+                                                useZoom={false}
+                                                projectionType={PROJECTION_TYPE.CUBEMAP}
+                                                cubemapConfig={{ tileConfig: { flipHorizontal: true, rotation: 0 } }}
+                                                onViewChange={e => {
+                                                    // DO_SOMETHING
+                                                }}
+                                            />
+
+                                            <SpinViewer
+                                                tag="div"
+                                                imageUrl="PATH_TO_YOUR_SPRITE_IMAGE"
+                                                rowCount={42}
+                                                scale={1}
+                                            />
+                                        </>
+                                        // <ThreeSixty
+                                        //     amount={75}
+                                        //     imagePath={basePath}
+                                        //     fileName="output_{index}.jpeg"
+                                        //     spinReverse
+                                        // />
+                                        :
+                                        <img src={Car8} className='w-full h-full object-cover' />
+                                    }
+                                    <button className='px-3 py-2 rounded bg-white text-color1 text-sm absolute bottom-3 right-3'>View 360°</button>
                                 </div>
                                 <div className='mt-6'>
                                     <div className='flex items-center gap-10'>
@@ -65,7 +127,79 @@ const CarDetails = () => {
                         </div>
                         <div className='w-[30%]'>
                             <div className='sticky top-24'>
-                                <div className='bg-primary/5 p-4 rounded-md'>
+                                <div className="bg-primary/5 p-4 rounded-md">
+                                    <h2 className="text-xl font-bold mb-6">Book This Car</h2>
+                                    <div className="mb-6">
+                                        <DateRangePicker
+                                            startDate={startDate}
+                                            endDate={endDate}
+                                            setStartDate={setStartDate}
+                                            setEndDate={setEndDate}
+                                        />
+                                    </div>
+
+                                    <div className="mb-6">
+                                        <div className="form-control">
+                                            <label htmlFor="pickup-location" className="form-label">
+                                                Pick-up Location
+                                            </label>
+                                            <select
+                                                id="pickup-location"
+                                                className="form-input"
+                                                value={pickupLocation}
+                                                onChange={(e) => setPickupLocation(e.target.value)}
+                                            >
+                                                <option value="">Select Location</option>
+                                                <option value="Airport">Airport</option>
+                                                <option value="Downtown">Downtown</option>
+                                                <option value="North Office">North Office</option>
+                                                <option value="South Office">South Office</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div className="mb-6">
+                                        <div className="form-control">
+                                            <label htmlFor="dropoff-location" className="form-label">
+                                                Drop-off Location
+                                            </label>
+                                            <select
+                                                id="dropoff-location"
+                                                className="form-input"
+                                                value={dropoffLocation}
+                                                onChange={(e) => setDropoffLocation(e.target.value)}
+                                            >
+                                                <option value="">Select Location</option>
+                                                <option value="Airport">Airport</option>
+                                                <option value="Downtown">Downtown</option>
+                                                <option value="North Office">North Office</option>
+                                                <option value="South Office">South Office</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <button
+                                        className={`w-full btn3 ${formComplete ? '' : 'disabled'}`}
+                                        disabled={!formComplete}
+                                        onClick={handleBooking}
+                                    >
+                                        Continue to Booking
+                                    </button>
+
+                                    {!formComplete && (
+                                        <p className="text-xs text-gray-500 mt-2 text-center">
+                                            Please fill all fields to proceed
+                                        </p>
+                                    )}
+
+                                    <div className="mt-6 flex items-center justify-center text-gray-600 text-sm">
+                                        <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                                        </svg>
+                                        Free cancellation up to 24 hours before pickup
+                                    </div>
+                                </div>
+                                <div className='bg-primary/5 p-4 rounded-md mt-6'>
                                     <h4 className='text-xl font-semibold mb-4'>Contact Information</h4>
                                     <div className="sellerInfo flex items-center gap-4">
                                         <div className='w-20 h-20 rounded-full overflow-hidden border border-primary'>

@@ -1,12 +1,12 @@
-import Banner from "../Components/Banner/Banner";
-import BrandsCate from "../Components/Home/BrandsCate.tsx";
-import MostSearch from "../Components/Home/MostSearch.tsx";
-import DiscoverExcellence from "../Components/Home/DiscoverExcellence.tsx";
-import StayConnected from "../Components/Home/StayConnected.tsx";
-import Testimonials from "../Components/Home/Testimonials.tsx";
-import PersonalizedExperience from "../Components/Home/PersonalizedExperience.tsx";
-import YourChoice from "../Components/Home/YourChoice.tsx";
-import HowItsWork from "../Components/Home/HowItsWork.tsx";
+import Banner from "../components/Banner/Banner";
+import BrandsCate from "../components/Home/BrandsCate.tsx";
+import MostSearch from "../components/Home/MostSearch.tsx";
+import DiscoverExcellence from "../components/Home/DiscoverExcellence.tsx";
+import StayConnected from "../components/Home/StayConnected.tsx";
+import Testimonials from "../components/Home/Testimonials.tsx";
+import PersonalizedExperience from "../components/Home/PersonalizedExperience.tsx";
+import YourChoice from "../components/Home/YourChoice.tsx";
+import HowItsWork from "../components/Home/HowItsWork.tsx";
 
 const Home = () => {
     return (

@@ -39,11 +39,6 @@ const Login = () => {
                             className="w-full max-w-[350px] mx-auto rounded-xl shadow-2xl object-cover transform -rotate-6 hover:rotate-0 transition-transform duration-500"
                         />
                     </div>
-                    <div className="absolute bottom-10 left-10 flex space-x-2">
-                        <div className="h-3 w-3 rounded-full bg-white"></div>
-                        <div className="h-3 w-3 rounded-full bg-white/50"></div>
-                        <div className="h-3 w-3 rounded-full bg-white/50"></div>
-                    </div>
                 </div>
             </div>
 

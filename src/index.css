@@ -1,5 +1,7 @@
 @import "tailwindcss";
 @import "flowbite/src/themes/default";
+@import "tw-animate-css";
+
 @plugin "flowbite/plugin";
 @plugin "flowbite-react/plugin/tailwindcss";
 @source "../.flowbite-react/class-list.json";
@@ -37,7 +39,7 @@
 
 @theme {
   --color-primary: #f07e2c;
-  --color-primary-focus: #d15f0e;
+  --color-primary-focus: #ec6d13;
   --color-color1: #121212;
   --color-color2: #525252;
   --color-border: #d4d3d9;
@@ -59,16 +61,25 @@
     @apply bg-white rounded-lg shadow-md p-4;
   }
   .btn1 {
-    @apply border border-primary hover:border-color1 bg-primary text-white py-2.5 px-6 font-medium rounded-full hover:bg-color1 cursor-pointer flex items-center justify-between;
+    @apply border border-primary hover:border-color1 bg-primary text-white py-2.5 px-6 font-medium rounded-full hover:bg-color1 cursor-pointer flex items-center justify-center;
   }
   .btn2 {
-    @apply border border-color1 text-color1 py-2.5 px-6 font-medium rounded-full hover:border-primary hover:text-primary cursor-pointer flex items-center justify-between;
+    @apply border border-color1 text-color1 py-2.5 px-6 font-medium rounded-full hover:border-primary hover:text-primary cursor-pointer flex items-center justify-center;
   }
   .btn3 {
-    @apply border border-primary hover:border-primary-focus bg-primary text-white py-2.5 px-6 font-medium rounded-full hover:bg-primary-focus cursor-pointer flex items-center justify-between;
+    @apply border border-primary bg-primary text-white py-2.5 px-6 font-medium rounded-full cursor-pointer flex items-center justify-center;
+    @apply hover:border-primary-focus hover:bg-primary-focus;
+    @apply disabled:cursor-not-allowed disabled:hover:bg-primary disabled:hover:border-primary disabled:opacity-40;
   }
   .card1 {
     @apply bg-primary/10 border border-primary hover:border-[#167cd8] hover:bg-[#167cd8] hover:invert rounded-lg px-4 py-6 flex flex-col items-center justify-center gap-3;
+  }
+  .form-label {
+    @apply block text-sm font-medium text-color2 mb-1;
+  }
+
+  .form-input {
+    @apply w-full px-3 py-2 bg-transparent border border-border rounded-md focus:outline-none focus:ring-1 focus:ring-primary;
   }
 }
 body {
@@ -135,6 +146,7 @@ body {
   color: white;
   transition: all 0.3s ease;
 }
+
 .social-links {
   display: flex;
   gap: 0.75rem;

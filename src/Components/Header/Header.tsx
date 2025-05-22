@@ -5,7 +5,7 @@ import { Logo } from '../../assets/images';
 const menuitems = [
     { url: "/", label: "Home" },
     {
-        url: "/car-list", label: "Buy Car", subMenu: [
+        url: "/car-list", label: "Cars", subMenu: [
             // { url: "/buy-car", label: "Buy car" },
             // { url: "/sell-car", label: "Sell car" },
             // { url: "/car-insurance", label: "Car insurance" },
@@ -14,7 +14,7 @@ const menuitems = [
             // { url: "/car-accessories", label: "Car accessories" },
         ]
     },
-    { url: "/sell-car", label: "Sell car" },
+    { url: "/add-car", label: "List your car" },
     { url: "/about-us", label: "About us" },
     { url: "/contact-us", label: "Contact us" },
 ]

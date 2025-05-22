@@ -3,6 +3,7 @@ import ProductCard from "../Card/ProductCard"
 import { useRef } from "react";
 import { ArrowBack, ArrowForward } from "@mui/icons-material";
 import { Car5, Car6, Car7 } from "../../assets/images";
+import { Link } from "react-router";
 
 const data = [
     {
@@ -84,7 +85,7 @@ const MostSearch = () => {
                         </div>
                     </div>
                     <div className="mt-10">
-                        <button className="btn2 border-primary text-primary hover:bg-primary hover:text-white mx-auto">View All Cars</button>
+                    <Link to="/car-list" className="btn2 border-primary text-primary hover:bg-primary hover:text-white mx-auto w-fit">View All Cars</Link>
                     </div>
                 </div>
             </div>

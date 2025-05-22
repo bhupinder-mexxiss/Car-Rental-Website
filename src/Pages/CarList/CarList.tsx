@@ -1,5 +1,5 @@
 import { Car10, Car12, Car5, Car6, Car7, Car8, Car9 } from "../../assets/images"
-import CarCard from "../../Components/Card/CarCard"
+import CarCard from "../../components/Card/CarCard"
 import Filters from "./Filters"
 
 const CarList = () => {

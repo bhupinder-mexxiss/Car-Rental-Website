@@ -5,10 +5,11 @@ import Login from "./Pages/Auth/Login.tsx";
 import ContactUS from "./Pages/ContactUS/ContactUS.tsx";
 import AboutUs from "./Pages/AboutUs/AboutUs.tsx";
 import CarList from "./Pages/CarList/CarList.tsx";
+import AddCar from "./Pages/AddCar/AddCar.tsx";
 import CarDetails from "./Pages/CarDetails/CarDetails.tsx";
-import GoToTop from "./Components/GoToTop/GoToTop";
+import GoToTop from "./components/GoToTop/GoToTop";
 import Register from "./Pages/Auth/Register.tsx";
-import { Toaster } from "./Components/ui/sonner.tsx";
+import { Toaster } from "./components/ui/sonner.tsx";
 import ForgotPassword from "./Pages/Auth/ForgotPassword.tsx";
 import VerifyOtp from "./Pages/Auth/verifyOtp.tsx";
 import ResetPassword from "./Pages/Auth/ResetPassword.tsx";
@@ -26,6 +27,10 @@ const App = () => {
         {
           path: "/car-list",
           element: <CarList />,
+        },
+        {
+          path: "/add-car",
+          element: <AddCar />,
         },
         {
           path: "/car/:id",
@@ -64,7 +69,7 @@ const App = () => {
   ]);
   return (
     <>
-      <Toaster position="top-right" richColors theme="light" />
+      <Toaster position="bottom-right" richColors theme="light" />
       <RouterProvider router={router} />
       <GoToTop />
     </>
