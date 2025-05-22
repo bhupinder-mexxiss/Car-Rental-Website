@@ -3,12 +3,12 @@ import { Car8 } from '../../assets/images'
 import { door, gear, pass } from '../../assets/Icons'
 import DateRangePicker from '../../components/DateRangePicker/DateRangePicker'
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router'
+// import { useNavigate } from 'react-router'
 import { ReactPhotoSphereViewer } from 'react-photo-sphere-viewer';
 import '@photo-sphere-viewer/markers-plugin/index.css';
 
 const CarDetails = () => {
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
     const [showViewer360, setShowViewer360] = useState(false);
     const [startDate, setStartDate] = useState<Date | null>(null);
     const [endDate, setEndDate] = useState<Date | null>(null);

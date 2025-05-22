@@ -5,7 +5,7 @@ import carSound from "../../assets/carSound.mp3";
 const GoToTop = () => {
     const [isVisible, setIsVisible] = useState(false);
     const [hideOnClick, setHideOnClick] = useState(false);
-    const audioRef = useRef(null); // 🎧 Audio reference
+    const audioRef = useRef<HTMLAudioElement | null>(null); // 🎧 Audio reference
 
     const handleScroll = () => {
         if (window.scrollY > 1500) {
