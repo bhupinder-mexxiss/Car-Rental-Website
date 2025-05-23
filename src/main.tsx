@@ -7,10 +7,14 @@ import 'aos/dist/aos.css';
 import 'animate.css'
 import App from './App'
 import GoToTop from './components/GoToTop/GoToTop.tsx';
+import { Provider } from 'react-redux';
+import { store } from './redux/store/store.ts';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <App />
-    <GoToTop />
+    <Provider store={store}>
+      <App />
+      <GoToTop />
+    </Provider>
   </StrictMode>,
 )

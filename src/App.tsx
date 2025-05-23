@@ -12,8 +12,20 @@ import ForgotPassword from "./Pages/Auth/ForgotPassword";
 import VerifyOtp from "./Pages/Auth/verifyOtp";
 import ResetPassword from "./Pages/Auth/ResetPassword";
 import { Toaster } from "sonner";
+import { useGetMeQuery } from "./redux/api/user";
+import { useEffect } from "react";
+import { setUser } from "./redux/Slices/AuthSlice";
+import { useDispatch } from "react-redux";
 
 const App = () => {
+  const { data: user, isLoading, isSuccess } = useGetMeQuery({});
+  const dispatch = useDispatch()
+  useEffect(() => {
+    if (!isLoading && isSuccess && user) {
+      dispatch(setUser(user));
+    }
+  }, [user, isLoading, isSuccess]);
+
   const router = createBrowserRouter([
     {
       path: "/",

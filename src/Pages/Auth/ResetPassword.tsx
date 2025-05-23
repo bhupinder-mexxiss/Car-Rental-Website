@@ -1,47 +1,31 @@
 import { ArrowBackOutlined, CheckOutlined, LockOutlined, VisibilityOffOutlined, VisibilityOutlined } from '@mui/icons-material';
-import { Link } from 'react-router'
+import { Link, useSearchParams } from 'react-router'
 import { toast } from 'sonner';
-import { Button } from '../../Components/ui/button';
+import { Button } from '../../components/ui/button';
 import { useState } from 'react';
+import { useResetPaswordMutation } from '../../redux/baseApi';
+import { Field, Form, Formik } from 'formik';
+import { resetPasswordSchema } from '../../Formik/Auth';
 
 const ResetPassword = () => {
+    const [searchParams] = useSearchParams();
+    const resetToken = searchParams.get("resetToken")
+    const [resetPassword] = useResetPaswordMutation()
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-    const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
     const [isSubmitted, setIsSubmitted] = useState(false);
 
-    const handlePasswordReset = (e: React.FormEvent) => {
-        e.preventDefault();
-
-        // Simple validation
-        if (!password || !confirmPassword) {
-            toast("Reset Error", {
-                description: "Please fill in all fields"
+    const handlePasswordReset = async (values: any) => {
+        await resetPassword({ ...values, resetToken: resetToken }).unwrap().then(() => {
+            toast.success("Password Reset Successful", {
+                description: "You can now log in with your new password"
             });
-            return;
-        }
+            setIsSubmitted(true);
+        }).catch((err) => {
+            console.log(err);
+            toast.error(err.data.message)
+        })
 
-        if (password !== confirmPassword) {
-            toast("Password Mismatch", {
-                description: "Passwords do not match"
-            });
-            return;
-        }
-
-        if (password.length < 8) {
-            toast("Password Too Short", {
-                description: "Password must be at least 8 characters long"
-            });
-            return;
-        }
-
-        // Here you would typically handle the actual password reset
-        toast("Password Reset Successful", {
-            description: "You can now log in with your new password"
-        });
-
-        setIsSubmitted(true);
     };
     return (
         <div className="min-h-screen bg-[#FAFAFA] flex">
@@ -74,100 +58,114 @@ const ResetPassword = () => {
 
                     <div className="mt-8 bg-white shadow-lg rounded-2xl p-8">
                         {!isSubmitted ? (
-                            <form className="space-y-6" onSubmit={handlePasswordReset}>
-                                <div>
-                                    <label htmlFor="password" className="text-gray-800 font-medium">
-                                        New Password
-                                    </label>
-                                    <div className="mt-1 relative rounded-full border border-gray-300">
-                                        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                                            <LockOutlined className="!text-lg" />
-                                        </div>
-                                        <input
-                                            id="password"
-                                            name="password"
-                                            type={showPassword ? "text" : "password"}
-                                            value={password}
-                                            onChange={(e) => setPassword(e.target.value)}
-                                            required
-                                            className="block w-full pl-12 pr-12 py-2 border-none rounded-full focus:outline-none focus:ring-2 focus:ring-primary"
-                                            placeholder="Enter new password"
-                                        />
-                                        <div className="absolute inset-y-0 right-0 pr-4 flex items-center">
-                                            {showPassword ? (
-                                                <VisibilityOffOutlined className="!text-lg cursor-pointer"
-                                                    onClick={() => setShowPassword(false)}
-                                                />
-                                            ) : (
-                                                <VisibilityOutlined className="!text-lg cursor-pointer"
-                                                    onClick={() => setShowPassword(true)}
-                                                />
-                                            )}
-                                        </div>
-                                    </div>
-                                </div>
+                            <Formik
+                                initialValues={{
+                                    password: '',
+                                    confirmPassword: ''
+                                }}
+                                validationSchema={resetPasswordSchema}
+                                enableReinitialize
+                                onSubmit={(values) => handlePasswordReset(values)}
+                            >
+                                {({ errors, touched }) => (
+                                    <Form>
+                                        <div className="space-y-5">
+                                            <div>
+                                                <label htmlFor="password" className="text-gray-800 font-medium">
+                                                    New Password
+                                                </label>
+                                                <div className="mt-1 relative rounded-full border border-gray-300">
+                                                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                                        <LockOutlined className="!text-lg" />
+                                                    </div>
+                                                    <Field
+                                                        id="password"
+                                                        name="password"
+                                                        type={showPassword ? "text" : "password"}
+                                                        className="block w-full pl-12 pr-12 py-2 border-none rounded-full focus:outline-none focus:ring-2 focus:ring-primary"
+                                                        placeholder="Enter new password"
+                                                    />
+                                                    <div className="absolute inset-y-0 right-0 pr-4 flex items-center">
+                                                        {showPassword ? (
+                                                            <VisibilityOffOutlined className="!text-lg cursor-pointer"
+                                                                onClick={() => setShowPassword(false)}
+                                                            />
+                                                        ) : (
+                                                            <VisibilityOutlined className="!text-lg cursor-pointer"
+                                                                onClick={() => setShowPassword(true)}
+                                                            />
+                                                        )}
+                                                    </div>
+                                                </div>
+                                                {(errors.password && touched.password) && (
+                                                    <p className='text-sm mt-1 text-red-600'>{errors.password}</p>
+                                                )}
+                                            </div>
 
-                                <div>
-                                    <label htmlFor="confirm-password" className="text-gray-800 font-medium">
-                                        Confirm Password
-                                    </label>
-                                    <div className="mt-1 relative rounded-full border border-gray-300">
-                                        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                                            <LockOutlined className="!text-lg" />
+                                            <div>
+                                                <label htmlFor="confirmPassword" className="text-gray-800 font-medium">
+                                                    Confirm Password
+                                                </label>
+                                                <div className="mt-1 relative rounded-full border border-gray-300">
+                                                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                                        <LockOutlined className="!text-lg" />
+                                                    </div>
+                                                    <Field
+                                                        id="confirmPassword"
+                                                        name="confirmPassword"
+                                                        type={showConfirmPassword ? "text" : "password"}
+                                                        className="block w-full pl-12 pr-12 py-2 border-none rounded-full focus:outline-none focus:ring-2 focus:ring-primary"
+                                                        placeholder="Confirm new password"
+                                                    />
+                                                    <div className="absolute inset-y-0 right-0 pr-4 flex items-center">
+                                                        {showConfirmPassword ? (
+                                                            <VisibilityOffOutlined className="!text-lg cursor-pointer"
+                                                                onClick={() => setShowConfirmPassword(false)}
+                                                            />
+                                                        ) : (
+                                                            <VisibilityOutlined className="!text-lg cursor-pointer"
+                                                                onClick={() => setShowConfirmPassword(true)}
+                                                            />
+                                                        )}
+                                                    </div>
+                                                </div>
+                                                {(errors.confirmPassword && touched.confirmPassword) && (
+                                                    <p className='text-sm mt-1 text-red-600'>{errors.confirmPassword}</p>
+                                                )}
+                                            </div>
+
+                                            <div className="pt-2">
+                                                <div className="text-sm text-gray-600">
+                                                    Password should:
+                                                </div>
+                                                <ul className="text-xs text-gray-500 list-disc pl-5 pt-1 space-y-1">
+                                                    <li>Be at least 8 characters long</li>
+                                                    <li>Include uppercase and lowercase letters</li>
+                                                    <li>Include at least one number</li>
+                                                    <li>Include at least one special character</li>
+                                                </ul>
+                                            </div>
+
+                                            <div>
+                                                <Button
+                                                    type="submit"
+                                                    className="w-full bg-primary text-white py-3 px-4 rounded-full hover:bg-primary/90 transition duration-200 flex items-center justify-center"
+                                                >
+                                                    <span>Reset Password</span>
+                                                    {/* <Save className="ml-2 h-4 w-4" /> */}
+                                                </Button>
+                                            </div>
+
+                                            <div className="text-center mt-4">
+                                                <Link to="/otp-verify" className="font-medium text-primary hover:text-primary/90 flex items-center justify-center">
+                                                    <ArrowBackOutlined className="mr-2 h-4 w-4" />
+                                                    <span>Back to Verification</span>
+                                                </Link>
+                                            </div>
                                         </div>
-                                        <input
-                                            id="confirm-password"
-                                            name="confirm-password"
-                                            type={showConfirmPassword ? "text" : "password"}
-                                            value={confirmPassword}
-                                            onChange={(e) => setConfirmPassword(e.target.value)}
-                                            required
-                                            className="block w-full pl-12 pr-12 py-2 border-none rounded-full focus:outline-none focus:ring-2 focus:ring-primary"
-                                            placeholder="Confirm new password"
-                                        />
-                                        <div className="absolute inset-y-0 right-0 pr-4 flex items-center">
-                                            {showConfirmPassword ? (
-                                                <VisibilityOffOutlined className="!text-lg cursor-pointer"
-                                                    onClick={() => setShowConfirmPassword(false)}
-                                                />
-                                            ) : (
-                                                <VisibilityOutlined className="!text-lg cursor-pointer"
-                                                    onClick={() => setShowConfirmPassword(true)}
-                                                />
-                                            )}
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div className="pt-2">
-                                    <div className="text-sm text-gray-600">
-                                        Password should:
-                                    </div>
-                                    <ul className="text-xs text-gray-500 list-disc pl-5 pt-1 space-y-1">
-                                        <li>Be at least 8 characters long</li>
-                                        <li>Include uppercase and lowercase letters</li>
-                                        <li>Include at least one number</li>
-                                        <li>Include at least one special character</li>
-                                    </ul>
-                                </div>
-
-                                <div>
-                                    <Button
-                                        type="submit"
-                                        className="w-full bg-primary text-white py-3 px-4 rounded-full hover:bg-primary/90 transition duration-200 flex items-center justify-center"
-                                    >
-                                        <span>Reset Password</span>
-                                        {/* <Save className="ml-2 h-4 w-4" /> */}
-                                    </Button>
-                                </div>
-
-                                <div className="text-center mt-4">
-                                    <Link to="/otp-verify" className="font-medium text-primary hover:text-primary/90 flex items-center justify-center">
-                                        <ArrowBackOutlined className="mr-2 h-4 w-4" />
-                                        <span>Back to Verification</span>
-                                    </Link>
-                                </div>
-                            </form>
+                                    </Form>
+                                )}
+                            </Formik>
                         ) : (
                             <div className="text-center space-y-6 py-6">
                                 <div className="flex justify-center">
@@ -181,7 +179,7 @@ const ResetPassword = () => {
                                 </p>
                                 <Link to="/login">
                                     <Button
-                                        className="w-full bg-primary text-white py-3 px-4 rounded-full hover:bg-primary/90 transition duration-200"
+                                        className="cursor-pointer w-full bg-primary text-white py-3 px-4 rounded-full hover:bg-primary/90 transition duration-200"
                                     >
                                         Go to Login
                                     </Button>

@@ -1,6 +1,7 @@
 import { KeyboardArrowDown } from '@mui/icons-material';
 import { Link, NavLink } from 'react-router'
 import { Logo } from '../../assets/images';
+import { useSelector } from 'react-redux';
 
 const menuitems = [
     { url: "/", label: "Home" },
@@ -20,6 +21,7 @@ const menuitems = [
 ]
 
 const Header = () => {
+    const { isAuthenticated, user } = useSelector((state: any) => state.auth);
     return (
         <div className='z-[999] sticky top-0 w-full bg-white/80 border-b border-[#12121226] backdrop-blur-xs shadow'>
             <div className="container">
