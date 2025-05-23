@@ -1,44 +1,50 @@
 import { useState } from "react";
 import { Formik, Form } from "formik";
-import { Button } from "../../components/ui/button";
+import { Button } from "../../Components/ui/button";
 import { toast } from 'sonner';
 import { useNavigate, useSearchParams } from "react-router";
-import CarInfoStep from "../../components/AddCar/CarInfoStep";
-import UploadImagesStep from "../../components/AddCar/UploadImagesStep";
-import CarFeaturesStep from "../../components/AddCar/CarFeaturesStep";
-import LocationAvailabilityStep from "../../components/AddCar/LocationAvailabilityStep";
-import PricingChargesStep from "../../components/AddCar/PricingChargesStep";
-import OwnerInfoStep from "../../components/AddCar/OwnerInfoStep";
-import UploadDocumentsStep from "../../components/AddCar/UploadDocumentsStep";
-import ReviewSubmitStep from "../../components/AddCar/ReviewSubmitStep";
+import CarInfoStep from "../../Components/AddCar/CarInfoStep";
+import UploadImagesStep from "../../Components/AddCar/UploadImagesStep";
+import CarFeaturesStep from "../../Components/AddCar/CarFeaturesStep";
+import LocationAvailabilityStep from "../../Components/AddCar/LocationAvailabilityStep";
+import PricingChargesStep from "../../Components/AddCar/PricingChargesStep";
+import OwnerInfoStep from "../../Components/AddCar/OwnerInfoStep";
+import UploadDocumentsStep from "../../Components/AddCar/UploadDocumentsStep";
+import ReviewSubmitStep from "../../Components/AddCar/ReviewSubmitStep";
 import { carInitialValues, carValidationSchemas } from "../../Formik/Car";
 import { addCarSteps, listingStepInfo } from "../../constants/car";
 import ListType from "./ListType";
+import { useAddCarMutation } from "../../redux/api/car";
 
 const AddCar = () => {
     const [searchParams] = useSearchParams()
     const type = searchParams.get("type")
+    const [addCar] = useAddCarMutation()
 
     const steps = Object.values(addCarSteps)
         .filter((step: listingStepInfo) => type !== null && step.showFor.includes(type))
         .map((step, index) => ({ ...step, id: index }));
-    
+
     const [currentStep, setCurrentStep] = useState(0);
     const navigate = useNavigate();
 
     const nextStep = () => currentStep < steps.length - 1 && setCurrentStep(prev => prev + 1);
     const prevStep = () => currentStep > 0 && setCurrentStep(prev => prev - 1);
 
-    const handleSubmit = (values) => {
-        console.log("Submitting car data:", values);
-        toast("Car Added Successfully", {
-            description: "Your car has been added to the listing."
-        });
-        navigate("/cars");
+    const handleSubmit = async (values) => {
+        console.log("Submitting car data:", { ...values, listingType: type, step: currentStep + 1 });
+
+        await addCar({ ...values, listingType: type, step: currentStep + 1 }).unwrap().then(() => {
+            toast("Car Added Successfully", {
+                description: "Your car has been added to the listing."
+            });
+            nextStep()
+        })
+        // navigate("/cars");
     };
 
     const renderStep = (formikProps) => {
-        const { values, setFieldValue } = formikProps;
+        const { values, setFieldValue, errors, touched } = formikProps;
         const key = steps[currentStep].key;
 
         switch (key) {
@@ -120,7 +126,7 @@ const AddCar = () => {
                                     <Formik
                                         initialValues={carInitialValues}
                                         validationSchema={carValidationSchemas[steps[currentStep].key as keyof typeof carValidationSchemas]}
-                                        onSubmit={currentStep === steps.length - 1 ? handleSubmit : nextStep}
+                                        onSubmit={(values) => handleSubmit(values)}
                                         validateOnChange={false}
                                         validateOnBlur={true}
                                     >

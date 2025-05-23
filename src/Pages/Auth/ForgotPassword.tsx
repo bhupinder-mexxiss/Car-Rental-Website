@@ -2,7 +2,7 @@ import { ArrowBackOutlined, EmailOutlined, Send, } from '@mui/icons-material';
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router'
 import { toast } from 'sonner';
-import { Button } from '../../components/ui/button';
+import { Button } from '../../Components/ui/button';
 import { Field, Form, Formik } from 'formik';
 import { forgotSchema } from '../../Formik/Auth';
 import { useForgotPasswordMutation } from '../../redux/baseApi';

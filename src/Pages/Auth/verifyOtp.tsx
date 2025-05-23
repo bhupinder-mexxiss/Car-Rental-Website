@@ -1,9 +1,9 @@
 import { ArrowBackOutlined, CachedOutlined, CheckOutlined } from '@mui/icons-material';
 import { Link, useNavigate } from 'react-router'
 import { toast } from 'sonner';
-import { InputOTP, InputOTPGroup, InputOTPSlot } from '../../components/ui/input-otp';
+import { InputOTP, InputOTPGroup, InputOTPSlot } from '../../Components/ui/input-otp';
 import { useState } from 'react';
-import { Button } from '../../components/ui/button';
+import { Button } from '../../Components/ui/button';
 import { useOtpVerifyMutation } from '../../redux/baseApi';
 
 const VerifyOtp = ({ email }: { email: string }) => {

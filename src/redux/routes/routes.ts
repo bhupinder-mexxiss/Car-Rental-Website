@@ -8,3 +8,6 @@ export const RESET_PASSWORD = "/auth/reset-password"
 
 // User
 export const USER_GET = "/user"
+
+// Car
+export const CAR_ADD = "/car/add"

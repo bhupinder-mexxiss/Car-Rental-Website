@@ -34,8 +34,8 @@ export const categories = [
     'Electric'
 ];
 export const filterOptions = {
-    transmission: ['Automatic', 'Manual'],
-    fuelType: ['Gasoline', 'Diesel', 'Hybrid', 'Electric'],
+    transmission: ['automatic', 'manual'],
+    fuelType: ['gasoline', 'diesel', 'hybrid', 'electric'],
     brands: ['Honda', 'Toyota', 'Ford', 'BMW', 'Tesla', 'Jeep']
 };
 export const commonFeatures = [

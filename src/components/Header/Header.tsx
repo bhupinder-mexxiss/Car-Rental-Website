@@ -1,19 +1,16 @@
 import { KeyboardArrowDown } from '@mui/icons-material';
-import { Link, NavLink } from 'react-router'
+import { Link, NavLink, useLocation } from 'react-router'
 import { Logo } from '../../assets/images';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useLogoutMutation } from '../../redux/baseApi';
+import { clearUser } from '../../redux/Slices/AuthSlice';
+import { useEffect, useState } from 'react';
 
 const menuitems = [
     { url: "/", label: "Home" },
     {
         url: "/rent-car", label: "Rent Cars", subMenu: [
             // { url: "/buy-car", label: "Buy car" },
-            // { url: "/sell-car", label: "Sell car" },
-            // { url: "/car-insurance", label: "Car insurance" },
-            // { url: "/car-loan", label: "Car loan" },
-            // { url: "/car-service", label: "Car service" },
-            // { url: "/car-accessories", label: "Car accessories" },
         ]
     },
     { url: "/buy-car", label: "Buy cars" },
@@ -23,10 +20,32 @@ const menuitems = [
 ]
 
 const Header = () => {
+    const dispatch = useDispatch();
+    const location = useLocation();
     const [logout] = useLogoutMutation()
-    const { isAuthenticated, user } = useSelector((state: any) => state.auth);
-    console.log(isAuthenticated);
+    const { isAuthenticated } = useSelector((state: any) => state.auth);
+    const [showLoginPopup, setShowLoginPopup] = useState(false);
 
+    const handleLogout = async () => {
+        await logout({}).unwrap().then(() => {
+            dispatch(clearUser());
+            setShowLoginPopup(true);
+        })
+    };
+    useEffect(() => {
+        if (!isAuthenticated && location.pathname !== "/login") {
+            setShowLoginPopup(true);
+        }
+    }, [isAuthenticated, location.pathname]);
+
+    useEffect(() => {
+        if (showLoginPopup) {
+            const timer = setTimeout(() => {
+                setShowLoginPopup(false);
+            }, 10000);
+            return () => clearTimeout(timer);
+        }
+    }, [showLoginPopup]);
     return (
         <div className='z-[999] sticky top-0 w-full bg-white/80 border-b border-[#12121226] backdrop-blur-xs shadow'>
             <div className="container">
@@ -61,11 +80,16 @@ const Header = () => {
                         </ul>
                     </div>
                     {isAuthenticated ?
-                        <button onClick={async () => { await logout({}).unwrap() }} className='btn2'>Logout</button>
+                        <button onClick={handleLogout} className='btn2'>Logout</button>
                         :
-                        <div className='flex gap-2'>
+                        <div className='relative flex gap-2'>
                             <Link to="/login" className='btn2'>Login</Link>
                             <Link to="/register" className='btn1'>Register</Link>
+                            {showLoginPopup && (
+                                <div className="absolute left-1/2 -translate-x-1/2 top-full mt-1 w-max bg-white text-sm text-gray-700 px-4 py-2 rounded shadow transition-all duration-300 animate-fadeIn border border-border">
+                                    Please log in to continue
+                                </div>
+                            )}
                         </div>
                     }
                 </div>

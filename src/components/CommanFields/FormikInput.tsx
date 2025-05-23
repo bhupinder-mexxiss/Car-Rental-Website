@@ -56,6 +56,7 @@ export const FormikInput: React.FC<FormikInputProps> = ({
             {...field}
             {...props}
           >
+            <option value="" hidden>Select {label}</option>
             {options?.map((option) => (
               <option key={option.value} value={option.value} >
                 {option.label}
@@ -93,8 +94,6 @@ export const FormikInput: React.FC<FormikInputProps> = ({
           <Input
             id={name}
             type="number"
-            min={min}
-            max={max}
             step={step}
             placeholder={placeholder}
             className={`${hasError ? "border-red-500" : ""} !focus-visible:ring-0 !ring-0 !focus:border-primary focus-visible:border-primary h-10 ${className}`}

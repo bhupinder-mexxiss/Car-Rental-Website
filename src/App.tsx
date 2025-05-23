@@ -9,83 +9,48 @@ import AddCar from "./Pages/AddCar/AddCar";
 import CarDetails from "./Pages/CarDetails/CarDetails";
 import Register from "./Pages/Auth/Register";
 import ForgotPassword from "./Pages/Auth/ForgotPassword";
-import VerifyOtp from "./Pages/Auth/verifyOtp";
 import ResetPassword from "./Pages/Auth/ResetPassword";
 import { Toaster } from "sonner";
-import { useGetMeQuery } from "./redux/api/user";
-import { useEffect } from "react";
-import { setUser } from "./redux/Slices/AuthSlice";
-import { useDispatch, useSelector } from "react-redux";
+import { ProtectedRoute, PublicRoute } from "./Components/Routes/Route";
+import Loader from "./Components/Loader/Loader";
+import { useAuthReady } from "./hooks/useAuth";
 
 const App = () => {
-  const dispatch = useDispatch()
-  const { isAuthenticated } = useSelector((state: any) => state.auth);
-  const { data: user, isLoading, isSuccess } = useGetMeQuery({}, {
-    skip: !isAuthenticated, // ✅ Only call if authenticated
-  });
+  const { isLoading } = useAuthReady();
 
-  useEffect(() => {
-    if (!isLoading && isSuccess && user) {
-      dispatch(setUser(user));
-    }
-  }, [user, isLoading, isSuccess, dispatch]);
+  if (isLoading) return <Loader />;
 
   const router = createBrowserRouter([
     {
       path: "/",
       element: <Layout />,
       children: [
+        { path: "/", element: <Home /> },
+        { path: "/rent-car", element: <CarList /> },
+        { path: "/buy-car", element: <CarList /> },
+        { path: "/car/:id", element: <CarDetails /> },
+        { path: "/contact-us", element: <ContactUS /> },
+        { path: "/about-us", element: <AboutUs /> },
+
         {
-          path: "/",
-          element: <Home />,
-        },
-        {
-          path: "/rent-car",
-          element: <CarList />,
-        },
-        {
-          path: "/buy-car",
-          element: <CarList />,
-        },
-        {
-          path: "/add-car",
-          element: <AddCar />,
-        },
-        {
-          path: "/car/:id",
-          element: <CarDetails />,
-        },
-        {
-          path: "/contact-us",
-          element: <ContactUS />,
-        },
-        {
-          path: "/about-us",
-          element: <AboutUs />,
+          element: <ProtectedRoute />,
+          children: [
+            { path: "/add-car", element: <AddCar /> },
+          ],
         },
       ],
     },
+
     {
-      path: "/login",
-      element: <Login />,
+      element: <PublicRoute />,
+      children: [
+        { path: "/login", element: <Login /> },
+        { path: "/register", element: <Register /> },
+        { path: "/forgot-password", element: <ForgotPassword /> },
+        { path: "/reset-password", element: <ResetPassword /> },
+      ],
     },
-    {
-      path: "/register",
-      element: <Register />,
-    },
-    {
-      path: "/forgot-password",
-      element: <ForgotPassword />,
-    },
-    {
-      path: "/otp-verify",
-      element: <VerifyOtp />,
-    },
-    {
-      path: "/reset-password",
-      element: <ResetPassword />,
-    },
-  ]);
+  ])
   return (
     <>
       <Toaster position="bottom-right" richColors theme="light" />

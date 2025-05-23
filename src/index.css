@@ -5,6 +5,7 @@
 @plugin "flowbite/plugin";
 @plugin "flowbite-react/plugin/tailwindcss";
 @source "../.flowbite-react/class-list.json";
+
 @font-face {
   font-family: "Inter";
   src: url("./assets/fonts/Inter18pt-SemiBold.woff2") format("woff2");
@@ -46,34 +47,42 @@
   --text-shadow-xl: -0.03ex 0 currentColor, 0.03ex 0 currentColor;
   --font-family: "Inter", sans-serif;
 }
+
 @layer base {
   * {
     @apply duration-300 font-family;
   }
 }
+
 @layer utilities {
   .container {
     @apply max-w-[1400px] mx-auto px-4 md:px-6;
   }
 }
+
 @layer components {
   .card {
     @apply bg-white rounded-lg shadow-md p-4;
   }
+
   .btn1 {
     @apply border border-primary hover:border-color1 bg-primary text-white py-2.5 px-6 font-medium rounded-full hover:bg-color1 cursor-pointer flex items-center justify-center;
   }
+
   .btn2 {
     @apply border border-color1 text-color1 py-2.5 px-6 font-medium rounded-full hover:border-primary hover:text-primary cursor-pointer flex items-center justify-center;
   }
+
   .btn3 {
     @apply border border-primary bg-primary text-white py-2.5 px-6 font-medium rounded-full cursor-pointer flex items-center justify-center;
     @apply hover:border-primary-focus hover:bg-primary-focus;
     @apply disabled:cursor-not-allowed disabled:hover:bg-primary disabled:hover:border-primary disabled:opacity-40;
   }
+
   .card1 {
     @apply bg-primary/10 border border-primary hover:border-[#167cd8] hover:bg-[#167cd8] hover:invert rounded-lg px-4 py-6 flex flex-col items-center justify-center gap-3;
   }
+
   .form-label {
     @apply block text-sm font-medium text-color2 mb-1;
   }
@@ -82,12 +91,15 @@
     @apply w-full px-3 py-2 bg-transparent border border-border rounded-md focus:outline-none focus:ring-1 focus:ring-primary;
   }
 }
+
 body {
   overflow-x: hidden;
 }
+
 .clipPath {
   clip-path: polygon(76% 0, 100% 0, 100% 100%, 0% 100%);
 }
+
 .gradient1 {
   background-image: linear-gradient(180deg, #e88844 -13.53%, #d8691a 110.17%);
 }
@@ -95,6 +107,7 @@ body {
 .carAnimation {
   animation: carAnimation 8s ease-in-out infinite;
 }
+
 .contact-card {
   border: 1px solid #e5e7eb;
   border-radius: 0.75rem;
@@ -102,6 +115,7 @@ body {
   background-color: white;
   transition: all 0.3s ease;
 }
+
 .contact-icon {
   width: 50px;
   height: 50px;
@@ -114,6 +128,7 @@ body {
   margin-bottom: 1rem;
   font-size: 1.5rem;
 }
+
 .contact-card:hover {
   border-color: var(--color-primary);
   transform: translateY(-5px);
@@ -126,23 +141,24 @@ body {
   overflow: hidden;
   border-radius: 0.75rem;
 }
+
 .team-member img {
   transition: transform 0.5s;
 }
+
 .team-member:hover img {
   transform: scale(1.05);
 }
+
 .team-member-info {
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
   padding: 1.5rem;
-  background: linear-gradient(
-    to top,
-    rgba(0, 0, 0, 0.8) 0%,
-    rgba(0, 0, 0, 0) 100%
-  );
+  background: linear-gradient(to top,
+      rgba(0, 0, 0, 0.8) 0%,
+      rgba(0, 0, 0, 0) 100%);
   color: white;
   transition: all 0.3s ease;
 }
@@ -155,10 +171,12 @@ body {
   transform: translateY(20px);
   transition: all 0.3s ease;
 }
+
 .team-member:hover .social-links {
   opacity: 1;
   transform: translateY(0);
 }
+
 .social-link {
   width: 32px;
   height: 32px;
@@ -170,11 +188,63 @@ body {
   border-radius: 50%;
   transition: all 0.3s ease;
 }
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+/* HTML: <div class="loader"></div> */
+.loader {
+  width: 50px;
+  aspect-ratio: 1;
+  display: grid;
+}
+
+.loader::before,
+.loader::after {
+  content: "";
+  grid-area: 1/1;
+  --c: no-repeat radial-gradient(farthest-side, #f07e2c 92%, #0000);
+  background:
+    var(--c) 50% 0,
+    var(--c) 50% 100%,
+    var(--c) 100% 50%,
+    var(--c) 0 50%;
+  background-size: 12px 12px;
+  animation: l12 1s infinite;
+}
+
+.loader::before {
+  margin: 4px;
+  filter: hue-rotate(26deg);
+  background-size: 8px 8px;
+  animation-timing-function: linear
+}
+
+@keyframes l12 {
+  100% {
+    transform: rotate(.5turn)
+  }
+}
+
 @keyframes carAnimation {
   0% {
     right: 0;
     transform: translateX(100%);
   }
+
   100% {
     right: 100%;
   }

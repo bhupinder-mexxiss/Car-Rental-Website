@@ -1,22 +1,30 @@
 import { EmailOutlined, LockOutlined, VisibilityOffOutlined, VisibilityOutlined } from '@mui/icons-material';
 import { Field, Form, Formik } from 'formik';
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router'
+import { Link, useLocation, useNavigate } from 'react-router'
 import { toast } from 'sonner';
 import { loginSchema } from '../../Formik/Auth';
 import { useLoginMutation } from '../../redux/baseApi';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../../redux/Slices/AuthSlice';
 
 const Login = () => {
+    const location = useLocation();
+    const dispatch = useDispatch()
     const navigate = useNavigate()
     const [login] = useLoginMutation()
     const [showPassword, setShowPassword] = useState(false);
 
+    const from = location.state?.from || "/";
+    console.log("from:", from);
+
     const handleLogin = async (values: any) => {
-        await login(values).unwrap().then(() => {
+        await login(values).unwrap().then((res) => {
             toast.message("Login Successful", {
                 description: "Welcome back!"
             })
-            navigate('/')
+            dispatch(setUser(res.user))
+            navigate(from)
         }).catch((err) => {
             console.log(err);
             toast.error(err.data.message)

@@ -13,12 +13,12 @@ const carInfo = Yup.object({
     category: Yup.string().required("Category is required"),
 })
 const uploadImages = Yup.object({
-    images: Yup.array().min(1, "At least one image is required"),
+    images: Yup.array().min(5, "At least one image is required"),
     thumbnail: Yup.mixed().required("Thumbnail image is required"),
 })
 // Car Features
 const carFeatures = Yup.object({
-    features: Yup.array(),
+    features: Yup.array().min(5, "At least 5 features is required"),
     description: Yup.string().required("Description is required"),
 })
 // Location & Availability
@@ -65,11 +65,11 @@ export const carInitialValues = {
     brand: "",
     model: "",
     year: new Date().getFullYear(),
-    transmission: "Automatic",
-    fuelType: "Gasoline",
-    seats: 5,
-    doors: 4,
-    category: "Economy",
+    transmission: "",
+    fuelType: "",
+    seats: 0,
+    doors: 2,
+    category: "",
 
     // Images
     images: [],

@@ -2,6 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { FORGOT_PASSWORD, LOGIN, LOGOUT, OTP_VERIFY, REGISTER, RESET_PASSWORD } from './routes/routes';
 import { BaseQueryFn, FetchArgs, FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { BaseQueryApi } from '@reduxjs/toolkit/query/react';
+import { ApiResponse } from '../Types/ApiResponse';
 
 const baseQuery = fetchBaseQuery({
     baseUrl: import.meta.env.VITE_LIVE_API_URL,
@@ -25,11 +26,6 @@ const baseQueryWithAuth: BaseQueryFn<
 
         if (result.error && result.error.status === 401) {
             console.error("Token expired. Redirecting to login.");
-
-            if (window.location.pathname !== "/login") {
-                api.dispatch(baseApi.endpoints.logout.initiate(undefined));
-                window.location.href = '/login';
-            }
         }
 
         return result;
@@ -47,7 +43,6 @@ export const baseApi = createApi({
                 method: 'POST',
                 body: data
             }),
-            invalidatesTags: ["USER"]
         }),
         register: builder.mutation({
             query: (data) => ({
@@ -81,7 +76,7 @@ export const baseApi = createApi({
             query: () => ({
                 url: LOGOUT,
                 method: 'POST',
-            })
+            }),
         })
     })
 })

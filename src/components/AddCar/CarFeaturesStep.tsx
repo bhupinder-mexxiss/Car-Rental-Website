@@ -1,15 +1,15 @@
 import { useState } from "react";
 import { useFormikContext } from "formik";
-import { FormikInput } from "../../components/CommanFields/FormikInput";
-import { Label } from "../../components/ui/label";
-import { Checkbox } from "../../components/ui/checkbox";
-import { Input } from "../../components/ui/input";
-import { Button } from "../../components/ui/button";
+import { FormikInput } from "../../Components/CommanFields/FormikInput";
+import { Label } from "../../Components/ui/label";
+import { Checkbox } from "../../Components/ui/checkbox";
+import { Input } from "../../Components/ui/input";
+import { Button } from "../../Components/ui/button";
 import { commonFeatures } from "../../constants/car";
 import { Close } from "@mui/icons-material";
 
 const CarFeaturesStep = () => {
-  const { values, setFieldValue } = useFormikContext<any>();
+  const { values, setFieldValue, errors } = useFormikContext<any>();
   const [customFeature, setCustomFeature] = useState("");
 
   const handleFeatureToggle = (feature: string, checked: boolean) => {
@@ -57,6 +57,7 @@ const CarFeaturesStep = () => {
           {commonFeatures.map((feature) => (
             <div key={feature} className="flex items-center space-x-2">
               <Checkbox
+                name="features"
                 id={`feature-${feature}`}
                 checked={(values.features || []).includes(feature)}
                 onCheckedChange={(checked) => handleFeatureToggle(feature, checked === true)}
@@ -114,6 +115,7 @@ const CarFeaturesStep = () => {
           </div>
         </div>
       )}
+      {typeof errors.features === "string" && <p className="text-xs text-red-500">{errors.features}</p>}
 
       <div className="text-sm text-gray-500 mt-6">
         <p>* Highlighting the features of your car helps potential renters understand what they're getting and can increase the chances of your car being rented.</p>

@@ -1,4 +1,4 @@
-import { FormikInput } from "../../components/CommanFields/FormikInput";
+import { FormikInput } from "../../Components/CommanFields/FormikInput";
 
 const LocationAvailabilityStep = () => {
   return (

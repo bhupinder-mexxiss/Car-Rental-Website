@@ -1,7 +1,7 @@
 import { ArrowBackOutlined, CheckOutlined, LockOutlined, VisibilityOffOutlined, VisibilityOutlined } from '@mui/icons-material';
 import { Link, useSearchParams } from 'react-router'
 import { toast } from 'sonner';
-import { Button } from '../../components/ui/button';
+import { Button } from '../../Components/ui/button';
 import { useState } from 'react';
 import { useResetPaswordMutation } from '../../redux/baseApi';
 import { Field, Form, Formik } from 'formik';
