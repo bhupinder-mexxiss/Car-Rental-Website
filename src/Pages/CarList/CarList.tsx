@@ -1,12 +1,15 @@
+import { useLocation } from "react-router"
 import { Car10, Car12, Car5, Car6, Car7, Car8, Car9 } from "../../assets/images"
 import CarCard from "../../components/Card/CarCard"
 import Filters from "./Filters"
 
 const CarList = () => {
-
+    const location = useLocation()
     const cars = [
         Car5, Car6, Car7, Car8, Car9, Car10, Car12
     ]
+    console.log(location.pathname);
+    
     return (
         <div>
             <div className="container mx-auto">
@@ -30,7 +33,7 @@ const CarList = () => {
                                 <div>
                                     <div className="grid grid-cols-3 gap-5 mt-5">
                                         {cars.map((car, index) => (
-                                            <CarCard key={index} car={car} />
+                                            <CarCard key={index} car={car} forSale={location.pathname === "/buy-car" ? true : false} />
                                         ))}
                                     </div>
                                 </div>

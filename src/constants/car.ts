@@ -1,13 +1,28 @@
-export const addCarSteps = [
-    { id: 0, title: "Car Info" },
-    { id: 1, title: "Upload Images" },
-    { id: 2, title: "Car Features" },
-    { id: 3, title: "Location & Availability" },
-    { id: 4, title: "Pricing & Charges" },
-    { id: 5, title: "Owner Info" },
-    { id: 6, title: "Upload Documents" },
-    { id: 7, title: "Review & Submit" },
-];
+export type listingSteps = "carInfo"
+  | "uploadImages"
+  | "carFeatures"
+  | "locationAndAvailability"
+  | "pricingAndCharges"
+  | "ownerInfo"
+  | "documents"
+  | "reviewSubmit"
+
+export type listingStepInfo = {
+    title: string,
+    showFor: string[],
+    key: listingSteps,
+}
+
+export const addCarSteps: Record<listingSteps, listingStepInfo> = {
+    carInfo: {title: "Car Info", showFor: ["rent", "sell"], key: "carInfo"},
+    uploadImages: {title: "Upload Images", showFor: ["rent", "sell"], key: "uploadImages"},
+    carFeatures: {title: "Car Features", showFor: ["rent", "sell"], key: "carFeatures"},
+    locationAndAvailability: {title: "Location & Availability", showFor: ["rent"], key: "locationAndAvailability"},
+    pricingAndCharges: {title: "Pricing & Charges", showFor: ["rent", "sell"], key: "pricingAndCharges"},
+    ownerInfo: {title: "Owner Info", showFor: ["rent", "sell"], key: "ownerInfo"},
+    documents: {title: "Upload Documents", showFor: ["rent", "sell"], key: "documents"},
+    reviewSubmit: {title: "Review & Submit", showFor:["rent", "sell"], key: "reviewSubmit"}
+}
 
 export const categories = [
     'All',

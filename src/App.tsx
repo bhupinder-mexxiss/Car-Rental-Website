@@ -24,7 +24,11 @@ const App = () => {
           element: <Home />,
         },
         {
-          path: "/car-list",
+          path: "/rent-car",
+          element: <CarList />,
+        },
+        {
+          path: "/buy-car",
           element: <CarList />,
         },
         {
