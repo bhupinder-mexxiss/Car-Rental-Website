@@ -39,14 +39,15 @@ const baseQueryWithAuth: BaseQueryFn<
 export const baseApi = createApi({
     reducerPath: 'baseApi',
     baseQuery: baseQueryWithAuth,
-    tagTypes: ['Auth'],
+    tagTypes: ['Auth', 'USER'],
     endpoints: (builder) => ({
         login: builder.mutation({
             query: (data) => ({
                 url: LOGIN,
                 method: 'POST',
                 body: data
-            })
+            }),
+            invalidatesTags: ["USER"]
         }),
         register: builder.mutation({
             query: (data) => ({
@@ -76,10 +77,13 @@ export const baseApi = createApi({
                 body: data
             })
         }),
-        logout: builder.query({
-            query: () => LOGOUT
+        logout: builder.mutation({
+            query: () => ({
+                url: LOGOUT,
+                method: 'POST',
+            })
         })
     })
 })
 
-export const { useLoginMutation, useLogoutQuery, useRegisterMutation, useForgotPasswordMutation, useOtpVerifyMutation, useResetPaswordMutation } = baseApi;
+export const { useLoginMutation, useLogoutMutation, useRegisterMutation, useForgotPasswordMutation, useOtpVerifyMutation, useResetPaswordMutation } = baseApi;

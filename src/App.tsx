@@ -15,16 +15,20 @@ import { Toaster } from "sonner";
 import { useGetMeQuery } from "./redux/api/user";
 import { useEffect } from "react";
 import { setUser } from "./redux/Slices/AuthSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const App = () => {
-  const { data: user, isLoading, isSuccess } = useGetMeQuery({});
   const dispatch = useDispatch()
+  const { isAuthenticated } = useSelector((state: any) => state.auth);
+  const { data: user, isLoading, isSuccess } = useGetMeQuery({}, {
+    skip: !isAuthenticated, // ✅ Only call if authenticated
+  });
+
   useEffect(() => {
     if (!isLoading && isSuccess && user) {
       dispatch(setUser(user));
     }
-  }, [user, isLoading, isSuccess]);
+  }, [user, isLoading, isSuccess, dispatch]);
 
   const router = createBrowserRouter([
     {
@@ -36,7 +40,11 @@ const App = () => {
           element: <Home />,
         },
         {
-          path: "/car-list",
+          path: "/rent-car",
+          element: <CarList />,
+        },
+        {
+          path: "/buy-car",
           element: <CarList />,
         },
         {

@@ -2,11 +2,12 @@ import { KeyboardArrowDown } from '@mui/icons-material';
 import { Link, NavLink } from 'react-router'
 import { Logo } from '../../assets/images';
 import { useSelector } from 'react-redux';
+import { useLogoutMutation } from '../../redux/baseApi';
 
 const menuitems = [
     { url: "/", label: "Home" },
     {
-        url: "/car-list", label: "Cars", subMenu: [
+        url: "/rent-car", label: "Rent Cars", subMenu: [
             // { url: "/buy-car", label: "Buy car" },
             // { url: "/sell-car", label: "Sell car" },
             // { url: "/car-insurance", label: "Car insurance" },
@@ -15,13 +16,17 @@ const menuitems = [
             // { url: "/car-accessories", label: "Car accessories" },
         ]
     },
+    { url: "/buy-car", label: "Buy cars" },
     { url: "/add-car", label: "List your car" },
     { url: "/about-us", label: "About us" },
     { url: "/contact-us", label: "Contact us" },
 ]
 
 const Header = () => {
+    const [logout] = useLogoutMutation()
     const { isAuthenticated, user } = useSelector((state: any) => state.auth);
+    console.log(isAuthenticated);
+
     return (
         <div className='z-[999] sticky top-0 w-full bg-white/80 border-b border-[#12121226] backdrop-blur-xs shadow'>
             <div className="container">
@@ -31,9 +36,9 @@ const Header = () => {
                         {/* <span className='text-color1 text-xl font-semibold'>CarRide</span> */}
                     </div>
                     <div>
-                        <ul className="flex items-center justify-between gap-10" >
+                        <ul className="flex items-center justify-between gap-8" >
                             {menuitems.map((item, index) => (
-                                <li key={index} className='hover:text-primary text-lg group relative'>
+                                <li key={index} className='hover:text-primary text-[17px] group relative'>
                                     <NavLink to={item.url} className={({ isActive }) => `flex items-center gap-2 ${isActive ? "text-shadow-xl text-primary" : "text-color1"}`} >
                                         {item.label}
                                         {item.subMenu && item.subMenu.length > 0 &&
@@ -55,13 +60,17 @@ const Header = () => {
                             ))}
                         </ul>
                     </div>
-                    <div className='flex gap-2'>
-                        <Link to="/login" className='btn2'>Login</Link>
-                        <Link to="/register" className='btn1'>Register</Link>
-                    </div>
+                    {isAuthenticated ?
+                        <button onClick={async () => { await logout({}).unwrap() }} className='btn2'>Logout</button>
+                        :
+                        <div className='flex gap-2'>
+                            <Link to="/login" className='btn2'>Login</Link>
+                            <Link to="/register" className='btn1'>Register</Link>
+                        </div>
+                    }
                 </div>
             </div>
-        </div>
+        </div >
     )
 }
 

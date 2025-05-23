@@ -1,7 +1,11 @@
 
+import { useSearchParams } from "react-router";
 import { FormikInput } from "../../components/CommanFields/FormikInput";
 
 const PricingChargesStep = () => {
+  const [searchParams] = useSearchParams();
+  const type = searchParams.get("type");
+
   const priceUnitOptions = [
     { label: "Hour", value: "hour" },
     { label: "Day", value: "day" },
@@ -17,7 +21,7 @@ const PricingChargesStep = () => {
           <div className="space-y-2">
             <FormikInput
               name="price"
-              label="Rental Price"
+              label={type === "sell" ? "Price" : "Rental Price"}
               type="number"
               min="0"
               step="0.01"

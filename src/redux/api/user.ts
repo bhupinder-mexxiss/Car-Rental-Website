@@ -7,6 +7,7 @@ export const propertyApi = baseApi.injectEndpoints({
         getMe: builder.query({
             query: () => USER_GET,
             transformResponse: (response: ApiResponse) => response.data,
+            providesTags: ["USER"]
         }),
     }),
 });

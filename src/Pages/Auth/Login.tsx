@@ -15,7 +15,7 @@ const Login = () => {
         await login(values).unwrap().then(() => {
             toast.message("Login Successful", {
                 description: "Welcome back!"
-            });
+            })
             navigate('/')
         }).catch((err) => {
             console.log(err);
