@@ -95,7 +95,9 @@
 body {
   overflow-x: hidden;
 }
-
+.cardList div {
+  transition-duration: 0ms;
+}
 .clipPath {
   clip-path: polygon(76% 0, 100% 0, 100% 100%, 0% 100%);
 }

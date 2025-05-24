@@ -1,14 +1,14 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Edit, Eye, Trash2, MoreVertical } from "lucide-react";
+import { Link } from "react-router";
+import { Button } from "../../Components/ui/button";
+import ListingCard from "./ListingCard";
+import { FormatListBulletedOutlined, GridViewOutlined } from "@mui/icons-material";
+
+const tabs = ['all', 'active', 'inactive', 'draft']
 
 const MyListings = () => {
     const [activeTab, setActiveTab] = useState("all");
+    const [gridView, setGridView] = useState(false);
 
     // Mock data for listings
     const mockListings = [
@@ -51,91 +51,32 @@ const MyListings = () => {
             createdAt: "2024-01-10",
         },
     ];
-
-    const getFilteredListings = () => {
-        switch (activeTab) {
-            case "active":
-                return mockListings.filter(listing => listing.status === "active");
-            case "draft":
-                return mockListings.filter(listing => listing.status === "draft");
-            default:
-                return mockListings;
-        }
-    };
-
-    const ListingCard = ({ listing }) => (
-        <Card className="hover:shadow-lg transition-shadow">
-            <CardContent className="p-0">
-                <div className="flex">
-                    <div className="w-48 h-32 bg-gray-200 rounded-l-lg">
-                        <img
-                            src={listing.image}
-                            alt={listing.title}
-                            className="w-full h-full object-cover rounded-l-lg"
-                        />
-                    </div>
-                    <div className="flex-1 p-4">
-                        <div className="flex justify-between items-start mb-2">
-                            <div>
-                                <h3 className="text-lg font-semibold">{listing.title}</h3>
-                                <p className="text-sm text-gray-600">{listing.location}</p>
-                            </div>
-                            <div className="flex items-center space-x-2">
-                                <span className={`px-2 py-1 rounded-full text-xs font-medium ${listing.status === 'active'
-                                        ? 'bg-green-100 text-green-800'
-                                        : 'bg-yellow-100 text-yellow-800'
-                                    }`}>
-                                    {listing.status.charAt(0).toUpperCase() + listing.status.slice(1)}
-                                </span>
-                                <Button variant="ghost" size="icon" className="h-8 w-8">
-                                    <MoreVertical className="h-4 w-4" />
-                                </Button>
-                            </div>
-                        </div>
-
-                        <div className="flex justify-between items-center mb-3">
-                            <div className="text-lg font-bold text-blue-600">
-                                ${listing.price}
-                                {listing.type === "rent" && <span className="text-sm text-gray-500">/{listing.priceUnit}</span>}
-                            </div>
-                            <div className="text-sm text-gray-500">
-                                {listing.views} views • {listing.bookings} {listing.type === "rent" ? "bookings" : "inquiries"}
-                            </div>
-                        </div>
-
-                        <div className="flex space-x-2">
-                            <Button variant="outline" size="sm">
-                                <Eye className="h-4 w-4 mr-1" />
-                                View
-                            </Button>
-                            <Button variant="outline" size="sm">
-                                <Edit className="h-4 w-4 mr-1" />
-                                Edit
-                            </Button>
-                            <Button variant="outline" size="sm" className="text-red-600 hover:text-red-700">
-                                <Trash2 className="h-4 w-4 mr-1" />
-                                Delete
-                            </Button>
-                        </div>
-                    </div>
-                </div>
-            </CardContent>
-        </Card>
-    );
-
     return (
         <div className="flex flex-col min-h-screen">
-            <Navbar />
             <main className="flex-1 bg-gray-50">
                 <div className="container mx-auto py-8 px-4">
                     <div className="flex justify-between items-center mb-8">
                         <h1 className="text-3xl font-bold">My Listings</h1>
-                        <Link to="/add-car">
-                            <Button>Add New Listing</Button>
-                        </Link>
+                        <div className="flex items-center gap-2">
+                            <button onClick={() => setGridView(true)} className={`h-9 w-9 hover:bg-gray-200 hover:text-color2 rounded flex items-center justify-center cursor-pointer ${gridView && "bg-gray-200"}`}><GridViewOutlined className="!text-lg" /></button>
+                            <button onClick={() => setGridView(false)} className={`h-9 w-9 hover:bg-gray-200 hover:text-color2 rounded flex items-center justify-center cursor-pointer ${!gridView && "bg-gray-200"}`}><FormatListBulletedOutlined className="!text-lg" /></button>
+
+                            <Link to="/add-car">
+                                <Button className="btn3" >Add New Listing</Button>
+                            </Link>
+                        </div>
                     </div>
 
-                    <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+                    <ul className="grid grid-cols-4 items-center justify-between p-1.5 rounded bg-gray-200/80 w-full">
+                        {tabs.map((e) => (
+                            <li key={e} className={`font-medium text-center rounded-sm text-color2 px-3 py-1.5 text-sm capitalize ${activeTab === e && "shadow-sm bg-white"}`} onClick={() => setActiveTab(e)}>{e}</li>
+                        ))}
+                    </ul>
+                    <div className={`mt-6 grid gap-4 ${gridView ? "grid-cols-4" : "grid-cols-1"}`}>
+                        <ListingCard gridview={gridView} />
+                        {/* <ListingCard gridview={gridView} /> */}
+                    </div>
+                    {/* <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
                         <TabsList className="grid w-full grid-cols-3">
                             <TabsTrigger value="all">All ({mockListings.length})</TabsTrigger>
                             <TabsTrigger value="active">
@@ -202,10 +143,9 @@ const MyListings = () => {
                                 )}
                             </div>
                         </TabsContent>
-                    </Tabs>
+                    </Tabs> */}
                 </div>
             </main>
-            <Footer />
         </div>
     );
 };

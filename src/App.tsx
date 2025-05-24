@@ -7,7 +7,7 @@ import AboutUs from "./Pages/AboutUs/AboutUs";
 import CarList from "./Pages/CarList/CarList";
 import AddCar from "./Pages/AddCar/AddCar";
 import CarDetails from "./Pages/CarDetails/CarDetails";
-import MyListings from "./Pages/MyListings/MyListings.tsx";
+import MyListings from "./Pages/MyListings/MyListings";
 import Register from "./Pages/Auth/Register";
 import ForgotPassword from "./Pages/Auth/ForgotPassword";
 import ResetPassword from "./Pages/Auth/ResetPassword";
