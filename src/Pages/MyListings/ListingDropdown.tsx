@@ -10,7 +10,7 @@ import {
     DeleteOutlineRounded,
 } from '@mui/icons-material';
 
-export default function ListingDropdown({ onAction }: { onAction: (action: string, id: number) => void }) {
+export default function ListingDropdown({ onAction, status }: { onAction: (action: string, id: number) => void; status: string }) {
     const [open, setOpen] = useState(false);
     const dropdownRef = useRef<HTMLDivElement | null>(null);
 
@@ -41,13 +41,19 @@ export default function ListingDropdown({ onAction }: { onAction: (action: strin
             {open && (
                 <div className="absolute right-0 z-50 mt-2 w-48 rounded-md bg-white shadow-lg ring-1 ring-black/5">
                     <ul className="py-1 text-sm text-gray-700">
-                        <DropdownItem icon={<VisibilityOutlined className='!text-lg' />} label="View Listing" onClick={() => onAction('view', 1)} />
+                        {status != "draft" &&
+                            <DropdownItem icon={<VisibilityOutlined className='!text-lg' />} label="View Listing" onClick={() => onAction('view', 1)} />
+                        }
                         <DropdownItem icon={<EditOutlined className='!text-lg' />} label="Edit Listing" onClick={() => onAction('edit', 1)} />
-                        <DropdownItem icon={<ContentCopyOutlined className='!text-lg' />} label="Duplicate" onClick={() => onAction('duplicate', 1)} />
-                        <DropdownItem icon={<IosShareRounded className='!text-lg' />} label="Share" onClick={() => onAction('share', 1)} />
-                        <DropdownItem icon={<BarChartRounded className='!text-lg' />} label="View Analytics" onClick={() => onAction('analytics', 1)} />
-                        <div className="border-t my-1" />
-                        <DropdownItem icon={<Inventory2Outlined className='!text-lg' />} label="Archive" onClick={() => onAction('archive', 1)} />
+                        {status != "draft" &&
+                            <>
+                                <DropdownItem icon={<ContentCopyOutlined className='!text-lg' />} label="Duplicate" onClick={() => onAction('duplicate', 1)} />
+                                <DropdownItem icon={<IosShareRounded className='!text-lg' />} label="Share" onClick={() => onAction('share', 1)} />
+                                <DropdownItem icon={<BarChartRounded className='!text-lg' />} label="View Analytics" onClick={() => onAction('analytics', 1)} />
+                                <div className="border-t my-1" />
+                                <DropdownItem icon={<Inventory2Outlined className='!text-lg' />} label="Archive" onClick={() => onAction('archive', 1)} />
+                            </>
+                        }
                         <DropdownItem
                             icon={<DeleteOutlineRounded className='!text-lg' />}
                             label="Delete"

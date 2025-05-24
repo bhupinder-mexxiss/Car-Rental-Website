@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLogoutMutation } from '../../redux/baseApi';
 import { clearUser } from '../../redux/Slices/AuthSlice';
 import { useEffect, useState } from 'react';
+import UserDropdown from './UserDropdown';
 
 const menuitems = [
     { url: "/", label: "Home" },
@@ -23,7 +24,7 @@ const Header = () => {
     const dispatch = useDispatch();
     const location = useLocation();
     const [logout] = useLogoutMutation()
-    const { isAuthenticated } = useSelector((state: any) => state.auth);
+    const { isAuthenticated, user } = useSelector((state: any) => state.auth);
     const [showLoginPopup, setShowLoginPopup] = useState(false);
 
     const handleLogout = async () => {
@@ -80,7 +81,7 @@ const Header = () => {
                         </ul>
                     </div>
                     {isAuthenticated ?
-                        <button onClick={handleLogout} className='btn2'>Logout</button>
+                        <UserDropdown user={user} handleLogout={handleLogout} />
                         :
                         <div className='relative flex gap-2'>
                             <Link to="/login" className='btn2'>Login</Link>

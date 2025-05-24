@@ -60,7 +60,7 @@ export const carValidationSchemas: Record<listingSteps, any> = {
     reviewSubmit: Yup.object()
 }
 
-export const carInitialValues = {
+export const carInitialValues = (data) => ({
     // Car Info
     brand: "",
     model: "",
@@ -101,4 +101,4 @@ export const carInitialValues = {
     driverLicense: null,
     carRegistration: null,
     insuranceDocument: null,
-};
+});

@@ -14,18 +14,20 @@ import ReviewSubmitStep from "../../Components/AddCar/ReviewSubmitStep";
 import { carInitialValues, carValidationSchemas } from "../../Formik/Car";
 import { addCarSteps, listingStepInfo } from "../../constants/car";
 import ListType from "./ListType";
-import { useAddCarMutation } from "../../redux/api/car";
+import { useAddCarMutation, useGetCarDetailsQuery } from "../../redux/api/car";
 
 const AddCar = () => {
     const [searchParams] = useSearchParams()
-    const type = searchParams.get("type")
+    const id = searchParams.get("draft")
+    const { data } = useGetCarDetailsQuery({ id }, { skip: !id });
+    const type = data?.listingType || searchParams.get("type")
     const [addCar] = useAddCarMutation()
 
     const steps = Object.values(addCarSteps)
         .filter((step: listingStepInfo) => type !== null && step.showFor.includes(type))
         .map((step, index) => ({ ...step, id: index }));
 
-    const [currentStep, setCurrentStep] = useState(0);
+    const [currentStep, setCurrentStep] = useState(data?.currentStep - 1 || 0);
     const navigate = useNavigate();
 
     const nextStep = () => currentStep < steps.length - 1 && setCurrentStep(prev => prev + 1);
@@ -124,7 +126,7 @@ const AddCar = () => {
                                         <h2 className="text-2xl font-semibold">{steps[currentStep].title}</h2>
                                     </div>
                                     <Formik
-                                        initialValues={carInitialValues}
+                                        initialValues={carInitialValues(data)}
                                         validationSchema={carValidationSchemas[steps[currentStep].key as keyof typeof carValidationSchemas]}
                                         onSubmit={(values) => handleSubmit(values)}
                                         validateOnChange={false}

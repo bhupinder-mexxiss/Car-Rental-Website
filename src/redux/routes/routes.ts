@@ -11,3 +11,5 @@ export const USER_GET = "/user"
 
 // Car
 export const CAR_ADD = "/car/add"
+export const CAR_LIST = (status: string) => `/car/list?status=${status}`
+export const CAR_DETAILS = (id: string) => `/car/${id}`

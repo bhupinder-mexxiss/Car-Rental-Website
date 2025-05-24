@@ -3,8 +3,9 @@ import { useSearchParams } from 'react-router';
 
 const ListType = () => {
     const [searchParams, setSearchParams] = useSearchParams()
-    const [listingType, setListingType] = useState<string>(searchParams.get("type") || "");
-
+    const [listingType, setListingType] = useState<string>(searchParams.get("type") || "rent");
+    console.log(searchParams);
+    
     const handleChange = (value: string) => {
         setListingType(value);
     };
@@ -91,7 +92,11 @@ const ListType = () => {
                 {/* Debug or save button */}
                 <div className="mt-6">
                     <button
-                        onClick={() => setSearchParams({ type: listingType })}
+                        onClick={() => {
+                            const newParams = new URLSearchParams(searchParams);
+                            newParams.set('type', listingType);
+                            setSearchParams(newParams);
+                        }}
                         className="bg-primary hover:bg-primary-focus text-white py-2 px-4 rounded cursor-pointer"
                     >
                         Submit
