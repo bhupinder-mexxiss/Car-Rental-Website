@@ -1,12 +1,12 @@
-import Banner from "../components/Banner/Banner"
-import BrandsCate from "../components/Home/BrandsCate"
-import DiscoverExcellence from "../components/Home/DiscoverExcellence"
-import HowItsWork from "../components/Home/HowItsWork"
-import MostSearch from "../components/Home/MostSearch"
-import PersonalizedExperience from "../components/Home/PersonalizedExperience"
-import StayConnected from "../components/Home/StayConnected"
-import Testimonials from "../components/Home/Testimonials"
-import YourChoice from "../components/Home/YourChoice"
+import Banner from "../Components/Banner/Banner"
+import BrandsCate from "../Components/Home/BrandsCate"
+import DiscoverExcellence from "../Components/Home/DiscoverExcellence"
+import HowItsWork from "../Components/Home/HowItsWork"
+import MostSearch from "../Components/Home/MostSearch"
+import PersonalizedExperience from "../Components/Home/PersonalizedExperience"
+import StayConnected from "../Components/Home/StayConnected"
+import Testimonials from "../Components/Home/Testimonials"
+import YourChoice from "../Components/Home/YourChoice"
 
 
 const Home = () => {

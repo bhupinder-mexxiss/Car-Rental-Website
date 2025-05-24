@@ -7,6 +7,7 @@ import AboutUs from "./Pages/AboutUs/AboutUs";
 import CarList from "./Pages/CarList/CarList";
 import AddCar from "./Pages/AddCar/AddCar";
 import CarDetails from "./Pages/CarDetails/CarDetails";
+import MyListings from "./Pages/MyListings/MyListings";
 import Register from "./Pages/Auth/Register";
 import ForgotPassword from "./Pages/Auth/ForgotPassword";
 import VerifyOtp from "./Pages/Auth/verifyOtp";
@@ -46,6 +47,10 @@ const App = () => {
         {
           path: "/about-us",
           element: <AboutUs />,
+        },
+        {
+          path: "/my-listings",
+          element: <MyListings />,
         },
       ],
     },

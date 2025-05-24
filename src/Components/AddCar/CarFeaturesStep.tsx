@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { useFormikContext } from "formik";
-import { FormikInput } from "../../components/CommanFields/FormikInput";
-import { Label } from "../../components/ui/label";
-import { Checkbox } from "../../components/ui/checkbox";
-import { Input } from "../../components/ui/input";
-import { Button } from "../../components/ui/button";
+import { FormikInput } from "../../Components/CommanFields/FormikInput";
+import { Label } from "../../Components/ui/label";
+import { Checkbox } from "../../Components/ui/checkbox";
+import { Input } from "../../Components/ui/input";
+import { Button } from "../../Components/ui/button";
 import { commonFeatures } from "../../constants/car";
 import { Close } from "@mui/icons-material";
 

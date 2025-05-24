@@ -1,7 +1,7 @@
 import { CheckCircle, Facebook, Instagram, WhatsApp } from '@mui/icons-material'
 import { Car8 } from '../../assets/images'
 import { door, gear, pass } from '../../assets/Icons'
-import DateRangePicker from '../../components/DateRangePicker/DateRangePicker'
+import DateRangePicker from '../../Components/DateRangePicker/DateRangePicker'
 import { useEffect, useState } from 'react'
 // import { useNavigate } from 'react-router'
 import { ReactPhotoSphereViewer } from 'react-photo-sphere-viewer';
