@@ -1,4 +1,4 @@
-import { FormikInput } from "../../components/CommanFields/FormikInput";
+import { FormikInput } from "../CommanFields/FormikInput";
 
 const OwnerInfoStep = () => {
   return (

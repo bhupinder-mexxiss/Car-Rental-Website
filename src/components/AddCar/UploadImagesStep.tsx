@@ -1,6 +1,6 @@
 import { useRef } from "react";
-import { Button } from "../../Components/ui/button";
-import { AspectRatio } from "../../Components/ui/aspect-ratio.tsx";
+import { Button } from "../ui/button.tsx";
+import { AspectRatio } from "../ui/aspect-ratio.tsx";
 import { toast } from 'sonner';
 
 interface UploadImagesStepProps {

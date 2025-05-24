@@ -7,12 +7,13 @@ import AboutUs from "./Pages/AboutUs/AboutUs";
 import CarList from "./Pages/CarList/CarList";
 import AddCar from "./Pages/AddCar/AddCar";
 import CarDetails from "./Pages/CarDetails/CarDetails";
+import MyListings from "./Pages/MyListings/MyListings.tsx";
 import Register from "./Pages/Auth/Register";
 import ForgotPassword from "./Pages/Auth/ForgotPassword";
 import ResetPassword from "./Pages/Auth/ResetPassword";
 import { Toaster } from "sonner";
-import { ProtectedRoute, PublicRoute } from "./Components/Routes/Route";
-import Loader from "./Components/Loader/Loader";
+import { ProtectedRoute, PublicRoute } from "./Components/Routes/Route.tsx";
+import Loader from "./Components/Loader/Loader.tsx";
 import { useAuthReady } from "./hooks/useAuth";
 
 const App = () => {
@@ -36,6 +37,7 @@ const App = () => {
           element: <ProtectedRoute />,
           children: [
             { path: "/add-car", element: <AddCar /> },
+            { path: "/my-listings", element: <MyListings /> },
           ],
         },
       ],

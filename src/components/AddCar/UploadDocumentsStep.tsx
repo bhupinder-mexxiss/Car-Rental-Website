@@ -1,5 +1,5 @@
-import { Label } from "../../Components/ui/label";
-import { Button } from "../../Components/ui/button";
+import { Label } from "../ui/label";
+import { Button } from "../ui/button";
 import { toast } from 'sonner';
 
 interface UploadDocumentsStepProps {

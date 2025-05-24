@@ -6,7 +6,7 @@ import "slick-carousel/slick/slick-theme.css";
 import 'aos/dist/aos.css';
 import 'animate.css'
 import App from './App'
-import GoToTop from './components/GoToTop/GoToTop.tsx';
+import GoToTop from './Components/GoToTop/GoToTop.tsx';
 import { Provider } from 'react-redux';
 import { store } from './redux/store/store.ts';
 

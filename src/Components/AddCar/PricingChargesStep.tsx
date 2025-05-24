@@ -1,6 +1,6 @@
 
 import { useSearchParams } from "react-router";
-import { FormikInput } from "../../components/CommanFields/FormikInput";
+import { FormikInput } from "../CommanFields/FormikInput";
 
 const PricingChargesStep = () => {
   const [searchParams] = useSearchParams();
