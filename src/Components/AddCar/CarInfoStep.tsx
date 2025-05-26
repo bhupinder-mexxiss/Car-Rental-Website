@@ -28,6 +28,11 @@ const CarInfoStep = () => {
         <div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <FormikInput
+                    name="title"
+                    label="Title"
+                    placeholder="List Title"
+                />
+                <FormikInput
                     name="brand"
                     label="Brand"
                     type="select"

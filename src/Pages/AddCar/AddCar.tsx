@@ -16,10 +16,8 @@ import { addCarSteps, listingStepInfo } from "../../constants/car";
 import ListType from "./ListType";
 import { useAddCarMutation, useGetCarDetailsQuery } from "../../redux/api/car";
 import Loader from "../../Components/Loader/Loader";
-import { useUploadMultiMutation } from "../../redux/api/common";
 
 const AddCar = () => {
-    const [uploadMulti, { isLoading: UploadLoading }] = useUploadMultiMutation();
     const [addCar] = useAddCarMutation()
     const [searchParams] = useSearchParams()
     const id = searchParams.get("draft")
@@ -44,7 +42,7 @@ const AddCar = () => {
 
     const handleSubmit = async (values: any) => {
         console.log(values);
-        
+
 
         await addCar({ ...values, listingId: id, listingType: type, step: currentStep + 1 }).unwrap().then(() => {
             toast("Car Added Successfully", {
