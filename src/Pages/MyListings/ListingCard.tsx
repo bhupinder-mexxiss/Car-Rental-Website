@@ -1,4 +1,4 @@
-import { DeleteOutlineRounded, EditOutlined } from "@mui/icons-material";
+import { DeleteOutlineRounded, EditOutlined, LocalGasStationOutlined, PersonOutlined, SpeedOutlined } from "@mui/icons-material";
 import ListingDropdown from "./ListingDropdown";
 import { Link } from "react-router";
 
@@ -10,22 +10,34 @@ const ListingCard = ({ gridview = true, car }) => {
     return (
         <>
             {gridview ?
-                <div className="cardList rounded flex flex-col border border-border bg-white hover:shadow-md">
+                <div className="cardList rounded flex flex-col border border-border relative">
+                    <div className="absolute top-2 right-2 flex gap-2">
+                        <span className={`px-3 py-1.5 rounded-full text-xs font-medium ${'rent' === 'rent'
+                            ? 'bg-blue-200 text-blue-800'
+                            : 'bg-purple-200 text-purple-800'
+                            }`}>
+                            {"For Rent"}
+                        </span>
+                        <span className={`px-3 py-1.5 rounded-full text-xs font-medium ${'active' === 'active'
+                            ? 'bg-green-100 text-green-800'
+                            : 'bg-yellow-100 text-yellow-800'
+                            }`}>
+                            {"Active"}
+                        </span>
+                    </div>
                     <div className="w-full min-w-full min-h-[200px] bg-gray-200 rounded rounded-b-none">
                     </div>
                     <div className="flex-1 p-3">
                         <div className="flex justify-between items-start mb-2">
                             <div>
-                                <h4 className="text-lg font-semibold">{car.title}</h4>
-                                <p className="text-sm text-gray-600">New York, NY</p>
+                                <h4 className="text-lg font-semibold">Honda Civic 2020</h4>
+                                <div className="flex items-center gap-2 mt-1">
+                                    <span className="flex items-center gap-1 text-xs bg-gray-200 text-gray-600 px-2 py-1 rounded-full"><LocalGasStationOutlined className="!text-sm" /> Petrol</span>
+                                    <span className="flex items-center gap-1 text-xs bg-gray-200 text-gray-600 px-2 py-1 rounded-full"><PersonOutlined className="!text-sm" /> 5 Seats</span>
+                                    <span className="flex items-center gap-1 text-xs bg-gray-200 text-gray-600 px-2 py-1 rounded-full"><SpeedOutlined className="!text-sm" /> Auto</span>
+                                </div>
                             </div>
                             <div className="flex items-center gap-1">
-                                <span className={`px-4 py-1.5 rounded-full text-xs font-medium capitalize ${car.status === 'active'
-                                    ? 'bg-green-100 text-green-800'
-                                    : 'bg-yellow-100 text-yellow-800'
-                                    }`}>
-                                    {car.status}
-                                </span>
                                 <ListingDropdown onAction={handleAction} status={car.status} />
                             </div>
                         </div>
@@ -50,11 +62,21 @@ const ListingCard = ({ gridview = true, car }) => {
                     <div className="flex-1 py-2 px-4">
                         <div className="flex justify-between items-start mb-2">
                             <div>
-                                <h4 className="text-lg font-semibold">{car.title}</h4>
-                                <p className="text-sm text-gray-600">New York, NY</p>
+                                <h4 className="text-lg font-semibold">Honda Civic 2020</h4>
+                                <div className="flex items-center gap-2 mt-1">
+                                    <span className="flex items-center gap-1 text-xs bg-gray-200 text-gray-600 px-2 py-1 rounded-full"><LocalGasStationOutlined className="!text-sm" /> Petrol</span>
+                                    <span className="flex items-center gap-1 text-xs bg-gray-200 text-gray-600 px-2 py-1 rounded-full"><PersonOutlined className="!text-sm" /> 5 Seats</span>
+                                    <span className="flex items-center gap-1 text-xs bg-gray-200 text-gray-600 px-2 py-1 rounded-full"><SpeedOutlined className="!text-sm" /> Auto</span>
+                                </div>
                             </div>
                             <div className="flex items-center space-x-2">
-                                <span className={`px-4 py-1.5 rounded-full text-xs font-medium capitalize ${car.status === 'active'
+                                <span className={`px-3 py-1.5 rounded-full text-xs font-medium ${'rent' === 'rent'
+                                    ? 'bg-blue-100 text-blue-800'
+                                    : 'bg-purple-100 text-purple-800'
+                                    }`}>
+                                    {"For Rent"}
+                                </span>
+                                <span className={`px-3 py-1.5 rounded-full text-xs font-medium ${'active' === 'active'
                                     ? 'bg-green-100 text-green-800'
                                     : 'bg-yellow-100 text-yellow-800'
                                     }`}>
