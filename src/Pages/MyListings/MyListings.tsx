@@ -72,7 +72,7 @@ const MyListings = () => {
                             <li key={e} className={`font-medium text-center rounded-sm text-color2 px-3 py-1.5 text-sm capitalize ${activeTab === e && "shadow-sm bg-white"}`} onClick={() => setActiveTab(e)}>{e}</li>
                         ))}
                     </ul>
-                    <div className={`mt-6 grid gap-4 ${gridView ? "grid-cols-4" : "grid-cols-1"}`}>
+                    <div className={`mt-6 grid gap-4 ${gridView ? "grid-cols-3" : "grid-cols-1"}`}>
                         <ListingCard gridview={gridView} />
                         {/* <ListingCard gridview={gridView} /> */}
                     </div>
