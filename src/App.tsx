@@ -11,6 +11,7 @@ import MyListings from "./Pages/MyListings/MyListings";
 import Account from "./Pages/Account/Account";
 import Profile from "./Pages/Profile/Profile";
 import MyBookings from "./Pages/MyBookings/MyBookings";
+import Favorities from "./Pages/Favorities/Favorities";
 import Register from "./Pages/Auth/Register";
 import ForgotPassword from "./Pages/Auth/ForgotPassword";
 import VerifyOtp from "./Pages/Auth/verifyOtp";
@@ -66,6 +67,10 @@ const App = () => {
             {
               path: "my-bookings",
               element: <MyBookings />,
+            },
+            {
+              path: "favorites",
+              element: <Favorities />,
             },
           ]
         },

@@ -1,9 +1,10 @@
 import { LocalGasStationOutlined, StarRounded } from '@mui/icons-material';
 import { door, gear, pass } from '../../assets/Icons'
 import { Link } from 'react-router'
+import { Car12 } from '../../assets/images';
 
 interface CarCardProps {
-    car: any;
+    car?: any;
     forSale?: boolean;
 }
 const CarCard = ({ car, forSale = true }: CarCardProps) => {
@@ -11,7 +12,7 @@ const CarCard = ({ car, forSale = true }: CarCardProps) => {
         <div className='bg-[#fefefe] shadow-xs hover:shadow-[0px_0px_15px_-10px_rgba(66,68,90,1)] duration-300 border border-black/5 rounded-2xl p-3 relative'>
             <Link to="/car/1" className='absolute top-0 left-0 w-full h-full' ></Link>
             <div className='h-[200px]'>
-                <img src={car} alt="" className='w-full h-full object-cover rounded-2xl' />
+                <img src={car || Car12} alt="" className='w-full h-full object-cover rounded-2xl' />
             </div>
             <div className='mt-3'>
                 <div className='flex items-center justify-between'>

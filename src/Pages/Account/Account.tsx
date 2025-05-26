@@ -19,7 +19,7 @@ const Account = () => {
                             <ul className="flex flex-col gap-2">
                                 <li><NavLink to="/account/profile" className={({ isActive }) => `flex items-center gap-2 py-2 px-2 rounded-md hover:bg-primary/10 hover:text-primary ${isActive ? "bg-primary/10 text-primary" : ""}`}><PersonRounded className="!text-xl" /> My Profile</NavLink></li>
                                 <li><NavLink to="/account/my-bookings" className={({ isActive }) => `flex items-center gap-2 py-2 px-2 rounded-md hover:bg-primary/10 hover:text-primary ${isActive ? "bg-primary/10 text-primary" : ""}`}><DirectionsCarRounded className="!text-xl" /> My Bookings</NavLink></li>
-                                <li><NavLink to="/" className={({ isActive }) => `flex items-center gap-2 py-2 px-2 rounded-md hover:bg-primary/10 hover:text-primary ${isActive ? "bg-primary/10 text-primary" : ""}`}><FavoriteRounded className="!text-xl" /> Favorites</NavLink></li>
+                                <li><NavLink to="/account/favorites" className={({ isActive }) => `flex items-center gap-2 py-2 px-2 rounded-md hover:bg-primary/10 hover:text-primary ${isActive ? "bg-primary/10 text-primary" : ""}`}><FavoriteRounded className="!text-xl" /> Favorites</NavLink></li>
                             </ul>
                             <hr className="border-border my-4" />
                             <h6 className="text-color2">Dealer Options</h6>
