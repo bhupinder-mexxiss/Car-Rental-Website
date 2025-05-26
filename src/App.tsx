@@ -8,6 +8,10 @@ import CarList from "./Pages/CarList/CarList";
 import AddCar from "./Pages/AddCar/AddCar";
 import CarDetails from "./Pages/CarDetails/CarDetails";
 import MyListings from "./Pages/MyListings/MyListings";
+import Account from "./Pages/Account/Account";
+import Profile from "./Pages/Profile/Profile";
+import MyBookings from "./Pages/MyBookings/MyBookings";
+import Favorities from "./Pages/Favorities/Favorities";
 import Register from "./Pages/Auth/Register";
 import ForgotPassword from "./Pages/Auth/ForgotPassword";
 import ResetPassword from "./Pages/Auth/ResetPassword";
@@ -39,6 +43,24 @@ const App = () => {
             { path: "/add-car", element: <AddCar /> },
             { path: "/my-listings", element: <MyListings /> },
           ],
+        },
+        {
+          path: "/account",
+          element: <Account />,
+          children: [
+            {
+              path: "profile",
+              element: <Profile />,
+            },
+            {
+              path: "my-bookings",
+              element: <MyBookings />,
+            },
+            {
+              path: "favorites",
+              element: <Favorities />,
+            },
+          ]
         },
       ],
     },

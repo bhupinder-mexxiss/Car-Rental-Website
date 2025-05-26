@@ -74,7 +74,7 @@
   }
 
   .btn3 {
-    @apply border border-primary bg-primary text-white py-2.5 px-6 font-medium rounded-full cursor-pointer flex items-center justify-center;
+    @apply border border-primary bg-primary text-white py-2 px-6 font-medium rounded-full cursor-pointer flex items-center justify-center;
     @apply hover:border-primary-focus hover:bg-primary-focus;
     @apply disabled:cursor-not-allowed disabled:hover:bg-primary disabled:hover:border-primary disabled:opacity-40;
   }

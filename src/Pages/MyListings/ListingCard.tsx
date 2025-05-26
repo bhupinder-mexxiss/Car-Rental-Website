@@ -12,7 +12,6 @@ const ListingCard = ({ gridview = true, car }) => {
             {gridview ?
                 <div className="cardList rounded flex flex-col border border-border bg-white hover:shadow-md">
                     <div className="w-full min-w-full min-h-[200px] bg-gray-200 rounded rounded-b-none">
-
                     </div>
                     <div className="flex-1 p-3">
                         <div className="flex justify-between items-start mb-2">
