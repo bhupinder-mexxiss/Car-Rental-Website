@@ -74,7 +74,7 @@ const ListingCard = ({ gridview = true, car }) => {
                             </div>
                             {car.status === "draft" ?
                                 <div className="flex gap-2">
-                                    <Link to={`/add-car?draft=${car._id}`}>
+                                    <Link to={`/add-car?type=${car.listingType}&draft=${car._id}`}>
                                         <button className="text-sm border border-border rounded flex items-center gap-2 px-3 py-1.5 cursor-pointer hover:bg-gray-200/60"><EditOutlined className='!text-lg' /> Edit</button>
                                     </Link>
                                     <button className="text-sm border border-border rounded flex items-center gap-2 px-3 py-1.5 cursor-pointer hover:bg-gray-200/60 text-red-600"><DeleteOutlineRounded className='!text-lg' /> Delete</button>

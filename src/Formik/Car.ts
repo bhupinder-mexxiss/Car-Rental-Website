@@ -3,6 +3,7 @@ import * as Yup from "yup";
 import { listingSteps } from "../constants/car";
 
 const carInfo = Yup.object({
+    title: Yup.string().required("Title is required"),
     brand: Yup.string().required("Brand is required"),
     model: Yup.string().required("Model is required"),
     year: Yup.number().required("Year is required").min(1990, "Year must be 1990 or later").max(new Date().getFullYear() + 1, `Year must be ${new Date().getFullYear() + 1} or earlier`),
@@ -13,12 +14,12 @@ const carInfo = Yup.object({
     category: Yup.string().required("Category is required"),
 })
 const uploadImages = Yup.object({
-    images: Yup.array().min(5, "At least one image is required"),
+    images: Yup.array().min(1, "At least 5 images are required").required("At least 5 images are required"),
     thumbnail: Yup.mixed().required("Thumbnail image is required"),
 })
 // Car Features
 const carFeatures = Yup.object({
-    features: Yup.array().min(5, "At least 5 features is required"),
+    features: Yup.array().min(1, "At least 5 features is required"),
     description: Yup.string().required("Description is required"),
 })
 // Location & Availability
@@ -62,43 +63,44 @@ export const carValidationSchemas: Record<listingSteps, any> = {
 
 export const carInitialValues = (data) => ({
     // Car Info
-    brand: "",
-    model: "",
-    year: new Date().getFullYear(),
-    transmission: "",
-    fuelType: "",
-    seats: 0,
-    doors: 2,
-    category: "",
+    title: data.title || "",
+    brand: data.brand || "",
+    model: data.model || "",
+    year: data.year || new Date().getFullYear(),
+    transmission: data.transmission || "",
+    fuelType: data.fuelType || "",
+    seats: data.seats || 0,
+    doors: data.doors || 2,
+    category: data.category || "",
 
     // Images
-    images: [],
-    thumbnail: null,
+    images: data.images || [],
+    thumbnail: data.thumbnail || "",
 
     // Features
     features: [],
-    description: "",
+    description: data.description || "",
 
     // Location & Availability
-    location: "",
-    address: "",
-    city: "",
-    availableFrom: "",
-    availableTo: "",
+    location: data.location || "",
+    address: data.address || "",
+    city: data.city || "",
+    availableFrom: data.availableFrom || "",
+    availableTo: data.availableTo || "",
 
     // Pricing
-    price: 0,
-    priceUnit: "day",
-    deposit: 0,
-    lateFee: 0,
+    price: data.price || 0,
+    priceUnit: data.priceUnit || "day",
+    deposit: data.deposit || 0,
+    lateFee: data.lateFee || 0,
 
     // Owner info
-    ownerName: "",
-    ownerEmail: "",
-    ownerPhone: "",
+    ownerName: data.ownerName || "",
+    ownerEmail: data.ownerEmail || "",
+    ownerPhone: data.ownerPhone || "",
 
     // Documents
-    driverLicense: null,
-    carRegistration: null,
-    insuranceDocument: null,
+    driverLicense: data.driverLicense || null,
+    carRegistration: data.carRegistration || null,
+    insuranceDocument: data.insuranceDocument || null,
 });

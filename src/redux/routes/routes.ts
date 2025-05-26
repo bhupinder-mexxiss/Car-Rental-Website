@@ -13,3 +13,7 @@ export const USER_GET = "/user"
 export const CAR_ADD = "/car/add"
 export const CAR_LIST = (status: string) => `/car/list?status=${status}`
 export const CAR_DETAILS = (id: string) => `/car/${id}`
+
+// Upload
+export const UPLOAD_SINGLE = "/upload-single"
+export const UPLOAD_MULTI = "/upload-multiple"

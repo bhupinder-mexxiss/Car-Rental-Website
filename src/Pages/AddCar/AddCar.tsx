@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Formik, Form } from "formik";
 import { Button } from "../../Components/ui/button";
 import { toast } from 'sonner';
@@ -15,28 +15,38 @@ import { carInitialValues, carValidationSchemas } from "../../Formik/Car";
 import { addCarSteps, listingStepInfo } from "../../constants/car";
 import ListType from "./ListType";
 import { useAddCarMutation, useGetCarDetailsQuery } from "../../redux/api/car";
+import Loader from "../../Components/Loader/Loader";
+import { useUploadMultiMutation } from "../../redux/api/common";
 
 const AddCar = () => {
+    const [uploadMulti, { isLoading: UploadLoading }] = useUploadMultiMutation();
+    const [addCar] = useAddCarMutation()
     const [searchParams] = useSearchParams()
     const id = searchParams.get("draft")
-    const { data } = useGetCarDetailsQuery({ id }, { skip: !id });
-    const type = data?.listingType || searchParams.get("type")
-    const [addCar] = useAddCarMutation()
+    const { data, isLoading } = useGetCarDetailsQuery({ id }, { skip: !id });
+
+    const type = searchParams.get("type") || data?.listingType;
 
     const steps = Object.values(addCarSteps)
         .filter((step: listingStepInfo) => type !== null && step.showFor.includes(type))
         .map((step, index) => ({ ...step, id: index }));
 
-    const [currentStep, setCurrentStep] = useState(data?.currentStep - 1 || 0);
+    const [currentStep, setCurrentStep] = useState(0);
+    useEffect(() => {
+        if (data?.currentStep) {
+            setCurrentStep(data.currentStep - 1);
+        }
+    }, [data]);
     const navigate = useNavigate();
 
     const nextStep = () => currentStep < steps.length - 1 && setCurrentStep(prev => prev + 1);
     const prevStep = () => currentStep > 0 && setCurrentStep(prev => prev - 1);
 
-    const handleSubmit = async (values) => {
-        console.log("Submitting car data:", { ...values, listingType: type, step: currentStep + 1 });
+    const handleSubmit = async (values: any) => {
+        console.log(values);
+        
 
-        await addCar({ ...values, listingType: type, step: currentStep + 1 }).unwrap().then(() => {
+        await addCar({ ...values, listingId: id, listingType: type, step: currentStep + 1 }).unwrap().then(() => {
             toast("Car Added Successfully", {
                 description: "Your car has been added to the listing."
             });
@@ -61,6 +71,7 @@ const AddCar = () => {
             default: return null;
         }
     };
+    if (isLoading) return <Loader />;
 
     return (
         <>
@@ -165,8 +176,8 @@ const AddCar = () => {
                             </div>
                         }
                     </div>
-                </main>
-            </div>
+                </main >
+            </div >
         </>
     );
 };
