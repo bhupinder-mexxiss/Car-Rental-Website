@@ -16,6 +16,7 @@ interface FormikInputProps {
   min?: number | string;
   max?: number | string;
   step?: string;
+  required?: boolean
 }
 
 export const FormikInput: React.FC<FormikInputProps> = ({
@@ -29,6 +30,7 @@ export const FormikInput: React.FC<FormikInputProps> = ({
   min,
   max,
   step,
+  required,
   ...props
 }) => {
   const [field, meta, helpers] = useField(name);
@@ -44,6 +46,7 @@ export const FormikInput: React.FC<FormikInputProps> = ({
             className={`${hasError ? "border-red-500" : ""} !focus-visible:ring-0 !ring-0 !focus:border-primary focus-visible:border-primary ${className}`}
             {...field}
             {...props}
+            required
           />
         );
 
@@ -55,7 +58,9 @@ export const FormikInput: React.FC<FormikInputProps> = ({
               } !focus-visible:ring-0 !ring-0 !focus:border-primary focus-visible:border-primary h-10 ${className}`}
             {...field}
             {...props}
+            required
           >
+            <option value="" hidden>Select {placeholder || label}</option>
             {options?.map((option) => (
               <option key={option.value} value={option.value} >
                 {option.label}
@@ -74,6 +79,7 @@ export const FormikInput: React.FC<FormikInputProps> = ({
                 helpers.setValue(checked);
               }}
               {...props}
+              required
             />
             {
               label && (
@@ -96,6 +102,7 @@ export const FormikInput: React.FC<FormikInputProps> = ({
             min={min}
             max={max}
             step={step}
+            required
             placeholder={placeholder}
             className={`${hasError ? "border-red-500" : ""} !focus-visible:ring-0 !ring-0 !focus:border-primary focus-visible:border-primary h-10 ${className}`}
             {...field}
@@ -109,6 +116,7 @@ export const FormikInput: React.FC<FormikInputProps> = ({
             id={name}
             type={type}
             placeholder={placeholder}
+            required
             className={`${hasError ? "border-red-500" : ""} !focus-visible:ring-0 !ring-0 !focus:border-primary focus-visible:border-primary h-10 ${className}`}
             {...field}
             {...props}
@@ -119,7 +127,7 @@ export const FormikInput: React.FC<FormikInputProps> = ({
 
   return (
     <div className="space-y-2" >
-      {label && type !== "checkbox" && <Label className="text-color2 mb-1" htmlFor={name}> {label} </Label>}
+      {label && type !== "checkbox" && <Label className="text-color2 !mb-1.5 inline-block" htmlFor={name}> {label} {required && "*"} </Label>}
       {renderInput()}
       {description && <p className="text-xs text-gray-500" > {description} </p>}
       {hasError && <p className="text-xs text-red-500" > {meta.error} </p>}
