@@ -63,44 +63,44 @@ export const carValidationSchemas: Record<listingSteps, any> = {
 
 export const carInitialValues = (data) => ({
     // Car Info
-    title: data.title || "",
-    brand: data.brand || "",
-    model: data.model || "",
-    year: data.year || new Date().getFullYear(),
-    transmission: data.transmission || "",
-    fuelType: data.fuelType || "",
-    seats: data.seats || 0,
-    doors: data.doors || 2,
-    category: data.category || "",
+    title: data?.title || "",
+    brand: data?.brand || "",
+    model: data?.model || "",
+    year: data?.year || new Date().getFullYear(),
+    transmission: data?.transmission || "",
+    fuelType: data?.fuelType || "",
+    seats: data?.seats || 0,
+    doors: data?.doors || 2,
+    category: data?.category || "",
 
     // Images
-    images: data.images || [],
-    thumbnail: data.thumbnail || "",
+    images: data?.images || [],
+    thumbnail: data?.thumbnail || "",
 
     // Features
     features: [],
-    description: data.description || "",
+    description: data?.description || "",
 
     // Location & Availability
-    location: data.location || "",
-    address: data.address || "",
-    city: data.city || "",
-    availableFrom: data.availableFrom || "",
-    availableTo: data.availableTo || "",
+    location: data?.location || "",
+    address: data?.address || "",
+    city: data?.city || "",
+    availableFrom: data?.availableFrom || "",
+    availableTo: data?.availableTo || "",
 
     // Pricing
-    price: data.price || 0,
-    priceUnit: data.priceUnit || "day",
-    deposit: data.deposit || 0,
-    lateFee: data.lateFee || 0,
+    price: data?.price || 0,
+    priceUnit: data?.priceUnit || "day",
+    deposit: data?.deposit || 0,
+    lateFee: data?.lateFee || 0,
 
     // Owner info
-    ownerName: data.ownerName || "",
-    ownerEmail: data.ownerEmail || "",
-    ownerPhone: data.ownerPhone || "",
+    ownerName: data?.ownerName || "",
+    ownerEmail: data?.ownerEmail || "",
+    ownerPhone: data?.ownerPhone || "",
 
     // Documents
-    driverLicense: data.driverLicense || null,
-    carRegistration: data.carRegistration || null,
-    insuranceDocument: data.insuranceDocument || null,
+    driverLicense: data?.driverLicense || null,
+    carRegistration: data?.carRegistration || null,
+    insuranceDocument: data?.insuranceDocument || null,
 });

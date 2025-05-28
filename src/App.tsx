@@ -45,7 +45,7 @@ const App = () => {
           ],
         },
         {
-          path: "/account",
+          path: "/",
           element: <Account />,
           children: [
             {
