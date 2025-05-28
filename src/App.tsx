@@ -12,6 +12,7 @@ import Account from "./Pages/Account/Account";
 import Profile from "./Pages/Profile/Profile";
 import MyBookings from "./Pages/MyBookings/MyBookings";
 import Favorities from "./Pages/Favorities/Favorities";
+import Partner from "./Pages/Partner/Partner";
 import Register from "./Pages/Auth/Register";
 import ForgotPassword from "./Pages/Auth/ForgotPassword";
 import ResetPassword from "./Pages/Auth/ResetPassword";
@@ -42,6 +43,7 @@ const App = () => {
           children: [
             { path: "/add-car", element: <AddCar /> },
             { path: "/my-listings", element: <MyListings /> },
+            { path: "/partner", element: <Partner /> },
           ],
         },
         {
