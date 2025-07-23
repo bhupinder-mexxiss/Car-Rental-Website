@@ -29,8 +29,8 @@ const DateRangePicker = ({ startDate, endDate, setStartDate, setEndDate }: DateR
     };
 
     return (
-        <div className="flex flex-col md:flex-row md:items-center gap-4">
-            <div className="flex-1">
+        <div className="flex flex-col  md:items-center gap-4">
+            <div className="w-full">
                 <label htmlFor="start-date" className="form-label">
                     Pick-up Date
                 </label>
@@ -43,7 +43,7 @@ const DateRangePicker = ({ startDate, endDate, setStartDate, setEndDate }: DateR
                     min={formatDate(new Date())}
                 />
             </div>
-            <div className="flex-1">
+            <div className="w-full">
                 <label htmlFor="end-date" className="form-label">
                     Drop-off Date
                 </label>

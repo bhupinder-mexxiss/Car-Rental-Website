@@ -5,12 +5,17 @@ import { Label } from "../ui/label";
 import { Checkbox } from "../ui/checkbox";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { commonFeatures } from "../../constants/car";
+import { groupedCommonFeatures } from "../../constants/car";
 import { Close } from "@mui/icons-material";
+import { useGetCategoriesQuery } from "../../redux/api/common";
+import { IFeatureGroup } from "../../Types/Common";
 
-const CarFeaturesStep = () => {
+const CarFeaturesStep = ({ type }: { type: string }) => {
+  const { data: Features } = useGetCategoriesQuery({})
+
   const { values, setFieldValue, errors } = useFormikContext<any>();
   const [customFeature, setCustomFeature] = useState("");
+  console.log(errors, values);
 
   const handleFeatureToggle = (feature: string, checked: boolean) => {
     const currentFeatures = values.features || [];
@@ -19,7 +24,7 @@ const CarFeaturesStep = () => {
     if (checked) {
       updatedFeatures = [...currentFeatures, feature];
     } else {
-      updatedFeatures = currentFeatures.filter(item => item !== feature);
+      updatedFeatures = currentFeatures.filter((item: string) => item !== feature);
     }
 
     setFieldValue("features", updatedFeatures);
@@ -37,6 +42,29 @@ const CarFeaturesStep = () => {
   return (
     <div>
       {/* <h2 className="text-xl font-semibold mb-6">Car Features</h2> */}
+      {type === "sell" &&
+        <>
+          <div className="mb-6">
+            <FormikInput
+              name="price"
+              label="Car Price"
+              type="number"
+            />
+          </div>
+          <div className="mb-6">
+            <p className="text-color2 !mb-1.5 inline-block text-sm font-medium" >Price Negotiable</p>
+            <FormikInput
+              name="isNegotiable"
+              label="Price Negotiable"
+              type="radio"
+              options={[
+                { label: "Yes", value: true },
+                { label: "No", value: false },
+              ]}
+            />
+          </div>
+        </>
+      }
 
       <div className="mb-6">
         <FormikInput
@@ -50,28 +78,41 @@ const CarFeaturesStep = () => {
       </div>
 
       <div className="mb-6">
-        <Label className="mb-2 block">Features</Label>
+        <Label className="mb-1 block text-lg">Features</Label>
         <p className="text-sm text-gray-500 mb-4">Select all features that your car has:</p>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-          {commonFeatures.map((feature) => (
-            <div key={feature} className="flex items-center space-x-2">
-              <Checkbox
-                name="features"
-                id={`feature-${feature}`}
-                checked={(values.features || []).includes(feature)}
-                onCheckedChange={(checked) => handleFeatureToggle(feature, checked === true)}
-              />
-              <Label
-                htmlFor={`feature-${feature}`}
-                className="text-sm font-normal cursor-pointer"
-              >
-                {feature}
-              </Label>
+        {Features?.map((group: IFeatureGroup) => (
+          <div key={Features.category} className="mb-6">
+            <h4 className="font-medium text-gray-800 text-sm mb-3">{group.category}</h4>
+
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+              {group?.features.map((feature) => {
+                console.log(feature);
+
+                return (
+                  <div key={feature} className="flex items-center space-x-2">
+                    <Checkbox
+                      name="features"
+                      id={`feature-${feature}`}
+                      checked={(values?.features || []).includes(feature)}
+                      onCheckedChange={(checked) =>
+                        handleFeatureToggle(feature, checked === true)
+                      }
+                    />
+                    <Label
+                      htmlFor={`feature-${feature}`}
+                      className="text-sm font-normal cursor-pointer capitalize"
+                    >
+                      {feature}
+                    </Label>
+                  </div>
+                )
+              })}
             </div>
-          ))}
-        </div>
+          </div>
+        ))}
       </div>
+
 
       <div className="mb-6">
         <Label className="mb-2 block">Add Custom Feature</Label>
@@ -93,25 +134,32 @@ const CarFeaturesStep = () => {
         </div>
       </div>
 
-      {(values.features || []).length > 0 && (
+      {(values?.features || []).length > 0 && (
         <div className="mb-6">
           <Label className="mb-2 block">Selected Features</Label>
           <div className="flex flex-wrap gap-2">
-            {(values.features || []).map((feature: string, index: number) => (
-              <div
-                key={index}
-                className="bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1 rounded-full flex items-center"
-              >
-                {feature}
-                <button
-                  type="button"
-                  className="ml-2 focus:outline-none cursor-pointer"
-                  onClick={() => handleFeatureToggle(feature, false)}
+            {(values?.features || []).map((featureValue: string, index: number) => {
+              // Find the label from groupedCommonFeatures
+              const matchedFeature = groupedCommonFeatures
+                .flatMap((group) => group.features)
+                .find((f) => f.value === featureValue);
+
+              return (
+                <div
+                  key={index}
+                  className="bg-blue-100 text-blue-800 text-xs font-medium px-3 py-1 rounded-full flex items-center"
                 >
-                  <Close className="!text-lg" />
-                </button>
-              </div>
-            ))}
+                  {matchedFeature?.label || featureValue}
+                  <button
+                    type="button"
+                    className="ml-2 focus:outline-none cursor-pointer"
+                    onClick={() => handleFeatureToggle(featureValue, false)}
+                  >
+                    <Close className="!text-base" />
+                  </button>
+                </div>
+              );
+            })}
           </div>
         </div>
       )}

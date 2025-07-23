@@ -1,6 +1,5 @@
 @import "tailwindcss";
 @import "flowbite/src/themes/default";
-@import "tw-animate-css";
 
 @plugin "flowbite/plugin";
 @plugin "flowbite-react/plugin/tailwindcss";
@@ -58,6 +57,13 @@
   .container {
     @apply max-w-[1400px] mx-auto px-4 md:px-6;
   }
+  .bg-gray-900-50 {
+    background-color: rgba(17, 24, 39, 0.5) !important; /* static fallback */
+  }
+
+  .bg-white {
+    background-color: var(--color-white) !important;
+  }
 }
 
 @layer components {
@@ -70,13 +76,19 @@
   }
 
   .btn2 {
-    @apply border border-color1 text-color1 py-2.5 px-6 font-medium rounded-full hover:border-primary hover:text-primary cursor-pointer flex items-center justify-center;
+    @apply border border-color1 text-color1 py-2 px-6 font-medium rounded-full cursor-pointer flex items-center justify-center;
+    @apply hover:border-primary hover:text-primary;
+    @apply disabled:cursor-not-allowed disabled:hover:text-color1 disabled:hover:border-color1 disabled:opacity-60;
+  }
+  .cancel {
+    @apply hover:text-red-600 hover:border-red-600;
+    @apply disabled:cursor-not-allowed disabled:hover:text-color1 disabled:hover:border-color1 disabled:opacity-60;
   }
 
   .btn3 {
     @apply border border-primary bg-primary text-white py-2 px-6 font-medium rounded-full cursor-pointer flex items-center justify-center;
     @apply hover:border-primary-focus hover:bg-primary-focus;
-    @apply disabled:cursor-not-allowed disabled:hover:bg-primary disabled:hover:border-primary disabled:opacity-40;
+    @apply disabled:cursor-not-allowed disabled:hover:bg-primary disabled:hover:border-primary disabled:opacity-60;
   }
 
   .card1 {
@@ -158,9 +170,11 @@ body {
   left: 0;
   right: 0;
   padding: 1.5rem;
-  background: linear-gradient(to top,
-      rgba(0, 0, 0, 0.8) 0%,
-      rgba(0, 0, 0, 0) 100%);
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.8) 0%,
+    rgba(0, 0, 0, 0) 100%
+  );
   color: white;
   transition: all 0.3s ease;
 }
@@ -191,6 +205,16 @@ body {
   transition: all 0.3s ease;
 }
 
+.react-tel-input .flag-dropdown,
+.react-tel-input .selected-flag:hover,
+.react-tel-input .selected-flag:focus {
+  background-color: transparent !important;
+}
+
+div[data-testid="modal-overlay"] {
+  background: #00000054;
+  z-index: 9999;
+}
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -219,10 +243,7 @@ body {
   content: "";
   grid-area: 1/1;
   --c: no-repeat radial-gradient(farthest-side, #f07e2c 92%, #0000);
-  background:
-    var(--c) 50% 0,
-    var(--c) 50% 100%,
-    var(--c) 100% 50%,
+  background: var(--c) 50% 0, var(--c) 50% 100%, var(--c) 100% 50%,
     var(--c) 0 50%;
   background-size: 12px 12px;
   animation: l12 1s infinite;
@@ -232,12 +253,12 @@ body {
   margin: 4px;
   filter: hue-rotate(26deg);
   background-size: 8px 8px;
-  animation-timing-function: linear
+  animation-timing-function: linear;
 }
 
 @keyframes l12 {
   100% {
-    transform: rotate(.5turn)
+    transform: rotate(0.5turn);
   }
 }
 

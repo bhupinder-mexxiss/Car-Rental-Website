@@ -35,7 +35,7 @@ const baseQueryWithAuth: BaseQueryFn<
 export const baseApi = createApi({
     reducerPath: 'baseApi',
     baseQuery: baseQueryWithAuth,
-    tagTypes: ['Auth', 'USER'],
+    tagTypes: ['Auth', 'USER', "CAR", "MYCARS", "WISHLIST"],
     endpoints: (builder) => ({
         login: builder.mutation({
             query: (data) => ({

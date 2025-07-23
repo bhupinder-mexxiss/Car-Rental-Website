@@ -2,7 +2,7 @@ import Slider from "react-slick"
 import ProductCard from "../Card/ProductCard"
 import { useRef } from "react";
 import { ArrowBack, ArrowForward } from "@mui/icons-material";
-import { Car5, Car6, Car7 } from "../../assets/images";
+import { Car11, Car5, Car6, Car7 } from "../../assets/images";
 import { Link } from "react-router";
 
 const data = [
@@ -58,7 +58,10 @@ const MostSearch = () => {
         slidesToScroll: 1,
     };
     return (
-        <div className="bg-color1 py-20">
+        <div className="bg-color1 py-20 relative">
+            <div>
+                <img src={Car11} className="absolute top-[-27px] right-10 w-20 carAnimation" />
+            </div>
             <div className="container mx-auto">
                 <div className="max-w-[560px] mx-auto text-white">
                     <h2 data-aos="fade-up" className="text-5xl font-semibold text-center">Most Searched Vehicles</h2>
@@ -85,7 +88,7 @@ const MostSearch = () => {
                         </div>
                     </div>
                     <div className="mt-10">
-                    <Link to="/car-list" className="btn2 border-primary text-primary hover:bg-primary hover:text-white mx-auto w-fit">View All Cars</Link>
+                        <Link to="/car-list" className="btn2 border-primary text-primary hover:bg-primary hover:text-white mx-auto w-fit">View All Cars</Link>
                     </div>
                 </div>
             </div>

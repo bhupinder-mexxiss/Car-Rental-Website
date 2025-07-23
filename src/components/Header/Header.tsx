@@ -6,6 +6,7 @@ import { useLogoutMutation } from '../../redux/baseApi';
 import { clearUser } from '../../redux/Slices/AuthSlice';
 import { useEffect, useState } from 'react';
 import UserDropdown from './UserDropdown';
+import LocationSelector from '../LocationSelector/LocationSelector';
 
 const menuitems = [
     { url: "/", label: "Home" },
@@ -50,7 +51,7 @@ const Header = () => {
     return (
         <div className='z-[999] sticky top-0 w-full bg-white/80 border-b border-[#12121226] backdrop-blur-xs shadow'>
             <div className="container">
-                <div className='flex items-center justify-between px-3 py-3 '>
+                <div className='flex items-center justify-between py-3 '>
                     <div>
                         <img src={Logo} alt="" className='h-14' />
                         {/* <span className='text-color1 text-xl font-semibold'>CarRide</span> */}
@@ -80,19 +81,23 @@ const Header = () => {
                             ))}
                         </ul>
                     </div>
-                    {isAuthenticated ?
-                        <UserDropdown user={user} handleLogout={handleLogout} />
-                        :
-                        <div className='relative flex gap-2'>
-                            <Link to="/login" className='btn2'>Login</Link>
-                            <Link to="/register" className='btn1'>Register</Link>
-                            {showLoginPopup && (
-                                <div className="absolute left-1/2 -translate-x-1/2 top-full mt-1 w-max bg-white text-sm text-gray-700 px-4 py-2 rounded shadow transition-all duration-300 animate-fadeIn border border-border">
-                                    Please log in to continue
-                                </div>
-                            )}
-                        </div>
-                    }
+                    <div className='flex items-center gap-3'>
+                        {/* area/city slect dropdown: seacrh area,city,emirate location for only uae use google api for locations */}
+                        <LocationSelector/>
+                        {isAuthenticated ?
+                            <UserDropdown user={user} handleLogout={handleLogout} />
+                            :
+                            <div className='relative flex gap-2'>
+                                <Link to="/login" className='btn2'>Login</Link>
+                                <Link to="/register" className='btn1'>Register</Link>
+                                {showLoginPopup && (
+                                    <div className="absolute left-1/2 -translate-x-1/2 top-full mt-1 w-max bg-white text-sm text-gray-700 px-4 py-2 rounded shadow transition-all duration-300 animate-fadeIn border border-border">
+                                        Please log in to continue
+                                    </div>
+                                )}
+                            </div>
+                        }
+                    </div>
                 </div>
             </div>
         </div >

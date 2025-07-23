@@ -8,6 +8,8 @@ import CarList from "./Pages/CarList/CarList";
 import AddCar from "./Pages/AddCar/AddCar";
 import CarDetails from "./Pages/CarDetails/CarDetails";
 import MyListings from "./Pages/MyListings/MyListings";
+import BuyEnquiries from "./Pages/BuyEnquiries/BuyEnquiries";
+import BookingRequests from "./Pages/BookingRequests/BookingRequests";
 import Account from "./Pages/Account/Account";
 import Profile from "./Pages/Profile/Profile";
 import MyBookings from "./Pages/MyBookings/MyBookings";
@@ -17,9 +19,10 @@ import Register from "./Pages/Auth/Register";
 import ForgotPassword from "./Pages/Auth/ForgotPassword";
 import ResetPassword from "./Pages/Auth/ResetPassword";
 import { Toaster } from "sonner";
-import { ProtectedRoute, PublicRoute } from "./Components/Routes/Route.tsx";
+import { PartnerRoutes, PublicRoute, UserRoute } from "./Components/Routes/Route.tsx";
 import Loader from "./Components/Loader/Loader.tsx";
 import { useAuthReady } from "./hooks/useAuth";
+import { FilterProvider } from "./Context/FilterContext.tsx";
 
 const App = () => {
   const { isLoading } = useAuthReady();
@@ -29,7 +32,7 @@ const App = () => {
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <Layout />,
+      element: <FilterProvider><Layout /></FilterProvider>,
       children: [
         { path: "/", element: <Home /> },
         { path: "/rent-car", element: <CarList /> },
@@ -39,34 +42,41 @@ const App = () => {
         { path: "/about-us", element: <AboutUs /> },
 
         {
-          element: <ProtectedRoute />,
+          element: <UserRoute />,
           children: [
-            { path: "/add-car", element: <AddCar /> },
-            { path: "/my-listings", element: <MyListings /> },
             { path: "/partner", element: <Partner /> },
+            { path: "/add-car", element: <AddCar /> },
           ],
         },
         {
-          path: "/",
-          element: <Account />,
+          element: <UserRoute />,
           children: [
             {
-              path: "profile",
-              element: <Profile />,
+              path: "/",
+              element: <Account />,
+              children: [
+                { path: "profile", element: <Profile /> },
+                { path: "my-bookings", element: <MyBookings /> },
+                { path: "favorites", element: <Favorities /> },
+                {
+                  element: <PartnerRoutes />,
+                  children: [
+                    { path: "my-listings", element: <MyListings /> },
+                  ]
+                }
+              ],
             },
             {
-              path: "my-bookings",
-              element: <MyBookings />,
-            },
-            {
-              path: "favorites",
-              element: <Favorities />,
-            },
+              element: <PartnerRoutes />,
+              children: [
+                { path: "buy-enquiries", element: <BuyEnquiries /> },
+                { path: "booking-requests", element: <BookingRequests /> },
+              ]
+            }
           ]
-        },
+        }
       ],
     },
-
     {
       element: <PublicRoute />,
       children: [

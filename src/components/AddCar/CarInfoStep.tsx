@@ -1,32 +1,23 @@
 import { FormikInput } from "../CommanFields/FormikInput";
-import { filterOptions, categories } from "../../constants/car";
+import { carOptions } from "../../constants/car";
+import { useGetBrandsQuery } from "../../redux/api/common";
+import { IBrand } from "../../Types/Common";
 
-const CarInfoStep = () => {
-    const brandOptions = filterOptions.brands.map(brand => ({
-        label: brand,
-        value: brand,
-    }));
-
-    const transmissionOptions = filterOptions.transmission.map(option => ({
-        label: option,
-        value: option,
-    }));
-
-    const fuelTypeOptions = filterOptions.fuelType.map(option => ({
-        label: option,
-        value: option,
-    }));
-
-    const categoryOptions = categories
-        .filter(cat => cat !== 'All')
-        .map(category => ({
-            label: category,
-            value: category,
-        }));
+const CarInfoStep = ({ type }: { type: string }) => {
+    const { data: Brands } = useGetBrandsQuery({})
+    const allBrands = Brands?.map((brand: IBrand) => ({
+        label: brand.name,
+        value: brand._id
+    }))
 
     return (
         <div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <FormikInput
+                    name="carNo"
+                    label="Car Number"
+                    className="uppercase"
+                />
                 <FormikInput
                     name="title"
                     label="Title"
@@ -36,7 +27,7 @@ const CarInfoStep = () => {
                     name="brand"
                     label="Brand"
                     type="select"
-                    options={[{ label: "Select Brand", value: "" }, ...brandOptions]}
+                    options={allBrands}
                 />
 
                 <FormikInput
@@ -57,38 +48,68 @@ const CarInfoStep = () => {
                     name="transmission"
                     label="Transmission"
                     type="select"
-                    options={transmissionOptions}
+                    options={carOptions.transmission}
                 />
 
                 <FormikInput
                     name="fuelType"
                     label="Fuel Type"
                     type="select"
-                    options={fuelTypeOptions}
+                    options={carOptions.fuelType}
                 />
 
                 <FormikInput
                     name="seats"
                     label="Number of Seats"
                     type="number"
-                    min={1}
-                    max={10}
                 />
 
                 <FormikInput
                     name="doors"
                     label="Number of Doors"
                     type="number"
-                    min={2}
-                    max={5}
                 />
 
                 <FormikInput
                     name="category"
                     label="Category"
                     type="select"
-                    options={categoryOptions}
+                    options={carOptions.categories}
                 />
+                <FormikInput
+                    name="carType"
+                    label="Car Type"
+                    type="select"
+                    options={carOptions.carType}
+                />
+
+                <FormikInput
+                    name="color"
+                    label="Color"
+                />
+                {type === "sell" &&
+                    <>
+                        <FormikInput
+                            name="condition"
+                            label="Condition"
+                            type="select"
+                            options={[
+                                { label: "New", value: "new" },
+                                { label: "Used", value: "used" }
+                            ]}
+                        />
+                        <FormikInput
+                            name="kmDriven"
+                            label="KM Driven"
+                            type="number"
+                        />
+                        <FormikInput
+                            name="ownership"
+                            label="Ownership"
+                            type="number"
+                        />
+                    </>
+                }
             </div>
 
             <div className="text-sm text-gray-500 mt-6">

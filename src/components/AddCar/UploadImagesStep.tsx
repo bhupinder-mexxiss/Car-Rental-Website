@@ -3,16 +3,13 @@ import { Button } from "../ui/button.tsx";
 import { AspectRatio } from "../ui/aspect-ratio.tsx";
 import { toast } from 'sonner';
 import { useUploadMultiMutation } from "../../redux/api/common.ts";
+import { useFormikContext } from "formik";
 
-interface UploadImagesStepProps {
-    values: any;
-    setFieldValue: (field: string, value: any) => void;
-}
-
-const UploadImagesStep = ({ values, setFieldValue }: UploadImagesStepProps) => {
+const UploadImagesStep = () => {
+    const { values, setFieldValue, errors } = useFormikContext()
     const fileInputRef = useRef<HTMLInputElement>(null);
     const [selectedFiles, setSelectedFiles] = useState<File[]>(values.selectedFiles || []);
-    const [uploadMulti, { isLoading }] = useUploadMultiMutation();
+    const [uploadMulti, { isLoading }] = useUploadMultiMutation()
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const files = e.target.files;
@@ -42,8 +39,12 @@ const UploadImagesStep = ({ values, setFieldValue }: UploadImagesStepProps) => {
     const uploadSelected = async () => {
         if (selectedFiles.length === 0) return;
         const formData = new FormData();
-        selectedFiles.forEach((file) => formData.append("images", file));
+        selectedFiles.forEach((file) => {
+            formData.append("images", file); console.log(file);
+        });
         formData.append("folder", "car-rental");
+        console.log(formData);
+
 
         try {
             const result = await uploadMulti(formData).unwrap();
@@ -68,8 +69,8 @@ const UploadImagesStep = ({ values, setFieldValue }: UploadImagesStepProps) => {
         const currentImages = [...(values.images || [])];
         const removedImage = currentImages.splice(index, 1)[0];
         setFieldValue("images", currentImages);
-        if (values.thumbnail == removedImage.url) {
-            const newThumb = currentImages.length > 0 ? currentImages[0].url : null;
+        if (values.thumbnail === removedImage) {
+            const newThumb = currentImages.length > 0 ? currentImages[0] : null;
             setFieldValue("thumbnail", newThumb);
         }
     };
@@ -152,7 +153,7 @@ const UploadImagesStep = ({ values, setFieldValue }: UploadImagesStepProps) => {
                                 </AspectRatio>
                                 <div className="absolute inset-0 bg-black/35 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
                                     <div className="flex gap-2">
-                                        {values.thumbnail !== image.url && (
+                                        {values.thumbnail !== image && (
                                             <Button onClick={() => setAsThumbnail(index)} size="sm" type="button" className="bg-white hover:bg-white/80">
                                                 Set as Main
                                             </Button>
@@ -172,8 +173,11 @@ const UploadImagesStep = ({ values, setFieldValue }: UploadImagesStepProps) => {
                     </div>
                 </div>
             )}
+            {errors.images && (
+                <p className="text-xs text-red-500 mt-3">{errors.images}</p>
+            )}
 
-            <div className="text-sm text-gray-500 mt-6">
+            <div className="text-sm text-gray-500 mt-4">
                 <p>* Please upload clear, high-quality images of your car from different angles.</p>
             </div>
         </div>

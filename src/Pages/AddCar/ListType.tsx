@@ -5,7 +5,7 @@ const ListType = () => {
     const [searchParams, setSearchParams] = useSearchParams()
     const [listingType, setListingType] = useState<string>(searchParams.get("type") || "rent");
     console.log(searchParams);
-    
+
     const handleChange = (value: string) => {
         setListingType(value);
     };
@@ -99,7 +99,7 @@ const ListType = () => {
                         }}
                         className="bg-primary hover:bg-primary-focus text-white py-2 px-4 rounded cursor-pointer"
                     >
-                        Submit
+                        Continue
                     </button>
                 </div>
             </div>

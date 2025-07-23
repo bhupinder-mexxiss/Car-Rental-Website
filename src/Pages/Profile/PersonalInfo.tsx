@@ -1,89 +1,107 @@
-import { Formik } from "formik"
+import { Form, Formik } from "formik"
 import { FormikInput } from "../../Components/CommanFields/FormikInput"
+import { initialValues, validationSchema } from "../../Formik/Profile"
+import { User } from "../../Types/Common"
+import { useUpdateProfileMutation } from "../../redux/api/user"
 
-const PersonalInfo = () => {
+const PersonalInfo = ({ user }: { user: User }) => {
+    const [updateProfile] = useUpdateProfileMutation()
+
+    const handelSubmit = async (values: User): Promise<void> => {
+        await updateProfile(values).unwrap();
+    };
+
     return (
         <div>
             <Formik
-                initialValues={{}}
-                validationSchema={null}
-                onSubmit={() => { }}
-                validateOnChange={false}
-                validateOnBlur={true}
+                initialValues={initialValues(user)}
+                validationSchema={validationSchema}
+                enableReinitialize={true}
+                onSubmit={(values) => handelSubmit(values)}
             >
-                {() => (
-                    <div className="grid grid-cols-2 gap-4">
-                        <div>
-                            <FormikInput
-                                name="name"
-                                label="Name"
-                            />
+                {({ dirty, resetForm }) => (
+                    <Form>
+                        <div className="grid grid-cols-2 gap-4">
+                            <div>
+                                <FormikInput
+                                    name="name"
+                                    label="Name"
+                                    required
+                                />
+                            </div>
+                            <div>
+                                <FormikInput
+                                    name="email"
+                                    label="Email"
+                                    type="email"
+                                    required
+                                    disabled
+                                />
+                            </div>
+                            <div>
+                                <FormikInput
+                                    name="number"
+                                    label="Phone Number"
+                                />
+                            </div>
+                            <div>
+                                <FormikInput
+                                    name="dob"
+                                    label="Date of Birth"
+                                    type="date"
+                                    className="!w-full"
+                                />
+                            </div>
+                            <div>
+                                <FormikInput
+                                    name="address.address1"
+                                    label="Address Line 1"
+                                    required
+                                />
+                            </div>
+                            <div>
+                                <FormikInput
+                                    name="address.address2"
+                                    label="Address Line 2 (Optional)"
+                                />
+                            </div>
+                            <div>
+                                <FormikInput
+                                    name="address.city"
+                                    label="City"
+                                    required
+                                />
+                            </div>
+                            <div>
+                                <FormikInput
+                                    name="address.state"
+                                    label="State"
+                                    required
+                                />
+                            </div>
+                            <div>
+                                <FormikInput
+                                    name="address.postalCode"
+                                    label="Postal Code"
+                                    required
+                                />
+                            </div>
+                            <div>
+                                <FormikInput
+                                    name="address.country"
+                                    label="Country"
+                                    required
+                                />
+                            </div>
+                            <div className="col-span-2 flex items-center justify-end gap-2 my-2">
+                                <button className="btn2 cancel" type="button" onClick={() => resetForm()} disabled={!dirty}>Discard </button>
+                                <button className="btn3" type="submit" disabled={!dirty}>Save Changes</button>
+                            </div>
                         </div>
-                        <div>
-                            <FormikInput
-                                name="email"
-                                label="Email"
-                                type="email"
-                            />
-                        </div>
-                        <div>
-                            <FormikInput
-                                name="number"
-                                label="Phone Number"
-                            />
-                        </div>
-                        <div>
-                            <FormikInput
-                                name="dob"
-                                label="Date of Birth"
-                                type="date"
-                                className="!w-full"
-                            />
-                        </div>
-                        <div>
-                            <FormikInput
-                                name="address1"
-                                label="Address Line 1"
-                            />
-                        </div>
-                        <div>
-                            <FormikInput
-                                name="address2"
-                                label="Address Line 2 (Optional)"
-                            />
-                        </div>
-                        <div>
-                            <FormikInput
-                                name="city"
-                                label="City"
-                            />
-                        </div>
-                        <div>
-                            <FormikInput
-                                name="stateProvince"
-                                label="State/Province"
-                            />
-                        </div>
-                        <div>
-                            <FormikInput
-                                name="postalCode"
-                                label="Postal Code"
-                            />
-                        </div>
-                        <div>
-                            <FormikInput
-                                name="country"
-                                label="Country"
-                            />
-                        </div>
-                        <div className="col-span-2 flex items-center justify-end gap-2 my-2">
-                            <button className="btn2 hover:text-red-600 hover:border-red-600">Cancel</button>
-                            <button className="btn3">Save Changes</button>
-                        </div>
-                    </div>
+                    </Form>
                 )}
             </Formik>
-        </div>
+        </div >
     )
 }
 

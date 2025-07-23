@@ -21,9 +21,9 @@ const PartnershipType = () => {
             icon: <Person className="text-primary" />,
             description: "Perfect for individuals with one or more vehicles looking to generate extra income when their cars aren't in use.",
             features: [
-                "List up to 5 personal vehicles for sale only",
-                // "Basic analytics and booking management",
-                // "5% commission on rental bookings",
+                "List up to 5 personal vehicles for sale and rent",
+                "Basic analytics and booking management",
+                "5% commission on rental bookings",
                 "$100 per successful vehicle sale"
             ],
             requirements: [

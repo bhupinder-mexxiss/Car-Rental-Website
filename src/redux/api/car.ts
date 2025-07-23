@@ -1,6 +1,7 @@
 import { ApiResponse } from "../../Types/ApiResponse";
+import { ICar } from "../../Types/car";
 import { baseApi } from "../baseApi";
-import { CAR_ADD, CAR_DETAILS, CAR_LIST } from "../routes/routes";
+import { CAR_ADD, CAR_DETAILS, CAR_LIST, CAR_MY_LIST } from "../routes/routes";
 
 export const carApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
@@ -10,17 +11,23 @@ export const carApi = baseApi.injectEndpoints({
                 method: 'POST',
                 body: data
             }),
-            transformResponse: (response: ApiResponse) => response.data
+            transformResponse: (response: ApiResponse) => response.data,
+            invalidatesTags: ["MYCARS"]
         }),
-        getCarList: builder.query({
-            query: ({ status }) => CAR_LIST(status),
+        getMyCarList: builder.query({
+            query: ({ status }) => CAR_MY_LIST(status),
+            transformResponse: (response: ApiResponse) => response.data,
+            providesTags: ["MYCARS"]
+        }),
+        getCarDetails: builder.query<ICar, string>({
+            query: (id) => CAR_DETAILS(id),
             transformResponse: (response: ApiResponse) => response.data,
         }),
-        getCarDetails: builder.query({
-            query: ({ id }) => CAR_DETAILS(id),
+        getCars: builder.query({
+            query: (queries: string) => CAR_LIST(queries),
             transformResponse: (response: ApiResponse) => response.data,
         }),
     }),
 });
 
-export const { useAddCarMutation, useGetCarListQuery, useGetCarDetailsQuery } = carApi;
+export const { useAddCarMutation, useGetMyCarListQuery, useGetCarDetailsQuery, useGetCarsQuery } = carApi;

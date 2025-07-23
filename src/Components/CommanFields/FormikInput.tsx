@@ -4,6 +4,8 @@ import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
 import { Label } from "../ui/label";
 import { Checkbox } from "../ui/checkbox";
+import { RadioGroup, RadioGroupItem } from "../ui/radio";
+import PhoneFormikInput from "./PhoneFormikInput";
 
 interface FormikInputProps {
   name: string;
@@ -12,13 +14,13 @@ interface FormikInputProps {
   type?: string;
   className?: string;
   description?: string;
-  options?: { label: string; value: string }[];
-  min?: number | string;
-  max?: number | string;
-  step?: string;
-  required?: boolean
+  options?: { label: string; value: string | boolean }[];
+  step?: number;
+  required?: boolean;
+  disabled?: boolean;
+  min?: number;
+  rows?: number;
 }
-
 export const FormikInput: React.FC<FormikInputProps> = ({
   name,
   label,
@@ -27,14 +29,19 @@ export const FormikInput: React.FC<FormikInputProps> = ({
   className,
   description,
   options,
-  min,
-  max,
   step,
   required,
+  min,
+  disabled,
+  rows,
   ...props
 }) => {
   const [field, meta, helpers] = useField(name);
   const hasError = meta.touched && meta.error;
+
+  // console.log(field.name, field.value);
+  // console.log(field.name, meta.error);
+
 
   const renderInput = () => {
     switch (type) {
@@ -44,9 +51,10 @@ export const FormikInput: React.FC<FormikInputProps> = ({
             id={name}
             placeholder={placeholder}
             className={`${hasError ? "border-red-500" : ""} !focus-visible:ring-0 !ring-0 !focus:border-primary focus-visible:border-primary ${className}`}
+            rows={rows}
             {...field}
             {...props}
-            required
+            disabled={disabled}
           />
         );
 
@@ -58,11 +66,11 @@ export const FormikInput: React.FC<FormikInputProps> = ({
               } !focus-visible:ring-0 !ring-0 !focus:border-primary focus-visible:border-primary h-10 ${className}`}
             {...field}
             {...props}
-            required
+            disabled={disabled}
           >
             <option value="" hidden>Select {placeholder || label}</option>
             {options?.map((option) => (
-              <option key={option.value} value={option.value} >
+              <option key={String(option.value)} value={String(option.value)} >
                 {option.label}
               </option>
             ))}
@@ -71,15 +79,17 @@ export const FormikInput: React.FC<FormikInputProps> = ({
 
       case "checkbox":
         return (
-          <div className="flex items-center space-x-2" >
+          <div className="flex items-center space-x-2">
             <Checkbox
               id={name}
               checked={field.value}
               onCheckedChange={(checked) => {
-                helpers.setValue(checked);
+                helpers.setValue(checked === true);
+                // helpers.setTouched(true);
+                // helpers
               }}
               {...props}
-              required
+              disabled={disabled}
             />
             {
               label && (
@@ -94,17 +104,75 @@ export const FormikInput: React.FC<FormikInputProps> = ({
           </div>
         );
 
+      case "radio":
+        return (
+          <RadioGroup
+            value={String(field.value)}
+            onValueChange={(val) => {
+              helpers.setTouched(true);
+              helpers.setValue(val === "true" ? true : val === "false" ? false : val);
+            }}
+            className="flex gap-8"
+            disabled={disabled}
+          >
+            {options?.map((option) => (
+              <div key={String(option.value)} className="flex items-center space-x-2">
+                <RadioGroupItem
+                  id={`${name}-${option.value}`}
+                  value={String(option.value)}
+                  required={required}
+                />
+                <Label htmlFor={`${name}-${option.value}`} className="text-sm font-normal cursor-pointer">
+                  {option.label}
+                </Label>
+              </div>
+            ))}
+          </RadioGroup>
+        );
+
       case "number":
         return (
           <Input
             id={name}
             type="number"
-            step={step}
-            required
-            placeholder={placeholder}
-            className={`${hasError ? "border-red-500" : ""} !focus-visible:ring-0 !ring-0 !focus:border-primary focus-visible:border-primary h-10 ${className}`}
+            step={step || 1}
+            min={min}
+            placeholder={placeholder || "0"}
+            className={`${hasError ? "border-red-500" : ""} !focus-visible:ring-0 !ring-0 !focus:border-primary focus-visible:border-primary h-10 ${className}`
+            }
             {...field}
             {...props}
+            disabled={disabled}
+          />
+        );
+
+      case "file":
+        return (
+          <>
+            <input
+              type="file"
+              id={name}
+              name={name}
+              disabled={disabled}
+              className="w-full px-4 rounded-lg border border-[#d4d3d9]"
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                const file: File | undefined = event.currentTarget.files?.[0];
+                helpers.setValue(file);
+                // helpers.setTouched(true, true);
+              }}
+            />
+          </>
+        );
+      case "phone":
+        return (
+          <PhoneFormikInput
+            name={name}
+            // label={label}
+            placeholder={placeholder}
+            className={className}
+            required={required}
+            description={description}
+            disabled={disabled}
           />
         );
 
@@ -113,8 +181,8 @@ export const FormikInput: React.FC<FormikInputProps> = ({
           <Input
             id={name}
             type={type}
+            disabled={disabled}
             placeholder={placeholder}
-            required
             className={`${hasError ? "border-red-500" : ""} !focus-visible:ring-0 !ring-0 !focus:border-primary focus-visible:border-primary h-10 ${className}`}
             {...field}
             {...props}
@@ -125,7 +193,7 @@ export const FormikInput: React.FC<FormikInputProps> = ({
 
   return (
     <div className="space-y-2" >
-      {label && type !== "checkbox" && <Label className="text-color2 !mb-1.5 inline-block" htmlFor={name}> {label} {required && "*"} </Label>}
+      {label && type !== "checkbox" && type !== "radio" && <Label className="text-color2 !mb-1.5 inline-block" htmlFor={name}> {label} {required && "*"} </Label>}
       {renderInput()}
       {description && <p className="text-xs text-gray-500" > {description} </p>}
       {hasError && <p className="text-xs text-red-500" > {meta.error} </p>}

@@ -16,7 +16,6 @@ const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
 
     const from = location.state?.from || "/";
-    console.log("from:", from);
 
     const handleLogin = async (values: any) => {
         await login(values).unwrap().then((res) => {
@@ -24,6 +23,7 @@ const Login = () => {
                 description: "Welcome back!"
             })
             dispatch(setUser(res.user))
+            console.log("From:", from);
             navigate(from)
         }).catch((err) => {
             console.log(err);

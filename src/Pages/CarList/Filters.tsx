@@ -1,55 +1,64 @@
-import { Remove, Add } from "@mui/icons-material";
+import { Remove, Add, Close } from "@mui/icons-material";
 import { Slider } from "@mui/material";
-import { useState } from "react";
-
-const filterData = [
-    {
-        title: "Vehicles",
-        options: [
-            { label: "Cars", count: 15 },
-            { label: "Sedan", count: 28 },
-        ],
-    },
-    {
-        title: "Available seating",
-        options: [
-            { label: "2", count: 5 },
-            { label: "4", count: 5 },
-            { label: "5", count: 35 },
-        ],
-    },
-    {
-        title: "Year",
-        options: [
-            { label: "2025", count: 35 },
-            { label: "2024", count: 35 },
-            { label: "2023", count: 35 },
-            { label: "2022", count: 35 },
-            { label: "2021", count: 5 },
-            { label: "2020", count: 5 },
-        ],
-    },
-];
+import { useEffect, useMemo, useState } from "react";
+import { useGetBrandsQuery } from "../../redux/api/common";
+import { FilterValues, IBrand } from "../../Types/Common";
+import { useLocation } from "react-router";
+import { useFilterContext } from "../../Context/FilterContext";
+import { useCarOptions } from "../../hooks/useCarOptions";
 
 const Filters = () => {
+    const carOptions = useCarOptions();
+    const { filterValues, setFilterValues, resetFilter, staticMaxPrice } = useFilterContext();
+    const location = useLocation();
+    const { data: Brands } = useGetBrandsQuery({});
+
+    const allBrands = Brands?.map((brand: IBrand) => ({
+        label: brand?.name,
+        value: brand?._id,
+    }));
+
     const [openSections, setOpenSections] = useState<Record<string, boolean>>({
         Price: true,
     });
 
-    const [value2, setValue2] = useState<number[]>([20, 37]);
-    const minDistance = 10;
+    const listingType = Array.isArray(filterValues.listingType)
+        ? filterValues.listingType[0]
+        : filterValues.listingType;
 
-    const handleChange2 = (event: Event, newValue: number[], activeThumb: number) => {
-        if (newValue[1] - newValue[0] < minDistance) {
-            if (activeThumb === 0) {
-                const clamped = Math.min(newValue[0], 100 - minDistance);
-                setValue2([clamped, clamped + minDistance]);
-            } else {
-                const clamped = Math.max(newValue[1], minDistance);
-                setValue2([clamped - minDistance, clamped]);
-            }
-        } else {
-            setValue2(newValue);
+    // const staticMaxPrice = listingType === "rent" ? 50000 : 1000000;
+
+    const [price, setPrice] = useState<number[]>([0, staticMaxPrice ?? 0]);
+
+    const isFilterApplied = useMemo(() => {
+        return (
+            (filterValues.brand ?? []).length > 0 ||
+            (filterValues.seat ?? []).length > 0 ||
+            (filterValues.carType ?? []).length > 0 ||
+            (filterValues.transmission ?? []).length > 0 ||
+            filterValues.minPrice !== 0 ||
+            filterValues.maxPrice !== staticMaxPrice
+        );
+    }, [filterValues, staticMaxPrice]);
+
+    // Reset price when listingType or URL changes
+    useEffect(() => {
+        setPrice([0, staticMaxPrice ?? 0]);
+        setFilterValues((prev) => ({
+            ...prev,
+            minPrice: 0,
+            maxPrice: staticMaxPrice,
+        }));
+    }, [listingType, location.pathname]);
+
+    const handlePriceChange = (_event: Event, newValue: number | number[]) => {
+        if (Array.isArray(newValue)) {
+            setPrice(newValue);
+            setFilterValues((prev: FilterValues) => ({
+                ...prev,
+                minPrice: newValue[0],
+                maxPrice: newValue[1],
+            }));
         }
     };
 
@@ -60,88 +69,104 @@ const Filters = () => {
         }));
     };
 
+    const handleCheckbox = (key: string, value: string) => {
+        const currentValues = Array.isArray(filterValues[key]) ? (filterValues[key] as string[]) : [];
+
+        const updated = currentValues.includes(value)
+            ? currentValues.filter((v: string) => v !== value)
+            : [...currentValues, value];
+
+        setFilterValues({
+            ...filterValues,
+            [key]: updated,
+        });
+    };
+
     return (
         <>
-            {/* Price Filter Section */}
-            <div className="border-t-2 border-border pt-4">
-                <div
-                    className="flex items-center justify-between cursor-pointer"
-                    onClick={() => toggleSection("Price")}
-                >
-                    <h6 className="text-color2 font-semibold">Price</h6>
-                    <span>
-                        {openSections["Price"] ? (
-                            <Remove className="text-color1 !text-xl" />
-                        ) : (
-                            <Add className="text-color1 !text-xl" />
-                        )}
-                    </span>
+            <aside>
+                <div className="flex items-center justify-between">
+                    <h4 className="text-xl font-semibold">Filters</h4>
+                    <button onClick={() => { resetFilter(); setPrice([0, staticMaxPrice ?? 0]) }} className={`text-sm ${isFilterApplied ? "text-red-500 hover:underline" : "text-gray-400 cursor-not-allowed"} flex items-center`}
+                    >
+                        <Close className="!text-base" />Clear
+                    </button>
                 </div>
-                <div
-                    className={`transition-all duration-300 ease-in-out ${openSections["Price"] ? "max-h-60 mt-2 opacity-100" : "max-h-0 opacity-0"
-                        }`}
-                >
-                    <div className="px-2.5">
-                        <Slider
-                            getAriaLabel={() => "Minimum distance shift"}
-                            value={value2}
-                            onChange={handleChange2}
-                            valueLabelDisplay="auto"
-                            disableSwap
-                        />
-                    </div>
-                    <div className="flex items-center justify-between gap-2 text-color1 text-sm mt-2">
-                        <input
-                            type="text"
-                            className="w-full rounded py-1"
-                            value={value2[0]}
-                            onChange={(e) => setValue2([+e.target.value, value2[1]])}
-                        />
-                        <span>
-                            <Remove className="!text-lg" />
-                        </span>
-                        <input
-                            type="text"
-                            className="w-full rounded py-1"
-                            value={value2[1]}
-                            onChange={(e) => setValue2([value2[0], +e.target.value])}
-                        />
-                    </div>
-                </div>
-            </div>
-
-            {/* Dynamic Filters */}
-            {filterData.map((filter) => {
-                const isOpen = openSections[filter.title] ?? true;
-                return (
-                    <div key={filter.title} className="border-t-2 border-border pt-4">
+                <div className="mt-5 flex flex-col gap-4">
+                    {/* Price Filter */}
+                    <div className="border-t-2 border-border pt-4">
                         <div
                             className="flex items-center justify-between cursor-pointer"
-                            onClick={() => toggleSection(filter.title)}
+                            onClick={() => toggleSection("Price")}
                         >
-                            <h6 className="text-color2 font-semibold">{filter.title}</h6>
-                            <span>
-                                {isOpen ? (
-                                    <Remove className="text-color1 !text-xl" />
-                                ) : (
-                                    <Add className="text-color1 !text-xl" />
-                                )}
-                            </span>
+                            <h6 className="text-color2 font-semibold">Price</h6>
+                            <span>{openSections["Price"] ? <Remove /> : <Add />}</span>
                         </div>
-                        <ul
-                            className={`text-color1 text-sm flex flex-col gap-2 transition-all duration-300 ease-in-out overflow-hidden ${isOpen ? "max-h-56 opacity-100 mt-2" : "max-h-0 opacity-0"
-                                }`}
-                        >
-                            {filter.options.map((opt, i) => (
-                                <li key={i} className="flex items-center gap-2">
-                                    <input type="checkbox" className="accent-primary" />
-                                    <label>{`${opt.label} (${opt.count})`}</label>
-                                </li>
-                            ))}
-                        </ul>
+                        {openSections["Price"] && (
+                            <div className="px-2.5 mt-2">
+                                <Slider
+                                    min={0}
+                                    max={staticMaxPrice}
+                                    value={price}
+                                    onChange={handlePriceChange}
+                                    valueLabelDisplay="auto"
+                                    disableSwap
+                                />
+                                <div className="flex items-center justify-between gap-2 text-sm text-color2">
+                                    <span>₹ {price[0].toLocaleString()}</span>
+                                    <span>
+                                        ₹{" "}
+                                        {price[1] >= (staticMaxPrice ?? 0)
+                                            ? (staticMaxPrice ?? 0).toLocaleString() + "+" // show "+" at the end
+                                            : price[1].toLocaleString()}
+                                    </span>
+                                </div>
+                            </div>
+                        )}
                     </div>
-                );
-            })}
+
+                    {/* Dynamic Filters */}
+                    {[
+                        { title: "Brands", key: "brand", data: allBrands },
+                        { title: "Fuel Type", key: "carType", data: carOptions.fuelType },
+                        { title: "Body Type", key: "carType", data: carOptions.carType },
+                        { title: "Seating", key: "seat", data: carOptions.seats },
+                        { title: "Transmission", key: "transmission", data: carOptions.transmission },
+                    ].map((section) => {
+                        const isOpen = openSections[section.title] ?? true;
+                        return (
+                            <div key={section.title} className="border-t-2 border-border pt-4">
+                                <div
+                                    className="flex items-center justify-between cursor-pointer"
+                                    onClick={() => toggleSection(section.title)}
+                                >
+                                    <h6 className="text-color2 font-semibold">{section.title}</h6>
+                                    <span>{isOpen ? <Remove /> : <Add />}</span>
+                                </div>
+                                {isOpen && (
+                                    <ul className="text-color1 text-sm flex flex-col gap-2 mt-2 max-h-60 overflow-auto">
+                                        {section?.data?.map((opt: { label: string; value: string }, i: number) => (
+                                            <li key={i} className="flex items-center gap-2">
+                                                <input
+                                                    type="checkbox"
+                                                    className="accent-primary"
+                                                    checked={((filterValues[section.key] ?? []) as string[]).includes(
+                                                        section.key === "brand" ? opt.label : opt.value
+                                                    )}
+                                                    onChange={() =>
+                                                        handleCheckbox(section.key, section.key === "brand" ? opt.label : opt.value)
+                                                    }
+                                                />
+                                                <label>{opt.label}</label>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                )}
+                            </div>
+                        );
+                    })}
+                </div>
+            </aside>
         </>
     );
 };

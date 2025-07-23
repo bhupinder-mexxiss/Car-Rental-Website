@@ -1,6 +1,6 @@
 import { ApiResponse } from "../../Types/ApiResponse";
 import { baseApi } from "../baseApi";
-import { UPLOAD_MULTI, UPLOAD_SINGLE } from "../routes/routes";
+import { CONTACT_FORM, GET_BRANDS, GET_CATEGORIES, UPLOAD_MULTI, UPLOAD_SINGLE } from "../routes/routes";
 
 export const carApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
@@ -20,7 +20,23 @@ export const carApi = baseApi.injectEndpoints({
             }),
             transformResponse: (response: ApiResponse) => response.data
         }),
+        contactForm: builder.mutation({
+            query: (data) => ({
+                url: CONTACT_FORM,
+                method: 'POST',
+                body: data
+            }),
+            transformResponse: (response: ApiResponse) => response.data
+        }),
+        getBrands: builder.query({
+            query: () => GET_BRANDS,
+            transformResponse: (response: ApiResponse) => response.data
+        }),
+        getCategories: builder.query({
+            query: () => GET_CATEGORIES,
+            transformResponse: (response: ApiResponse) => response.data
+        })
     }),
 });
 
-export const { useUploadSingleMutation, useUploadMultiMutation } = carApi;
+export const { useUploadSingleMutation, useUploadMultiMutation, useContactFormMutation, useGetBrandsQuery, useGetCategoriesQuery } = carApi;
