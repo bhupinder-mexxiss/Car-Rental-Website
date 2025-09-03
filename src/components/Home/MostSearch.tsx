@@ -56,6 +56,23 @@ const MostSearch = () => {
         speed: 500,
         slidesToShow: 3,
         slidesToScroll: 1,
+        responsive: [
+            {
+                breakpoint: 1024,
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 1,
+                }
+            },
+            {
+                breakpoint: 768,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    dots: true,
+                }
+            }
+        ]
     };
     return (
         <div className="bg-color1 py-20 relative">
@@ -64,12 +81,12 @@ const MostSearch = () => {
             </div>
             <div className="container mx-auto">
                 <div className="max-w-[560px] mx-auto text-white">
-                    <h2 data-aos="fade-up" className="text-5xl font-semibold text-center">Most Searched Vehicles</h2>
-                    <p data-aos="fade-up" data-aos-delay="100" className="text-center mt-2 lg:text-[17px]">Driving your dreams to reality with an exquisite fleet of vesatile vehicles for unforgettable journeys.</p>
+                    <h2 data-aos="fade-up" className="text-3xl md:text-4xl lg:text-5xl font-semibold text-center">Most Searched Vehicles</h2>
+                    <p data-aos="fade-up" data-aos-delay="100" className="text-center mt-2 lg:text-[17px] text-white/80">Driving your dreams to reality with an exquisite fleet of vesatile vehicles for unforgettable journeys.</p>
                 </div>
                 <div className="mt-10">
                     <div className="relative" data-aos="zoom-in-up">
-                        <div>
+                        <div className="hidden md:block">
                             <button className="absolute top-1/2 -translate-y-1/2 cursor-pointer w-9 h-9 rounded-full border border-white text-white hover:bg-primary hover:border-primary flex items-center justify-center" onClick={handlePrev}>
                                 <ArrowBack className="!text-xl" />
                             </button>
@@ -77,8 +94,8 @@ const MostSearch = () => {
                                 <ArrowForward className="!text-xl" />
                             </button>
                         </div>
-                        <div className="px-12">
-                            <Slider {...settings} ref={sliderRef}>
+                        <div className="md:px-12">
+                            <Slider {...settings} ref={sliderRef} className="dark-dots">
                                 {data?.map((vehicle, index) => (
                                     <div key={index} className="px-2">
                                         <ProductCard vehicle={vehicle} />

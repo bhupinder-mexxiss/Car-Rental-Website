@@ -65,16 +65,33 @@ const DiscoverExcellence = () => {
         speed: 500,
         slidesToShow: 3,
         slidesToScroll: 1,
+        responsive: [
+            {
+                breakpoint: 1024,
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 1,
+                }
+            },
+            {
+                breakpoint: 768,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    dots: true
+                }
+            }
+        ]
     };
     return (
         <div className="bg-color1 py-20">
             <div className="container mx-auto">
-                <div className="grid grid-cols-2 items-center text-white gap-20 px-12">
-                    <h2 data-aos="fade-right" className="text-5xl font-semibold leading-14">Discover Excellence in Our Diverse Fleet</h2>
-                    <p data-aos="fade-left" className=" mt-2 lg:text-[17px]">From fuel-efficient cars to luxurious rides, CarRide offers options for every travel need. Explore our fleet and find a car that suits your style and budget</p>
+                <div className="grid md:grid-cols-2 items-center text-white gap-2 md:gap-10 lg:gap-20 md:px-12">
+                    <h2 data-aos="fade-right" className="text-3xl md:text-4xl lg:text-5xl font-semibold lg:leading-14">Discover Excellence in Our Diverse Fleet</h2>
+                    <p data-aos="fade-left" className=" mt-2 lg:text-[17px] text-white/80">From fuel-efficient cars to luxurious rides, CarRide offers options for every travel need. Explore our fleet and find a car that suits your style and budget</p>
                 </div>
                 <div>
-                    <ul className="flex items-center justify-center gap-4 mt-10" data-aos="fade-up" data-aos-delay="100">
+                    <ul className="flex flex-wrap items-center justify-center gap-4 mt-10" data-aos="fade-up" data-aos-delay="100">
                         {tabs.map((tab, i) => (
                             <li key={i} className={`px-6 py-2 rounded-full border text-white cursor-pointer ${isActive === tab.id ? "bg-primary border-primary " : "border-[#FAFAFA1A] "}`} onClick={() => setIsActive(tab.id)}>{tab.name}</li>
                         ))}
@@ -82,7 +99,7 @@ const DiscoverExcellence = () => {
                 </div>
                 <div className="mt-10">
                     <div className="relative" data-aos="zoom-in" data-aos-delay="200">
-                        <div>
+                        <div className="hidden md:block">
                             <button className="absolute top-1/2 -translate-y-1/2 cursor-pointer w-9 h-9 rounded-full border border-white text-white hover:bg-primary hover:border-primary flex items-center justify-center" onClick={handlePrev}>
                                 <ArrowBack className="!text-xl" />
                             </button>
@@ -90,8 +107,8 @@ const DiscoverExcellence = () => {
                                 <ArrowForward className="!text-xl" />
                             </button>
                         </div>
-                        <div className="px-12">
-                            <Slider {...settings} ref={sliderRef}>
+                        <div className="md:px-12">
+                            <Slider {...settings} ref={sliderRef} className="dark-dots">
                                 {data?.map((vehicle, index) => (
                                     <div key={index} className="px-2">
                                         <ProductCard vehicle={vehicle} />

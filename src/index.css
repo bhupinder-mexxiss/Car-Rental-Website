@@ -207,8 +207,13 @@ body {
 
 .react-tel-input .flag-dropdown,
 .react-tel-input .selected-flag:hover,
-.react-tel-input .selected-flag:focus {
+.react-tel-input .selected-flag:focus,
+.react-tel-input .form-control {
   background-color: transparent !important;
+}
+.react-tel-input .form-control:focus{
+  --tw-ring-inset: none;
+  border-color: var(--color-primary) !important;
 }
 
 div[data-testid="modal-overlay"] {
@@ -254,6 +259,10 @@ div[data-testid="modal-overlay"] {
   filter: hue-rotate(26deg);
   background-size: 8px 8px;
   animation-timing-function: linear;
+}
+
+.slick-slider.dark-dots .slick-dots li button:before {
+  color: #fff;
 }
 
 @keyframes l12 {

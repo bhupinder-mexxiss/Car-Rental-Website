@@ -130,7 +130,7 @@ const AddCar = () => {
                                 <h1 className="text-3xl font-bold text-center mb-8">Add Your Car for {type === "sell" ? "Sell" : "Rent"}</h1>
 
                                 {/* Progress addCarSteps */}
-                                <div className="mb-8">
+                                <div className="mb-8 hidden md:block">
                                     <div className="flex justify-between items-center">
                                         {steps.map((step) => {
                                             const stepIndex = steps.findIndex((s) => s.key === step.key);
@@ -151,7 +151,7 @@ const AddCar = () => {
                                                         ) : step.id + 1}
                                                     </div>
                                                     <span className="text-xs hidden md:block text-center">
-                                                        {type === "sell" && step.id === 2 ? "Features & Pricing" : step.id === 3 ? "Location": step.title}
+                                                        {type === "sell" && step.id === 2 ? "Features & Pricing" : step.id === 3 ? "Location" : step.title}
                                                     </span>
                                                 </div>
                                             );
@@ -179,7 +179,13 @@ const AddCar = () => {
                                         >
                                             Back
                                         </button>
-                                        <h2 className="text-2xl font-semibold">{currentStepObj?.title}</h2>
+
+                                        <div className="flex items-center justify-between w-full">
+                                            <h2 className="text-2xl font-semibold">{currentStepObj?.title}</h2>
+                                            <div className="text-sm text-gray-600 md:hidden">
+                                                {steps.findIndex(s => s.key === currentStep) + 1} of {steps.length} Steps
+                                            </div>
+                                        </div>
                                     </div>
                                     <Formik
                                         initialValues={formValues[currentStep as keyof typeof formValues]}

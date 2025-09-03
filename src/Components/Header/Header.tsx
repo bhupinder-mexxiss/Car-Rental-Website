@@ -52,14 +52,15 @@ const Header = () => {
         <div className='z-[999] sticky top-0 w-full bg-white/80 border-b border-[#12121226] backdrop-blur-xs shadow'>
             <div className="container">
                 <div className='flex items-center justify-between py-3 '>
-                    <div>
-                        <img src={Logo} alt="" className='h-14' />
-                        {/* <span className='text-color1 text-xl font-semibold'>CarRide</span> */}
+                    <div className='w-fit'>
+                        <Link to={"/"} className='flex items-center gap-2'>
+                            <img src={Logo} alt="" className='w-32 min-w-32' />
+                        </Link>
                     </div>
-                    <div>
-                        <ul className="flex items-center justify-between gap-8" >
+                    <div className='hidden lg:block'>
+                        <ul className="flex items-center justify-between gap-6 xl:gap-8" >
                             {menuitems.map((item, index) => (
-                                <li key={index} className='hover:text-primary text-[17px] group relative'>
+                                <li key={index} className='hover:text-primary text-[15px] xl:text-[17px] group relative'>
                                     <NavLink to={item.url} className={({ isActive }) => `flex items-center gap-2 ${isActive ? "text-shadow-xl text-primary" : "text-color1"}`} >
                                         {item.label}
                                         {item.subMenu && item.subMenu.length > 0 &&
@@ -83,7 +84,7 @@ const Header = () => {
                     </div>
                     <div className='flex items-center gap-3'>
                         {/* area/city slect dropdown: seacrh area,city,emirate location for only uae use google api for locations */}
-                        <LocationSelector/>
+                        <LocationSelector />
                         {isAuthenticated ?
                             <UserDropdown user={user} handleLogout={handleLogout} />
                             :

@@ -38,8 +38,8 @@ const BrandsCate = () => {
                 <div className="py-20 ">
                     <div className="text-color1">
                         <ul className="flex items-center justify-center gap-8" data-aos="fade-up" data-aos-delay="300">
-                            <li className={`text-2xl font-semibold cursor-pointer pb-1 border-b-2 ${isActive === "brands" ? "text-primary border-primary" : "text-color1 border-transparent"}`} onClick={() => setIsActive("brands")}>Rent by Brands</li>
-                            <li className={`text-2xl font-semibold cursor-pointer pb-1 border-b-2 ${isActive === "bodyType" ? "text-primary border-primary" : "text-color1 border-transparent"}`} onClick={() => setIsActive("bodyType")}>Rent by Body Type</li>
+                            <li className={`text-lg sm:text-xl md:text-2xl font-semibold cursor-pointer pb-1 border-b-2 ${isActive === "brands" ? "text-primary border-primary" : "text-color1 border-transparent"}`} onClick={() => setIsActive("brands")}>Rent by Brands</li>
+                            <li className={`text-lg sm:text-xl md:text-2xl font-semibold cursor-pointer pb-1 border-b-2 ${isActive === "bodyType" ? "text-primary border-primary" : "text-color1 border-transparent"}`} onClick={() => setIsActive("bodyType")}>Rent by Body Type</li>
                         </ul>
                     </div>
                     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-5 mt-10">

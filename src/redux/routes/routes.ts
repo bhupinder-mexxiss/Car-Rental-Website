@@ -17,6 +17,11 @@ export const CAR_MY_LIST = (status: string) => `/car/my-list?status=${status}`
 export const CAR_DETAILS = (id: string) => `/car/${id}`
 export const CAR_LIST = (queries: string) => `/car/list?${queries}`
 
+// Enquiry
+export const ENQUIRY_ADD = "/car/buy-enquiry"
+export const ENQUIRIES_GET = (type: string) => `/car/buy-enquiries?type=${type}`
+export const ENQUIRY_RESPONSE = `/car/buy-enquiry/response`
+
 // Wishlist
 export const WISHLIST_GET = "/user/wishlist"
 export const WISHLIST = (id: string) => `/user/wishlist/${id}`

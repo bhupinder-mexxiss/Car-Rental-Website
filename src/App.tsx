@@ -15,6 +15,9 @@ import Profile from "./Pages/Profile/Profile";
 import MyBookings from "./Pages/MyBookings/MyBookings";
 import Favorities from "./Pages/Favorities/Favorities";
 import Partner from "./Pages/Partner/Partner";
+import Booking from "./Pages/Booking/Booking.tsx";
+import Checkout from "./Pages/Checkout/Checkout.tsx";
+import CheckoutSuccess from "./Pages/Checkout/CheckoutSuccess.tsx";
 import Register from "./Pages/Auth/Register";
 import ForgotPassword from "./Pages/Auth/ForgotPassword";
 import ResetPassword from "./Pages/Auth/ResetPassword";
@@ -38,6 +41,9 @@ const App = () => {
         { path: "/rent-car", element: <CarList /> },
         { path: "/buy-car", element: <CarList /> },
         { path: "/car/:id", element: <CarDetails /> },
+        { path: "/book/:id", element: <Booking /> },
+        { path: "/checkout", element: <Checkout /> },
+        { path: "/checkout/success", element: <CheckoutSuccess /> },
         { path: "/contact-us", element: <ContactUS /> },
         { path: "/about-us", element: <AboutUs /> },
 

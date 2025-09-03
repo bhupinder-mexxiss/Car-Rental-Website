@@ -89,7 +89,7 @@ const BookingRequests = () => {
                             <p className="text-gray-600 text-lg">Manage booking requests from potential customers</p>
                         </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-5 gap-6 mb-8">
+                        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
                             <div className="p-4 rounded-lg shadow-sm border border-border/50">
                                 <div className="card-header">Total Requests</div>
                                 <div className="text-3xl mt-2 font-semibold">5</div>

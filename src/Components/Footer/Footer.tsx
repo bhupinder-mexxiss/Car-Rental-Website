@@ -5,7 +5,7 @@ const Footer = () => {
     return (
         <div className='pt-20 bg-[#FAFAFA]'>
             <div className="container mx-auto">
-                <div className='grid grid-cols-3 gap-20'>
+                <div className='grid sm:grid-cols-2 lg:grid-cols-3 gap-10'>
                     <div>
                         <p className='font-semibold text-xl'>CarRide</p>
                         <p className='text-color2 text-sm mt-1'>CarRide is not just about providing vehicles. It's about crafting.</p>
@@ -43,7 +43,7 @@ const Footer = () => {
                 </div>
                 <hr className='mt-10 border-[1.5px] border-border' />
                 <div className='py-6'>
-                    <p className='text-lg text-center'>©2025 CarRide® Global Inc. All right reserved.</p>
+                    <p className='sm:text-lg text-center text-color2'>©2025 CarRide® Global Inc. All right reserved.</p>
                 </div>
             </div>
         </div>

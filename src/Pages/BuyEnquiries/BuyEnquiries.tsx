@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { toast } from "sonner";
 import {
     User,
     Phone,
@@ -7,28 +6,9 @@ import {
     CheckCircle
 } from "lucide-react";
 import ResponseModal from './ResponseModal';
-
-interface BuyEnquiry {
-    id: string;
-    buyerName: string;
-    buyerEmail: string;
-    buyerPhone: string;
-    carModel: string;
-    askingPrice: number;
-    offeredPrice: number;
-    status: "new" | "responded" | "negotiating" | "completed" | "closed";
-    enquiryDate: string;
-    message: string;
-    requestType: "enquiry";
-    responses: Array<{
-        id: string;
-        message: string;
-        sender: "buyer" | "seller";
-        timestamp: string;
-        offer?: number;
-    }>;
-    finalPrice?: number;
-}
+import { useGetEnquiriesQuery } from "../../redux/api/Enquiry";
+import { format } from "date-fns";
+import { IBuyEnquiry } from "../../Types/IBuyEnquiry";
 
 const tabs = [
     { value: "all", label: "All" },
@@ -39,104 +19,10 @@ const tabs = [
 ];
 
 const BuyEnquiries = () => {
+    const { data } = useGetEnquiriesQuery({ type: "seller" })
     const [activeTab, setActiveTab] = useState("new");
-    const [buyEnquiries, setBuyEnquiries] = useState<BuyEnquiry[]>([
-        {
-            id: "BE001",
-            buyerName: "Alex Rodriguez",
-            buyerEmail: "alex.r@email.com",
-            buyerPhone: "+1 (555) 234-5678",
-            carModel: "Toyota Camry 2020",
-            askingPrice: 18500,
-            offeredPrice: 17000,
-            status: "new",
-            enquiryDate: "2024-06-05",
-            message: "Very interested in this car. Can we negotiate the price?",
-            requestType: "enquiry",
-            responses: []
-        },
-        {
-            id: "BE002",
-            buyerName: "Emma Davis",
-            buyerEmail: "emma.d@email.com",
-            buyerPhone: "+1 (555) 345-6789",
-            carModel: "Honda Accord 2019",
-            askingPrice: 22000,
-            offeredPrice: 21000,
-            status: "negotiating",
-            enquiryDate: "2024-06-04",
-            message: "Looking for a reliable family car. Is this car accident-free?",
-            requestType: "enquiry",
-            responses: [
-                {
-                    id: "R1",
-                    message: "Yes, this car is accident-free with full service history. I can accept $21,500.",
-                    sender: "seller",
-                    timestamp: "2024-06-04 14:30",
-                    offer: 21500
-                },
-                {
-                    id: "R2",
-                    message: "That sounds good. Can we schedule a test drive this weekend?",
-                    sender: "buyer",
-                    timestamp: "2024-06-04 15:45"
-                }
-            ]
-        },
-        {
-            id: "BE003",
-            buyerName: "David Brown",
-            buyerEmail: "david.b@email.com",
-            buyerPhone: "+1 (555) 456-7890",
-            carModel: "BMW 320i 2021",
-            askingPrice: 35000,
-            offeredPrice: 33000,
-            status: "completed",
-            enquiryDate: "2024-06-03",
-            message: "Ready to buy immediately if the price is right.",
-            requestType: "enquiry",
-            responses: [],
-            finalPrice: 34000
-        }
-    ]);
-
     const [isResponseDialogOpen, setIsResponseDialogOpen] = useState(false);
-    const [selectedEnquiry, setSelectedEnquiry] = useState<BuyEnquiry | null>(null);
-    const [responseMessage, setResponseMessage] = useState("");
-    const [counterOffer, setCounterOffer] = useState("");
-
-    const openResponseDialog = (enquiry: BuyEnquiry) => {
-        setSelectedEnquiry(enquiry);
-        setIsResponseDialogOpen(true);
-    };
-
-    const closeResponseDialog = () => {
-        setSelectedEnquiry(null);
-        setIsResponseDialogOpen(false);
-        setResponseMessage("");
-    };
-
-    const handleSendResponse = () => {
-        if (selectedEnquiry) {
-            toast("Response sent", {
-                description: `Response sent to ${selectedEnquiry.buyerName}`,
-            });
-            closeResponseDialog();
-        }
-    };
-
-    const handleStatusChange = (enquiryId: string, newStatus: BuyEnquiry["status"]) => {
-        setBuyEnquiries(prev => prev.map(enquiry => {
-            if (enquiry.id === enquiryId) {
-                return { ...enquiry, status: newStatus };
-            }
-            return enquiry;
-        }));
-
-        toast("Status Updated", {
-            description: `Enquiry ${enquiryId} status changed to ${newStatus.replace('_', ' ')}.`,
-        });
-    };
+    const [selectedEnquiry, setSelectedEnquiry] = useState<IBuyEnquiry | null>(null);
 
     const getStatusBadge = (status: string) => {
         switch (status) {
@@ -155,9 +41,19 @@ const BuyEnquiries = () => {
         }
     };
 
-    const filteredEnquiries = buyEnquiries.filter(enquiry =>
+    const filteredEnquiries = data?.filter((enquiry: IBuyEnquiry) =>
         activeTab === "all" || enquiry.status === activeTab
     );
+
+    // openResponseDialog
+    const openResponseDialog = (enquiry: IBuyEnquiry) => {
+        setSelectedEnquiry(enquiry);
+        setIsResponseDialogOpen(true);
+    };
+    const closeResponseDialog = () => {
+        setIsResponseDialogOpen(false);
+        setSelectedEnquiry(null);
+    };
 
     return (
         <div className="flex flex-col bg-gray-50">
@@ -171,33 +67,32 @@ const BuyEnquiries = () => {
                         </div>
 
                         {/* Stats Cards */}
-                        <div className="grid grid-cols-1 md:grid-cols-6 gap-6 mb-8">
+                        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
                             <div className="card border border-border/40">
                                 <div className="card-header">Total</div>
-                                <div className="text-3xl mt-2 font-semibold">{buyEnquiries.length}</div>
+                                <div className="text-3xl mt-2 font-semibold">{data?.length}</div>
                             </div>
                             <div className="card border border-border/40">
                                 <div className="card-header">New</div>
-                                <div className="text-3xl mt-2 font-semibold">{buyEnquiries.filter(e => e.status === "new").length}</div>
+                                <div className="text-3xl mt-2 font-semibold">{data?.filter((e: IBuyEnquiry) => e.status === "new").length}</div>
                             </div>
                             <div className="card border border-border/40">
                                 <div className="card-header">Negotiating</div>
-                                <div className="text-3xl mt-2 font-semibold">{buyEnquiries.filter(e => e.status === "negotiating").length}</div>
+                                <div className="text-3xl mt-2 font-semibold">{data?.filter((e: IBuyEnquiry) => e.status === "negotiating").length}</div>
                             </div>
                             <div className="card border border-border/40">
                                 <div className="card-header">Completed</div>
-                                <div className="text-3xl mt-2 font-semibold">{buyEnquiries.filter(e => e.status === "completed").length}</div>
+                                <div className="text-3xl mt-2 font-semibold">{data?.filter((e: IBuyEnquiry) => e.status === "completed").length}</div>
                             </div>
                             <div className="card border border-border/40">
                                 <div className="card-header">Closed</div>
-                                <div className="text-3xl mt-2 font-semibold">{buyEnquiries.filter(e => e.status === "closed").length}</div>
+                                <div className="text-3xl mt-2 font-semibold">{data?.filter((e: IBuyEnquiry) => e.status === "closed").length}</div>
                             </div>
                             <div className="card border border-border/40">
                                 <div className="card-header">Potential Value</div>
-                                <div className="text-3xl mt-2 font-semibold">${buyEnquiries.reduce((sum, e) => sum + (e.finalPrice || e.offeredPrice || e.askingPrice), 0).toLocaleString()}</div>
+                                <div className="text-3xl mt-2 font-semibold">${data?.reduce((sum: number, e: IBuyEnquiry) => sum + ((e.finalPrice ?? 0) || (e.offeredPrice ?? 0)), 0).toLocaleString()}</div>
                             </div>
                         </div>
-
                         {/* Tabs */}
                         <div className="">
                             <div className="bg-gray-200/50 rounded flex justify-between p-1.5">
@@ -229,47 +124,47 @@ const BuyEnquiries = () => {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {filteredEnquiries.map((enquiry) => (
-                                                    <tr key={enquiry.id} className="hover:bg-gray-50">
+                                                {filteredEnquiries?.map((enquiry: IBuyEnquiry) => (
+                                                    <tr key={enquiry.enquiryId} className="hover:bg-gray-50">
                                                         <td className="border-t border-gray-300 px-4 py-2">
                                                             <div className="space-y-1 text-sm">
-                                                                {enquiry.id}
+                                                                {enquiry.enquiryId}
                                                             </div>
                                                         </td>
                                                         <td className="border-t border-gray-300 px-4 py-2">
                                                             <div className="space-y-1">
                                                                 <div className="flex items-center text-sm">
                                                                     <User className="h-4 w-4 mr-2 text-gray-500" />
-                                                                    {enquiry.buyerName}
+                                                                    {enquiry?.buyer?.name}
                                                                 </div>
                                                                 <div className="flex items-center text-xs text-gray-500">
                                                                     <Mail className="h-3 w-3 mr-1" />
-                                                                    {enquiry.buyerEmail}
+                                                                    {enquiry?.buyer?.email}
                                                                 </div>
                                                                 <div className="flex items-center text-xs text-gray-500">
                                                                     <Phone className="h-3 w-3 mr-1" />
-                                                                    {enquiry.buyerPhone}
+                                                                    {enquiry?.buyer?.phone || "-"}
                                                                 </div>
                                                             </div>
                                                         </td>
                                                         <td className="border-t border-gray-300 px-4 py-2">
                                                             <div className="flex items-center text-sm">
-                                                                {enquiry.carModel}
+                                                                {enquiry?.car?.title}
                                                             </div>
                                                         </td>
                                                         <td className="border-t border-gray-300 px-4 py-2">
                                                             <div className="space-y-1">
                                                                 <div className="flex items-center text-sm">
                                                                     <span className="text-gray-500">Asking:</span>
-                                                                    <span className="ml-2 font-semibold">${enquiry.askingPrice.toLocaleString()}</span>
+                                                                    <span className="ml-2 font-semibold">${enquiry?.car?.price?.toLocaleString()}</span>
                                                                 </div>
-                                                                {enquiry.offeredPrice > 0 && (
+                                                                {(enquiry?.offeredPrice ?? 0) > 0 && (
                                                                     <div className="flex items-center text-sm">
                                                                         <span className="text-gray-500">Offered:</span>
-                                                                        <span className="ml-2 font-semibold text-[#f07e2c]">${enquiry.offeredPrice.toLocaleString()}</span>
+                                                                        <span className="ml-2 font-semibold text-[#f07e2c]">${enquiry?.offeredPrice?.toLocaleString()}</span>
                                                                     </div>
                                                                 )}
-                                                                {enquiry.finalPrice && (
+                                                                {enquiry?.finalPrice && (
                                                                     <div className="flex items-center text-sm">
                                                                         <span className="text-gray-500">Final:</span>
                                                                         <span className="ml-2 font-semibold text-green-600">${enquiry.finalPrice.toLocaleString()}</span>
@@ -279,10 +174,14 @@ const BuyEnquiries = () => {
                                                         </td>
                                                         <td className="border-t border-gray-300 px-4 py-2">
                                                             <div className="max-w-xs">
-                                                                <p className="text-sm text-gray-600 truncate" title={enquiry.message}>
-                                                                    {enquiry.message}
+                                                                <p className="text-sm text-gray-600 truncate" title={enquiry?.message}>
+                                                                    {enquiry?.message}
                                                                 </p>
-                                                                <span className="text-xs text-gray-400">{enquiry.enquiryDate}</span>
+                                                                <span className="text-xs text-gray-400">
+                                                                    {selectedEnquiry?.createdAt
+                                                                        ? format(new Date(selectedEnquiry.createdAt), 'MMMM dd, yyyy')
+                                                                        : ''}
+                                                                </span>
                                                             </div>
                                                         </td>
                                                         <td className="border-t border-gray-300 px-4 py-2 text-sm">{getStatusBadge(enquiry.status)}</td>
@@ -297,7 +196,7 @@ const BuyEnquiries = () => {
                                                                 {enquiry.status === "completed" && (
                                                                     <button
                                                                         className="px-3 py-1 text-sm flex items-center border border-green-300 text-green-600 rounded hover:bg-green-50"
-                                                                        onClick={() => handleStatusChange(enquiry.id, "closed")}
+                                                                    // onClick={() => handleStatusChange(enquiry.id, "closed")}
                                                                     >
                                                                         <CheckCircle className="h-3 w-3 mr-1 inline" />
                                                                         Close
@@ -320,12 +219,8 @@ const BuyEnquiries = () => {
             <ResponseModal
                 isOpen={isResponseDialogOpen}
                 onClose={closeResponseDialog}
+                setSelectedEnquiry={setSelectedEnquiry}
                 selectedEnquiry={selectedEnquiry}
-                responseMessage={responseMessage}
-                setResponseMessage={setResponseMessage}
-                counterOffer={counterOffer}
-                setCounterOffer={setCounterOffer}
-                handleSendResponse={handleSendResponse}
             />
         </div>
     );

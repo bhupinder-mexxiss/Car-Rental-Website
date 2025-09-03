@@ -1,4 +1,3 @@
-import React from 'react'
 import { img1 } from '../../assets/images'
 
 const StayConnected = () => {
@@ -8,9 +7,9 @@ const StayConnected = () => {
             <div className='rounded-full absolute -bottom-[280px] -left-[60px] w-[380px] h-[380px] border-2 border-white/20'></div>
             <div className="container mx-auto">
                 <div className='relative'>
-                    <div className="grid grid-cols-2 items-start text-white gap-20">
-                        <div>
-                            <h2 data-aos="fade-right" className="text-5xl font-semibold leading-14">Stay Connected with CarRide – Subscribe to Our Newsletter</h2>
+                    <div className="grid lg:grid-cols-2 items-start text-white gap-6 lg:gap-20">
+                        <div className='pb-6'>
+                            <h2 data-aos="fade-right" className="text-3xl md:text-4xl lg:text-5xl font-semibold lg:leading-14">Stay Connected with CarRide – Subscribe to Our Newsletter</h2>
                             <p data-aos="fade-right" data-aos-delay="200" className=" mt-3 lg:text-lg font-light tracking-wide text-justify">Don't miss out on the latest updates, special offers, and travel insights from CarRide. Subscribe to our newsletter and be the first to know about exciting promotions, new destinations, and tips to enhance your travel experience</p>
                         </div>
                         <div>

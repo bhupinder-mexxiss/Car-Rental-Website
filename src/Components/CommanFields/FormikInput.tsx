@@ -42,7 +42,6 @@ export const FormikInput: React.FC<FormikInputProps> = ({
   // console.log(field.name, field.value);
   // console.log(field.name, meta.error);
 
-
   const renderInput = () => {
     switch (type) {
       case "textarea":

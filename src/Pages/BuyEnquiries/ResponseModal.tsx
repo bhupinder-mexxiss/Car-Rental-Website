@@ -1,48 +1,37 @@
 import React from 'react';
 import { Modal, ModalBody } from 'flowbite-react';
 import { Close } from '@mui/icons-material';
+import { enquiryApi, useRespondToEnquiryMutation } from '../../redux/api/Enquiry';
+import { Form, Formik } from 'formik';
+import * as Yup from 'yup';
+import { FormikInput } from '../../Components/CommanFields/FormikInput';
+import { format } from 'date-fns';
+import { IBuyEnquiry } from '../../Types/IBuyEnquiry';
+import { toast } from 'sonner';
+import { useDispatch } from 'react-redux';
 
 interface ResponseModalProps {
     isOpen: boolean;
     onClose: () => void;
-    selectedEnquiry: {
-        requestType: "enquiry";
-        buyerName: string;
-        enquiryDate: string;
-        message: string;
-        offeredPrice?: number;
-        responses: Array<{
-            id: string;
-            sender: string;
-            timestamp: string;
-            message: string;
-            offer?: number;
-        }>;
-    } | null;
-    responseMessage: string;
-    setResponseMessage: (value: string) => void;
-    counterOffer: string;
-    setCounterOffer: (value: string) => void;
-    handleSendResponse: () => void;
+    setSelectedEnquiry: React.Dispatch<React.SetStateAction<IBuyEnquiry | null>>;
+    selectedEnquiry: IBuyEnquiry | null;
 }
 
 const ResponseModal: React.FC<ResponseModalProps> = ({
     isOpen,
     onClose,
+    setSelectedEnquiry,
     selectedEnquiry,
-    responseMessage,
-    setResponseMessage,
-    counterOffer,
-    setCounterOffer,
-    handleSendResponse
 }) => {
+    const dispatch = useDispatch();
+    const [respondToEnquiry, { isLoading }] = useRespondToEnquiryMutation()
     return (
         <div>
             <Modal show={isOpen} onClose={onClose}>
                 <ModalBody className='p-0'>
 
                     <div className="px-6 py-3 flex justify-between items-center">
-                        <h4 className='text-lg font-medium'>Chat with {selectedEnquiry?.buyerName}</h4>
+                        <h4 className='text-lg font-medium'>Chat with {selectedEnquiry?.buyer?.name}</h4>
                         <button onClick={onClose} className='w-7 h-7 rounded hover:bg-gray-200/80 cursor-pointer'><Close className='!text-lg' /></button>
                     </div>
                     {selectedEnquiry && (
@@ -50,8 +39,8 @@ const ResponseModal: React.FC<ResponseModalProps> = ({
                             {/* Original Request */}
                             <div className="p-4 border border-border rounded-lg">
                                 <div className="flex items-center mb-2">
-                                    <span className="font-medium">{selectedEnquiry.buyerName}</span>
-                                    <span className="text-sm text-gray-500 ml-2">{selectedEnquiry.enquiryDate}</span>
+                                    <span className="font-medium">{selectedEnquiry?.buyer?.name}</span>
+                                    <span className="text-sm text-gray-500 ml-2">{format(new Date(selectedEnquiry?.createdAt), 'MMMM dd, yyyy')}</span>
                                 </div>
                                 <p className="text-gray-700">{selectedEnquiry.message}</p>
                                 {selectedEnquiry.offeredPrice && (
@@ -74,15 +63,15 @@ const ResponseModal: React.FC<ResponseModalProps> = ({
                                                 }`}>
                                                 <div className="flex items-center mb-1">
                                                     <span className="font-medium text-sm">
-                                                        {response.sender === "seller" ? "You" : selectedEnquiry.buyerName}
+                                                        {response?.sender === "seller" ? "You" : selectedEnquiry?.buyer?.name}
                                                     </span>
-                                                    <span className="text-xs text-gray-500 ml-2">{response.timestamp}</span>
+                                                    <span className="text-xs text-gray-500 ml-2">{format(new Date(response?.timestamp), 'dd-MM-yyyy hh:mm a')}</span>
                                                 </div>
-                                                <p className="text-sm text-gray-700">{response.message}</p>
-                                                {response.offer && (
+                                                <p className="text-sm text-gray-700">{response?.message}</p>
+                                                {response?.offeredPrice && (
                                                     <div className="mt-2 text-sm">
                                                         <span className="font-medium">Offer: </span>
-                                                        <span className="text-[#f07e2c] font-bold">${response.offer.toLocaleString()}</span>
+                                                        <span className="text-[#f07e2c] font-bold">${response.offeredPrice.toLocaleString()}</span>
                                                     </div>
                                                 )}
                                             </div>
@@ -94,42 +83,70 @@ const ResponseModal: React.FC<ResponseModalProps> = ({
                             {/* Response Form */}
                             <div className="p-4 border border-border rounded-lg">
                                 <div className="text-lg font-medium mb-4">Send Response</div>
-                                <div className="space-y-4">
-                                    <div>
-                                        <label htmlFor="response" className="block text-sm font-medium text-gray-700">Message</label>
-                                        <textarea
-                                            id="response"
-                                            placeholder="Type your response..."
-                                            value={responseMessage}
-                                            onChange={(e) => setResponseMessage(e.target.value)}
-                                            rows={3}
-                                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                        />
-                                    </div>
+                                <Formik
+                                    initialValues={{
+                                        enquiryId: selectedEnquiry.enquiryId,
+                                        sender: "seller",
+                                        message: "",
+                                        offeredPrice: undefined
+                                    }}
+                                    validationSchema={Yup.object({
+                                        message: Yup.string().required("Message is required"),
+                                        offeredPrice: Yup.number().min(0, "Invalid price")
+                                    })}
+                                    enableReinitialize
+                                    onSubmit={async (values, { resetForm }) => {
+                                        try {
+                                            const res = await respondToEnquiry(values).unwrap();
+                                            toast.success("Response sent successfully!");
+                                            setSelectedEnquiry(res)
+                                            const patch = dispatch(
+                                                enquiryApi.util.updateQueryData(
+                                                    'getEnquiries',
+                                                    { type: 'seller' },
+                                                    (draft: any) => {
+                                                        const enquiry = draft.find(
+                                                            (item) => item.enquiryId === selectedEnquiry.enquiryId
+                                                        );
+                                                        if (enquiry) {
+                                                            Object.assign(enquiry, res);
+                                                        }
+                                                    }
+                                                )
+                                            );
+                                            console.log(patch);
 
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                        <div>
-                                            <label htmlFor="counter-offer" className="block text-sm font-medium text-gray-700">Counter Offer ($)</label>
-                                            <input
-                                                id="counter-offer"
-                                                type="number"
-                                                placeholder="Enter counter offer"
-                                                value={counterOffer}
-                                                onChange={(e) => setCounterOffer(e.target.value)}
-                                                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                            />
-                                        </div>
-                                        <div className="flex items-end">
-                                            <button
-                                                onClick={handleSendResponse}
-                                                disabled={!responseMessage}
-                                                className="w-full bg-[#f07e2c] text-white py-2 px-4 rounded hover:bg-[#e06d1f]"
-                                            >
-                                                Send Response
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
+                                            resetForm();
+                                        } catch (error) {
+                                            console.error("Error sending response:", error);
+                                        }
+                                    }}
+                                >
+                                    {() => (
+                                        <Form>
+                                            <div className="space-y-4">
+                                                <div>
+                                                    <FormikInput type='textarea' name="message" placeholder="Type your response..." />
+                                                </div>
+
+                                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                                    <div>
+                                                        <FormikInput name="offeredPrice" type="number" placeholder="Enter counter offer" />
+                                                    </div>
+                                                    <div className="flex items-end">
+                                                        <button
+                                                            type="submit"
+                                                            disabled={isLoading}
+                                                            className="w-full bg-[#f07e2c] text-white py-2 px-4 rounded hover:bg-[#e06d1f] cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                                                        >
+                                                            {isLoading ? "Sending..." : "Send Response"}
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </Form>
+                                    )}
+                                </Formik>
                             </div>
                         </div>
                     )}

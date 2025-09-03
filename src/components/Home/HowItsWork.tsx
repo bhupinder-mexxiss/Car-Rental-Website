@@ -1,4 +1,3 @@
-import React from 'react'
 import { img2 } from '../../assets/images'
 import { EmojiEmotionsOutlined, EventAvailableOutlined, SearchRounded } from '@mui/icons-material'
 
@@ -7,10 +6,10 @@ const HowItsWork = () => {
         <div className='py-20'>
             <div className="container">
                 <div className="max-w-[720px] mx-auto text-color1">
-                    <h2 data-aos="fade-down" className="text-5xl font-semibold text-center">How it woks</h2>
+                    <h2 data-aos="fade-down" className="text-3xl md:text-4xl lg:text-5xl font-semibold text-center">How it woks</h2>
                     <p data-aos="fade-down" data-aos-delay="200" className="text-center mt-2 lg:text-[17px]">Renting a luxury car has never been easier. Our streamlined process makes it simple for you to book and confirm your vehicle of choice online</p>
                 </div>
-                <div className='mt-10 grid grid-cols-2 items-center gap-6'>
+                <div className='mt-10 grid lg:grid-cols-2 items-center gap-6'>
                     <div className='flex flex-col gap-6 relative z-10'>
                         <div className='bg-white/80 p-5 border-2 border-color1/15 backdrop-blur-sm rounded-2xl flex gap-6' data-aos="fade-right">
                             <div className='h-full flex items-center p-3 bg-[#fafafa] rounded-2xl'>
@@ -40,7 +39,7 @@ const HowItsWork = () => {
                             </div>
                         </div>
                     </div>
-                    <div className='relative py-10'>
+                    <div className='hidden lg:block relative py-10'>
                         <div className='bg-primary absolute right-0 top-0 w-[calc(100%_+_150px)] h-full rounded-2xl'></div>
                         <img src={img2} alt="" className='relative' data-aos="zoom-in-left" data-aos-duration="1000" data-aos-delay="300" />
                     </div>

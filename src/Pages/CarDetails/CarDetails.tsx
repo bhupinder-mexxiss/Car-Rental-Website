@@ -1,5 +1,4 @@
 import { CheckCircle, Facebook, Instagram, WhatsApp } from '@mui/icons-material'
-import { Car8 } from '../../assets/images'
 import { door, gear, pass } from '../../assets/Icons'
 import DateRangePicker from '../../Components/DateRangePicker/DateRangePicker'
 import { useEffect, useState } from 'react'
@@ -9,11 +8,17 @@ import '@photo-sphere-viewer/markers-plugin/index.css';
 import { useGetCarDetailsQuery } from '../../redux/api/car'
 import { useParams } from 'react-router'
 import Slider from 'react-slick'
+import { Form, Formik } from 'formik';
+import { FormikInput } from '../../Components/CommanFields/FormikInput';
+import { enquiryInitialValues, enquirySchema, EnquirySubmit } from '../../Formik/Enquiry';
+import { useSelector } from 'react-redux';
 
 const CarDetails = () => {
     // const navigate = useNavigate();
+    const { user } = useSelector((state: any) => state.auth);
     const { id } = useParams()
-    const { data } = useGetCarDetailsQuery(id)
+    const { handleSubmit } = EnquirySubmit()
+    const { data } = useGetCarDetailsQuery(id!, { skip: !id })
     const [showViewer360, setShowViewer360] = useState(false);
     const [startDate, setStartDate] = useState<Date | null>(null);
     const [endDate, setEndDate] = useState<Date | null>(null);
@@ -27,18 +32,6 @@ const CarDetails = () => {
     }, [startDate, endDate, pickupLocation, dropoffLocation]);
 
     const handleBooking = () => {
-        // if (!car) return;
-
-        // // In a real app, you would pass booking details through route state or context
-        // navigate(`/booking/${car.id}`, {
-        //     state: {
-        //         car,
-        //         startDate,
-        //         endDate,
-        //         pickupLocation,
-        //         dropoffLocation
-        //     }
-        // });
     };
     const baseUrl = "https://l13.alamy.com/360/RJ1TM2/360-angle-panorama-view-in-interior-of-prestige-modern-car-blue-background-full-360-by-180-degrees-seamless-equirectangular-equidistant-spherical-pan-RJ1TM2.jpg";
 
@@ -100,16 +93,16 @@ const CarDetails = () => {
                                 <div className='mt-6'>
                                     <div className='flex items-center gap-10'>
                                         <div>
-                                            <p className='text-color2 text-lg'>{data?.listingType === "sell" && data.year} {data?.brand?.name} {data?.model}</p>
+                                            <p className='text-color2 text-xl font-medium'>{data?.listingType === "sell" && data.year} {data?.brand?.name} {data?.model}</p>
                                             <div className='flex items-center gap-2 mt-3'>
                                                 <div>
                                                     <span className='text-color1 text-2xl font-semibold'>AED {data?.listingType === "rent" ? data?.rentPrice?.price : data?.price}</span>
-                                                    {data?.listingType === "rent" && <span>/{data?.rentPrice?.priceUnit}</span>}
+                                                    {data?.listingType === "rent" && <span><span className='text-color2'>/{data?.rentPrice?.priceUnit}</span></span>}
                                                 </div>
                                                 {data?.isNegotiable && <span className='text-xs px-2 py-1 bg-primary/10 text-primary rounded-full font-medium'>Negotiable</span>}
                                             </div>
                                             {data?.listingType === "rent" &&
-                                                <div className='flex gap-3 mt-1'>
+                                                <div className='flex gap-3 mt-2 text-color2 text-sm'>
                                                     <p className='pr-3 border-r'>{data?.rentPrice?.kmDrive} km/{data?.rentPrice?.priceUnit}</p>
                                                     <p className='pr-3 border-r'>AED {data?.rentPrice?.extraKmFee} for each additional km</p>
                                                     <p className='pr-3 border-r'>AED {data?.rentPrice?.lateFee} late fee</p>
@@ -286,24 +279,35 @@ const CarDetails = () => {
                                             <p className='text-sm'>sales@alsafeercarrental.com</p>
                                         </div>
                                     </div>
-                                    <div className="form mt-4 flex flex-col gap-3">
+                                    <div className="form mt-4">
+                                        <Formik
+                                            initialValues={enquiryInitialValues(user)}
+                                            validationSchema={enquirySchema}
+                                            onSubmit={(values) => handleSubmit(values, data?._id)}
+                                            enableReinitialize
+                                        >
+                                            {() => {
+                                                return (
+                                                    <Form>
+                                                        <div className='flex flex-col gap-3'>
+                                                            <FormikInput name="name" placeholder="First Name" required disabled />
+                                                            <FormikInput name="email" placeholder="Email Address" required disabled />
+                                                            <FormikInput
+                                                                name="phone"
+                                                                type="phone"
+                                                                placeholder="Enter your phone number"
+                                                                disabled={user?.number}
+                                                                required
+                                                            />
+                                                            <FormikInput type='number' name="offeredPrice" placeholder="Offer Amount" required />
+                                                            <FormikInput type='textarea' name="message" placeholder="Message" required className='resize-none' />
+                                                            <button type='submit' className='btn3 w-full flex items-center justify-center'>Make offer</button>
+                                                        </div>
+                                                    </Form>
+                                                )
+                                            }}
+                                        </Formik>
                                         <div>
-                                            <input type="text" placeholder='First Name*' className='w-full focus:border-primary focus:ring-0 bg-transparent rounded-md' />
-                                        </div>
-                                        <div>
-                                            <input type="text" placeholder='Email Address*' className='w-full focus:border-primary focus:ring-0 bg-transparent rounded-md' />
-                                        </div>
-                                        <div>
-                                            <input type="text" placeholder='Phone Number*' className='w-full focus:border-primary focus:ring-0 bg-transparent rounded-md' />
-                                        </div>
-                                        <div>
-                                            <input type="text" placeholder='Offer Amount*' className='w-full focus:border-primary focus:ring-0 bg-transparent rounded-md' />
-                                        </div>
-                                        <div>
-                                            <textarea placeholder='Message...' className='w-full focus:border-primary focus:ring-0 bg-transparent rounded-md resize-none' />
-                                        </div>
-                                        <div>
-                                            <button className='btn3 w-full flex items-center justify-center'>Make offer</button>
                                             <button className='mt-3 btn1 bg-[#25d366] border-[#25d366] w-full flex items-center justify-center gap-2'><WhatsApp className='!text-xl' /> Whatsapp</button>
                                         </div>
                                     </div>
